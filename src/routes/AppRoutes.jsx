@@ -6,6 +6,8 @@ import Layout from "../components/Layout.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import Loader from "../components/Loader.jsx";
 import AdminPage from "../pages/AdminPage.jsx";
+import SignupPage from "../pages/SignupPage.jsx";
+import LoginPage from "../pages/LoginPage.jsx";
 
 const AppRoutes = () => (
     <Suspense fallback={<Loader />}>
@@ -15,6 +17,8 @@ const AppRoutes = () => (
                     <Route index element={<HomePage />} />
                     <Route path="/book/:id" element={<Book />} />
                     <Route path="/admin" element={<AdminPage />} />
+                    <Route path={"/signup"} element={<SignupPage/>}/>
+                    <Route path="login" element={<LoginPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
