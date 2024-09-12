@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar.jsx"; // Import icons from react-icons
 
 const Header = () => {
     return (
-        <header className="flex justify-between items-center p-4 shadow-md bg-white">
+        <header className="flex justify-between items-center p-4 shadow-md bg">
             <h1 className="text-2xl font-bold">BookFiddler</h1>
             <div>
                 <SearchBar />

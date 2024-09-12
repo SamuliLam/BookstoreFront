@@ -5,6 +5,7 @@ import Book from '../components/books/Book';
 import Layout from "../components/Layout.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import Loader from "../components/Loader.jsx";
+import LoginPage from "../pages/LoginPage.jsx";
 
 const AppRoutes = () => (
     <Suspense fallback={<Loader />}>
@@ -12,6 +13,7 @@ const AppRoutes = () => (
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
+                    <Route path="login" element={<LoginPage />} />
                     <Route path="/book/:id" element={<Book />} />
                 </Route>
             </Routes>
