@@ -1,7 +1,7 @@
 
 const Footer = () => {
   return (
-    <footer className={"justify-center"}>
+    <footer className={"flex flex-col items-center"}>
         <p>© Contact us: online.bookstore@gmail.com</p>
     </footer>
     );

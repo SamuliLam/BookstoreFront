@@ -13,6 +13,8 @@ html, body {
     flex-direction: column;
 }
 
-.root-container {
-    flex-grow: 1;
+h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
 }
