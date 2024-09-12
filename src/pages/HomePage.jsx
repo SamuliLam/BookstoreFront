@@ -3,7 +3,7 @@ import FilterPanel from "../components/FilterPanel.jsx";
 
 const HomePage = () => {
     return (
-        <div className={"main-container flex"}>
+        <div className={"content-container flex"}>
             <FilterPanel/>
             <h1>Home Page</h1>
             <ProductGrid/>
