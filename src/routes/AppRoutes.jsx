@@ -8,15 +8,15 @@ import SignupPage from "../pages/SignupPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 
 const AppRoutes = () => (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader/>}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="login" element={<LoginPage />} />
-                    <Route path="/book/:id" element={<Book />} />
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<HomePage/>}/>
+                    <Route path="login" element={<LoginPage/>}/>
+                    <Route path="/book/:id" element={<Book/>}/>
+                    <Route path={"/signup"} element={<SignupPage/>}/>
                 </Route>
-                <Route path={"/signup"} element={<SignupPage />} />
             </Routes>
         </BrowserRouter>
     </Suspense>
