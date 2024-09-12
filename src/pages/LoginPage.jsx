@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useUserContext } from '../context/UserContext';
 import { logIn } from '../utils/api';
 import bookImage from '../assets/readbook.png';
+import {Link, useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const { setUser } = useUserContext();
@@ -9,7 +10,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-
+    const navigate = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSuccessMessage('');
@@ -18,6 +19,7 @@ const LoginPage = () => {
             if (success) {
                 setUser(user);
                 setSuccessMessage('Login successful!');
+                navigate("/");
             } else {
                 setError('Login failed. Please check your credentials.');
             }
@@ -72,7 +74,7 @@ const LoginPage = () => {
                     <div className="flex items-center justify-between mb-4">
                         <a
                             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 underline"
-                            href="#"
+                            href="/"
                         >
                             Forgot password?
                         </a>
@@ -80,7 +82,9 @@ const LoginPage = () => {
                     <button
                         className="bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline"
                         type="submit"
+
                     >
+
                         Sign In
                     </button>
                     <div className="text-center mt-6">
