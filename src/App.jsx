@@ -1,11 +1,12 @@
 import './styles/App.css';
-import AppRoutes from "./routes/AppRoutes.jsx"; // Import Book component
-
-
+import AppRoutes from "./routes/AppRoutes.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 
 const App = () => {
     return (
-        <AppRoutes />
+        <UserProvider>
+            <AppRoutes/>
+        </UserProvider>
     );
 };
 
