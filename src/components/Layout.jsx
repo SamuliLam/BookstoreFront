@@ -4,11 +4,13 @@ import Footer from "./Footer.jsx";
 
 
 const Layout = () => (
-    <div className={"main-container flex-col"}>
+    <>
         <Header />
-        <Outlet />
+        <div className="root-container">
+            <Outlet />
+        </div>
         <Footer />
-    </div>
+    </>
 );
 
 export default Layout;
