@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const handleSignUp = async (data) => {
     try {
         const response = await fetch('http://localhost:8080/auth/signup', {
@@ -33,3 +35,16 @@ export const logIn = async ({ email, password }) => {
         return { success: false };
     }
 };
+
+export const fetchBooks = async () => {
+    try {
+        const response = await axios.get("http://localhost:8080/books");
+        if (response.status !== 200) {
+            throw new Error("Error fetching books " + response.status);
+        }
+        return response.data;
+
+    } catch (error) {
+        console.error("Error fetching books:", error);
+    }
+}
