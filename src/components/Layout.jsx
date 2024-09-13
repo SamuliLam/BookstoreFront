@@ -6,7 +6,7 @@ import Footer from "./Footer.jsx";
 const Layout = () => (
     <>
         <Header />
-        <div className="root-container">
+        <div className="root-container flex flex-grow">
             <Outlet />
         </div>
         <Footer />

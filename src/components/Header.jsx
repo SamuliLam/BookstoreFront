@@ -14,7 +14,7 @@ const Header = () => {
 
     return (
         <header className="flex justify-between items-center p-4 shadow-md bg-white">
-            <Link to="/" className="text-2xl font-bold">BookFiddler</Link>
+            <Link to="/" className="text-2xl font-bold">Ink & Quill</Link>
             <div>
                 <SearchBar />
             </div>
