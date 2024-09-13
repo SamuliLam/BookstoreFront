@@ -72,3 +72,39 @@ export const fetchBooks = async () => {
         console.error("Error fetching books:", error);
     }
 }
+
+export const fetchUsers = async () => {
+    try {
+        const response = axios.get("http://localhost:8080/users");
+        if (response.status !== 200) {
+            throw new Error("Error fetching users " + response.status);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+}
+
+export const fetchOrders = async () => {
+    try {
+        const response = axios.get("http://localhost:8080/orders");
+        if (response.status !== 200) {
+            throw new Error("Error fetching orders " + response.status);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+    }
+}
+
+export const fetchAuthors = async () => {
+    try {
+        const response = axios.get("http://localhost:8080/authors");
+        if (response.status !== 200) {
+            throw new Error("Error fetching authors " + response.status);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching authors:", error);
+    }
+}

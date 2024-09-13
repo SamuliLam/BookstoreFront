@@ -1,16 +1,22 @@
 const AdminPageTable = ({ data }) => {
 
+    if (!data || data.length === 0) {
+        return <div>No data available</div>;
+    }
+
+    const headers = Object.keys(data[0]);
+
     return (
         <table className="table-auto w-full">
-            for (let i = 0; i < data.length; i++) {
+            <thead>
                 <tr>
-                    for (let j = 0; j < data[i].length; j++) {
-                        <td className="border px-4 py-2">{data[i][j]}</td>
-                    }
+                    {headers.map((header, index) => (
+                        <th key={index}>{header}</th>
+                    ))}
                 </tr>
-            }
+            </thead>
         </table>
-    )
+    );
 }
 
 export default AdminPageTable;
