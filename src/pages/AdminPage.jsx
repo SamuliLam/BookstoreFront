@@ -3,7 +3,9 @@ import AdminPageTable from "../components/AdminPageTable.jsx";
 import {fetchAuthors, fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
 import {useEffect, useState} from "react";
 
+
 const AdminPage = () => {
+
 
     const [bookData, setBookData] = useState([]);
     const [userData, setUserData] = useState([]);
@@ -12,19 +14,25 @@ const AdminPage = () => {
     const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
-        // set default data to books
-        fetchBooks().then((data) => {
-            console.log("bookdata " +data)
-            setBookData(data);
-        });
+        const fetchData = async () => {
+            const bookData = await fetchBooks();
+            setBookData(bookData);
+            // set default data to books
+            setTableData(bookData);
 
-        fetchUsers().then((data) => setUserData(data));
-        fetchOrders().then((data) => setOrderData(data));
-        fetchAuthors().then((data) => setAuthorData(data));
+            const userData = await fetchUsers();
+            setUserData(userData);
 
+            const orderData = await fetchOrders();
+            setOrderData(orderData);
+
+            const authorData = await fetchAuthors();
+            setAuthorData(authorData);
+        };
+
+        fetchData();
     }, []);
 
-    console.log("bookdata: "+bookData)
 
     const showBooks = () => {setTableData(bookData)};
     const showUsers = () => {setTableData(userData)};

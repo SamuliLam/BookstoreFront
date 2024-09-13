@@ -1,4 +1,9 @@
 const AdminPageTable = ({ data }) => {
+
+    if (!data || data.length === 0) {
+        return <div>No data available</div>;
+    }
+
     const headers = Object.keys(data[0]);
 
     return (
