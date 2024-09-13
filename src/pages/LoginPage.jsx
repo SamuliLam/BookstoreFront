@@ -2,33 +2,36 @@ import React, { useState } from 'react';
 import { useUserContext } from '../context/UserContext';
 import { logIn } from '../utils/api';
 import bookImage from '../assets/readbook.png';
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-    const { setUser } = useUserContext();
+    const { login } = useUserContext();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSuccessMessage('');
+        setError('');
         try {
-            const { success, user } = await logIn({ email, password });
-            if (success) {
-                setUser(user);
+            const { success, user, error: loginError } = await logIn({ email, password });
+            console.log('Login response:', { success, user, loginError });
+            if (success && user) {
+                login(user);
+                console.log('User set after login:', user);
                 setSuccessMessage('Login successful!');
                 navigate("/");
             } else {
-                setError('Login failed. Please check your credentials.');
+                setError(loginError || 'Login failed. Please check your credentials.');
             }
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            setError('An unexpected error occurred. Please try again.');
             console.error(err);
         }
     };
-
     return (
         <div className="main-container flex min-h-screen">
             <div className="w-1/2 flex flex-col justify-start items-start">

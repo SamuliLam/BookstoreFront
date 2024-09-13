@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
-import {useUserContext} from "../context/UserContext.jsx";
-import {handleSignUp} from "../utils/api.js";
+import React, { useState } from 'react';
+import { useUserContext } from "../context/UserContext.jsx";
+import { handleSignUp, logIn } from "../utils/api.js";
 import bookImage from "../assets/readbook.png";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
-    const {setUser} = useUserContext();
+    const { login } = useUserContext();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -13,7 +15,7 @@ const SignupPage = () => {
     });
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value
@@ -23,12 +25,18 @@ const SignupPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await handleSignUp(formData);
-            const data = await response.json();
-            if (response.ok) {
-                setUser(data);
+            const { success, user, error } = await handleSignUp(formData);
+            if (success && user) {
+                // If signup is successful, attempt to log in
+                const loginResponse = await logIn({ email: formData.email, password: formData.password });
+                if (loginResponse.success && loginResponse.user) {
+                    login(loginResponse.user);
+                    navigate("/");
+                } else {
+                    console.log("Signup successful, but login failed:", loginResponse.error);
+                }
             } else {
-                console.log(data.message);
+                console.log("Signup failed:", error);
             }
         } catch (error) {
             console.error('Error:', error);

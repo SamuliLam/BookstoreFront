@@ -1,15 +1,40 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import SearchBar from "./SearchBar.jsx"; // Import icons from react-icons
+import { useUserContext } from '../context/UserContext';
+import SearchBar from "./SearchBar.jsx";
+import LoginButton from './LoginButton';
+import SignupButton from './SignupButton';
+import LogoutButton from './LogoutButton';
 
 const Header = () => {
+    const { user } = useUserContext();
+
+    console.log('Current user state:', user);
+
     return (
-        <header className="flex justify-between items-center p-4 shadow-md bg">
-            <h1 className="text-2xl font-bold">BookFiddler</h1>
+        <header className="flex justify-between items-center p-4 shadow-md bg-white">
+            <Link to="/" className="text-2xl font-bold">BookFiddler</Link>
             <div>
                 <SearchBar />
             </div>
-            <div className="flex space-x-8">
+            <div className="flex space-x-4 items-center">
+                <Link to="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500">
+                    Home
+                </Link>
+                {user ? (
+                    <>
+                        <LogoutButton />
+                        <span className="text-sm text-gray-700">
+                            Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                        </span>
+                    </>
+                ) : (
+                    <>
+                        <LoginButton />
+                        <SignupButton />
+                    </>
+                )}
                 <button className="text-3xl hover:text-blue-500">
                     <FaShoppingCart />
                 </button>
