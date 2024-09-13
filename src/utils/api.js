@@ -12,9 +12,7 @@ export const handleSignUp = async (data) => {
 
         if (response.ok) {
             const userData = await response.json();
-
             const { password, ...userDataWithoutPassword } = userData;
-
             return { success: true, user: userDataWithoutPassword };
         } else {
             const errorData = await response.json();
@@ -47,15 +45,8 @@ export const logIn = async ({ email, password }) => {
 
             if (userResponse.ok) {
                 const userData = await userResponse.json();
-
-                // Exclude password from userData
                 const { password, ...userDataWithoutPassword } = userData;
-
                 const userToReturn = { ...userDataWithoutPassword, token };
-
-                // Save user data in local storage
-                localStorage.setItem('user', JSON.stringify(userToReturn));
-
                 return { success: true, user: userToReturn };
             } else {
                 return { success: false, error: 'Failed to fetch user details' };
@@ -77,7 +68,6 @@ export const fetchBooks = async () => {
             throw new Error("Error fetching books " + response.status);
         }
         return response.data;
-
     } catch (error) {
         console.error("Error fetching books:", error);
     }
