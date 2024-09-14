@@ -38,7 +38,7 @@ const LoginPage = () => {
                 <img
                     src={bookImage}
                     alt="Books"
-                    className="w-[50vw] h-[100vh]"
+                    className="w-[100vw] h-[100vh]"
                 />
             </div>
             <div className="w-1/2 flex flex-col justify-center items-center">
