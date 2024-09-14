@@ -21,7 +21,7 @@ const ProductGrid = () => {
                     >
                         <div className="w-full h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
                             <img
-                                src={book.image_url || 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1653971493i/61198963.jpg'}
+                                src={book.image_url ||  'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1653971493i/61198963.jpg'}
                                 alt={book.title}
                                 className="w-full h-full object-cover"
                             />

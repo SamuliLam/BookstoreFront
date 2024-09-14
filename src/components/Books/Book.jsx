@@ -12,6 +12,7 @@ const Book = () => {
     return (
         <div>
             <h1>{book.title}</h1>
+            <img src={book.image_url || 'https://fallback-image-url.com/default.jpg'} alt={book.title}/>
             <p><strong>ISBN:</strong> {book.isbn}</p>
             <p><strong>Genre:</strong> {book.genre}</p>
             <p><strong>Type:</strong> {book.type}</p>
