@@ -23,7 +23,9 @@ const LoginPage = () => {
                 login(user);
                 console.log('User set after login:', user);
                 setSuccessMessage('Login successful!');
-                navigate("/");
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
             } else {
                 setError(loginError || 'Login failed. Please check your credentials.');
             }
