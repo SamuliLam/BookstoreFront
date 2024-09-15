@@ -23,7 +23,9 @@ const LoginPage = () => {
                 login(user);
                 console.log('User set after login:', user);
                 setSuccessMessage('Login successful!');
-                navigate("/");
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
             } else {
                 setError(loginError || 'Login failed. Please check your credentials.');
             }
@@ -38,7 +40,7 @@ const LoginPage = () => {
                 <img
                     src={bookImage}
                     alt="Books"
-                    className="w-[50vw] h-[100vh]"
+                    className="w-[100vw] h-[100vh]"
                 />
             </div>
             <div className="w-1/2 flex flex-col justify-center items-center">
