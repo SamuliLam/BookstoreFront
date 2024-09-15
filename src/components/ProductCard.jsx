@@ -3,7 +3,7 @@ import React from "react";
 
 const ProductCard = ({ title, price, image }) => {
     return (
-        <div className="overflow-hidden flex flex-col items-center justify-between p-4 h-96 w-64">
+        <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
             <div className="flex flex-col items-center h-80 w-full overflow-hidden">
                 {image ? (
                     <img src={image} alt={title} className="h-full w-full object-contain"/>
