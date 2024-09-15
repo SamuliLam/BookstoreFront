@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaShoppingCart, FaTimes } from "react-icons/fa";
+import {useUserContext} from "../context/UserContext.jsx";
 
 const ShoppingCart = () => {
     const [isVisible, setIsVisible] = useState(false);
     const cartRef = useRef(null);
+    const overlayRef = useRef(null);
+    const { user } = useUserContext();
 
     const handleToggle = () => {
         setIsVisible(!isVisible);
@@ -16,9 +19,14 @@ const ShoppingCart = () => {
     };
 
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
+        const overlayNode = overlayRef.current;
+        if (overlayNode) {
+            overlayNode.addEventListener('mousedown', handleClickOutside);
+        }
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            if (overlayNode) {
+                overlayNode.removeEventListener('mousedown', handleClickOutside);
+            }
         };
     }, []);
 
@@ -37,7 +45,6 @@ const ShoppingCart = () => {
                 <button onClick={handleToggle} className="text-2xl hover:text-blue-500 absolute top-0 left-0 m-2">
                     <FaTimes />
                 </button>
-                <p className="m-4">Shopping cart is empty</p>
             </div>
         </div>
     );
