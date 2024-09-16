@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaShoppingCart, FaTimes } from "react-icons/fa";
-import {useUserContext} from "../context/UserContext.jsx";
 
 const ShoppingCart = () => {
     const [isVisible, setIsVisible] = useState(false);
     const cartRef = useRef(null);
     const overlayRef = useRef(null);
-    const { user } = useUserContext();
 
     const handleToggle = () => {
         setIsVisible(!isVisible);
