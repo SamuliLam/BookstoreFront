@@ -1,14 +1,17 @@
 import './styles/App.css';
 import AppRoutes from "./routes/AppRoutes.jsx";
-import { UserProvider } from "./context/UserContext.jsx";
+import {UserProvider} from "./context/UserContext.jsx";
 import {FilterProvider} from "./context/FilterContext.jsx";
+import {CartProvider} from "./context/CartContext.jsx";
 
 const App = () => {
     return (
         <UserProvider>
-            <FilterProvider>
-                <AppRoutes/>
-            </FilterProvider>
+            <CartProvider>
+                <FilterProvider>
+                    <AppRoutes/>
+                </FilterProvider>
+            </CartProvider>
         </UserProvider>
     );
 };
