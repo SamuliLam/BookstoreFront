@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchSearchResults} from "../utils/api.js";
 
 
@@ -9,10 +9,26 @@ const SearchBar = () => {
 
     const search = async () => {
         const results = await fetchSearchResults(searchText);
+        console.log("Search results:", results);
         setSearchResults(results);
     };
 
-    search();
+    const handleInputChange = (e) => {
+        setSearchText(e.target.value);
+    }
+
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            console.log("Enter key pressed");
+            console.log("Search text:", searchText);
+            search();
+        }
+    }
+
+    const handleButtonClick = () => {
+        search();
+    }
 
     return (
         <div className="flex justify-center p-4">
@@ -20,9 +36,13 @@ const SearchBar = () => {
                 type="text"
                 className="border rounded-lg w-full max-w-lg p-2"
                 placeholder="Hinted search text"
-                onChange={(e) => setSearchText(e.target.value)}
+                value={searchText}
+                onChange={handleInputChange}
+                onKeyDown={(e) => handleKeyPress(e)}
             />
-            <button className="ml-2 p-2 bg-blue-500 text-white rounded">Search</button>
+            <button className="ml-2 p-2 bg-blue-500 text-white rounded"
+                    onClick={handleButtonClick}
+            >Search</button>
         </div>
     );
 

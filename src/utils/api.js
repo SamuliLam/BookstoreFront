@@ -75,7 +75,7 @@ export const fetchBooks = async () => {
 
 export const fetchUsers = async () => {
     try {
-        const response = axios.get("http://localhost:8080/users");
+        const response = await axios.get("http://localhost:8080/users");
         if (response.status !== 200) {
             throw new Error("Error fetching users " + response.status);
         }
@@ -87,7 +87,7 @@ export const fetchUsers = async () => {
 
 export const fetchOrders = async () => {
     try {
-        const response = axios.get("http://localhost:8080/orders");
+        const response = await axios.get("http://localhost:8080/orders");
         if (response.status !== 200) {
             throw new Error("Error fetching orders " + response.status);
         }
@@ -99,7 +99,7 @@ export const fetchOrders = async () => {
 
 export const fetchAuthors = async () => {
     try {
-        const response = axios.get("http://localhost:8080/authors");
+        const response = await axios.get("http://localhost:8080/authors");
         if (response.status !== 200) {
             throw new Error("Error fetching authors " + response.status);
         }
@@ -111,7 +111,7 @@ export const fetchAuthors = async () => {
 
 export const fetchSearchResults = async (searchText) => {
     try {
-        const response = axios.get(`http://localhost:8080/books/search?query=${searchText}`);
+        const response = await axios.get(`http://localhost:8080/books/search?query=${searchText}`);
         if (response.status !== 200) {
             throw new Error("Error fetching search results " + response.status);
         }
