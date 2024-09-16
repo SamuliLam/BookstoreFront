@@ -1,16 +1,17 @@
-import {useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {fetchSearchResults} from "../utils/api.js";
+import {SearchResultContext} from "../context/SearchContext.jsx";
 
 
 const SearchBar = () => {
 
+    const {updateSearchResults} = useContext(SearchResultContext);
+
     const [searchText, setSearchText] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
 
     const search = async () => {
         const results = await fetchSearchResults(searchText);
-        console.log("Search results:", results);
-        setSearchResults(results);
+        updateSearchResults(results);
     };
 
     const handleInputChange = (e) => {
