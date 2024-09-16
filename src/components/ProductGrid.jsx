@@ -13,7 +13,7 @@ const ProductGrid = () => {
     if (loading) return <div>Loading books...</div>;
     if (error) return <div>{error}</div>;
 
-    const filteredBooks = (searchResults.length > 0 ? searchResults : books).filter(book => {
+    const filteredBooks = (searchResults.length > 0 && searchResults !== null ? searchResults : books).filter(book => {
         return (!selectedGenre || book.genre === selectedGenre) && (!selectedPrice || book.price <= selectedPrice);
     });
 

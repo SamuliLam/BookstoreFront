@@ -111,6 +111,9 @@ export const fetchAuthors = async () => {
 
 export const fetchSearchResults = async (searchText) => {
     try {
+        if (searchText === "") {
+            return [];
+        }
         const response = await axios.get(`http://localhost:8080/books/search?query=${searchText}`);
         if (response.status !== 200) {
             throw new Error("Error fetching search results " + response.status);
