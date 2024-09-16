@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {searchResults} from "../utils/api.js";
+import {fetchSearchResults} from "../utils/api.js";
 
 
 const SearchBar = () => {
@@ -8,7 +8,7 @@ const SearchBar = () => {
     const [searchResults, setSearchResults] = useState([]);
 
     const search = async () => {
-        const results = await searchResults(searchText);
+        const results = await fetchSearchResults(searchText);
         setSearchResults(results);
     };
 

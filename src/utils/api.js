@@ -109,7 +109,7 @@ export const fetchAuthors = async () => {
     }
 }
 
-export const searchResults = async (searchText) => {
+export const fetchSearchResults = async (searchText) => {
     try {
         const response = axios.get(`http://localhost:8080/books/search?query=${searchText}`);
         if (response.status !== 200) {
