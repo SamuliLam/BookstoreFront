@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar.jsx";
 import LoginButton from './LoginButton';
 import SignupButton from './SignupButton';
 import LogoutButton from './LogoutButton';
+import ShoppingCart from "./ShoppingCart.jsx";
 
 const Header = () => {
     const { user } = useUserContext();
@@ -35,8 +36,8 @@ const Header = () => {
                         <SignupButton />
                     </>
                 )}
-                <button className="text-3xl hover:text-blue-500">
-                    <FaShoppingCart />
+                <button>
+                    <ShoppingCart />
                 </button>
                 <button className="text-3xl hover:text-blue-500">
                     <FaUser />
