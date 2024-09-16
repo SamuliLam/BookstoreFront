@@ -1,10 +1,19 @@
 import { useContext } from 'react';
 import { FilterContext } from '../context/FilterContext.jsx';
+import { useState } from 'react';
 
 const FilterPanel = () => {
-    const { selectedGenre, setSelectedGenre, selectedPrice, setSelectedPrice } = useContext(FilterContext);
-
+    const { selectedGenre, setSelectedGenre, selectedPrice, setSelectedPrice, minPrice } = useContext(FilterContext);
+    const [isOpen, setIsOpen] = useState(false);
     const genres = ['Satire', 'Romance', 'Horror', 'Historical', 'FictionHistorical', 'Fiction', 'Epic', 'Fantasy', 'Dystopian', 'Drama', 'Adventure'].sort();
+
+    if (!isOpen) {
+        return (
+            <button onClick={() => setIsOpen(true)} className="fixed left-0 top-50 transform -translate-y-1/2 m-4 p-4 text-2xl">
+                &lt;
+            </button>
+        );
+    }
 
     const handleGenreClick = (genre) => {
         setSelectedGenre(genre === selectedGenre ? null : genre);
@@ -16,13 +25,17 @@ const FilterPanel = () => {
 
     return (
         <aside className="p-4 w-64 bg-gray-100">
+            <button onClick={() => setIsOpen(false)}
+                    className="float-right top-50 transform -translate-y-1/2 m-4 p-4 text-2xl">
+                &gt;
+            </button>
             <h3 className="font-bold mb-2">Keywords</h3>
             <h4 className="font-semibold mt-4 mb-2">Genre</h4>
             <div className="my-4 flex flex-wrap">
                 {genres.map((genre) => (
                     <button
                         key={genre}
-                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm ${selectedGenre === genre ? 'bg-blue-500 text-white' : ''}`}
+                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm €{selectedGenre === genre ? 'bg-blue-500 text-white' : ''}`}
                         onClick={() => handleGenreClick(genre)}
                     >
                         {genre}
@@ -32,14 +45,13 @@ const FilterPanel = () => {
             <h4 className="font-semibold mt-4 mb-2">Price</h4>
             <input
                 type="range"
-                min="0"
+                min={minPrice}
                 max="100"
                 value={selectedPrice}
                 onChange={handlePriceChange}
                 className="w-full"
             />
-            <p className="mt-2">Max Price: ${selectedPrice}</p>
-            <h4 className="font-semibold mt-4 mb-2">Color</h4>
+            <p className="mt-2">Max Price: {selectedPrice}€</p>
         </aside>
     );
 };
