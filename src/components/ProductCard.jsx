@@ -4,9 +4,9 @@ import React from "react";
 const ProductCard = ({ title, price, image }) => {
     return (
         <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
-            <div className="flex flex-col items-center h-80 w-full overflow-hidden">
+            <div className="flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark">
                 {image ? (
-                    <img src={image} alt={title} className="h-full w-full object-contain"/>
+                    <img src={image} alt={title} className="h-full w-full "/>
                 ) : (
                     <div className="bg-gray-200 w-full h-full flex items-center justify-center">
                         <p className="text-gray-400">No image</p>
