@@ -4,7 +4,7 @@ import { FilterContext } from '../context/FilterContext.jsx';
 const FilterPanel = () => {
     const { selectedGenre, setSelectedGenre, selectedPrice, setSelectedPrice } = useContext(FilterContext);
 
-    const genres = ['Satire', 'Romance', 'Horror', 'Historical', 'FictionHistorical', 'Fiction', 'Epic', 'Fantasy', 'Dystopian', 'Drama', 'Adventure'];
+    const genres = ['Satire', 'Romance', 'Horror', 'Historical', 'FictionHistorical', 'Fiction', 'Epic', 'Fantasy', 'Dystopian', 'Drama', 'Adventure'].sort();
 
     const handleGenreClick = (genre) => {
         setSelectedGenre(genre === selectedGenre ? null : genre);
@@ -40,7 +40,6 @@ const FilterPanel = () => {
             />
             <p className="mt-2">Max Price: ${selectedPrice}</p>
             <h4 className="font-semibold mt-4 mb-2">Color</h4>
-            {/* More filters here */}
         </aside>
     );
 };
