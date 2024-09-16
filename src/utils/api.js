@@ -108,3 +108,15 @@ export const fetchAuthors = async () => {
         console.error("Error fetching authors:", error);
     }
 }
+
+export const searchResults = async (searchText) => {
+    try {
+        const response = axios.get(`http://localhost:8080/books/search?query=${searchText}`);
+        if (response.status !== 200) {
+            throw new Error("Error fetching search results " + response.status);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+    }
+}
