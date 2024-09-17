@@ -111,7 +111,7 @@ export const fetchAuthors = async () => {
 
 export const fetchSearchResults = async (searchText) => {
     try {
-        if (searchText === "") {
+        if(searchText.length < 3) {
             return [];
         }
         const response = await axios.get(`http://localhost:8080/books/search?query=${searchText}`);
