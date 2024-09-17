@@ -48,11 +48,11 @@ const SignupPage = () => {
             <div className={"w-1/2 flex flex-col justify-start items-start"}>
                 <img src={bookImage} alt="Books" className="w-[100vw] h-[100vh]"/>
             </div>
-            <div className={"w-1/2 flex flex-col justify-center items-center"}>
+            <div className={"w-1/2 flex flex-col justify-center items-center dark:bg-gray-900"}>
             <form onSubmit={handleSubmit} className="w-1/2">
-                <h2 className="text-2xl font-light mb-6 text-center">Sign Up</h2>
+                <h2 className="text-2xl font-light mb-6 text-center dark:text-white">Sign Up</h2>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">
+                    <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="first_name">
                         First Name
                     </label>
                     <input
@@ -67,7 +67,7 @@ const SignupPage = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">
+                    <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="last_name">
                         Last Name
                     </label>
                     <input
@@ -82,7 +82,7 @@ const SignupPage = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                    <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="email">
                         Email
                     </label>
                     <input
@@ -97,7 +97,7 @@ const SignupPage = () => {
                     />
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                    <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="password">
                         Password
                     </label>
                     <input
@@ -112,14 +112,14 @@ const SignupPage = () => {
                     />
                 </div>
                 <button
-                    className="bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline"
+                    className="dark:hover:bg-blue-300 dark:bg-white dark:text-black bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-300 focus:outline-none focus:shadow-outline "
                     type="submit"
                 >
                     Sign Up
                 </button>
                 <div className="text-center mt-6">
                     <p className="text-gray-600 text-sm">OR</p>
-                    <a href="/login" className="text-blue-500 hover:text-blue-800 font-bold">Sign in</a>
+                    <a href="/login" className="text-blue-500 hover:text-blue-800 font-bold dark:text-blue-400 dark:hover:text-blue-800">Sign in</a>
                 </div>
             </form>
         </div>

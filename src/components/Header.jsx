@@ -7,6 +7,7 @@ import LoginButton from './LoginButton';
 import SignupButton from './SignupButton';
 import LogoutButton from './LogoutButton';
 import ShoppingCart from "./ShoppingCart.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 const Header = () => {
     const { user } = useUserContext();
@@ -14,13 +15,11 @@ const Header = () => {
     console.log('Current user state:', user);
 
     return (
-        <header className="flex justify-between items-center p-4 shadow-md bg-white">
-            <Link to="/" className="text-2xl font-bold">Ink & Quill</Link>
-            <div>
+        <header className="header flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white">
+            <Link to="/" className="text-2xl font-bold dark:text-white">Ink & Quill</Link>
                 <SearchBar/>
-            </div>
             <div className="flex space-x-4 items-center">
-                <Link to="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500">
+                <Link to="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-white">
                     Home
                 </Link>
                 {user ? (
@@ -44,6 +43,7 @@ const Header = () => {
                         <FaUser/>
                     </button>
                 </Link>
+                <ThemeToggle />
             </div>
         </header>
     );
