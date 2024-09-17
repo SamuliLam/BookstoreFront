@@ -7,7 +7,7 @@ import {useCartContext} from "../context/CartContext.jsx";
 const ProductGrid = () => {
     const {books, loading, error} = useFetchBooks();
     const {selectedGenre, selectedPrice} = useContext(FilterContext);
-    const { addToCart } = useCartContext();
+    const { addToCart, isVisible, handleToggle } = useCartContext();
 
     if (loading) return <div>Loading books...</div>;
     if (error) return <div>{error}</div>;
@@ -16,9 +16,11 @@ const ProductGrid = () => {
         return (!selectedGenre || book.genre === selectedGenre) && (!selectedPrice || book.price <= selectedPrice);
     });
 
-
     const handleAddToCart = (book) => {
         addToCart(book);
+        if (!isVisible) {
+            handleToggle();
+        }
     }
 
     return (
