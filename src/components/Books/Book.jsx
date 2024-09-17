@@ -17,7 +17,7 @@ const Book = () => {
             <p><strong>Genre:</strong> {book.genre}</p>
             <p><strong>Type:</strong> {book.type}</p>
             <p><strong>Publication Year:</strong> {book.publication_year}</p>
-            <p><strong>Price:</strong> ${book.price}</p>
+            <p><strong>Price:</strong> €{book.price}</p>
             <p><strong>Condition:</strong> {book.book_condition}</p>
         </div>
     );
