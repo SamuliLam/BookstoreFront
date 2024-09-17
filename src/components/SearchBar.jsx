@@ -41,7 +41,7 @@ const SearchBar = () => {
                 onChange={handleInputChange}
                 onKeyDown={(e) => handleKeyPress(e)}
             />
-            <button className="ml-2 p-2 bg-blue-500 text-white rounded"
+            <button className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                     onClick={handleButtonClick}
             >Search</button>
         </div>
