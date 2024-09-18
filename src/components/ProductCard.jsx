@@ -4,9 +4,9 @@ import {Link} from "react-router-dom";
 import {useCartContext} from "../context/CartContext.jsx";
 
 const ProductCard = ({title, price, image, book}) => {
-    const { addToCart, isVisible, handleToggle } = useCartContext();
+    const {addToCart, isVisible, handleToggle} = useCartContext();
 
-    const handleAddToCart = () => {
+    const handleAddToCart = (book) => {
         addToCart(book);
         if (!isVisible) {
             handleToggle();
@@ -17,7 +17,10 @@ const ProductCard = ({title, price, image, book}) => {
         <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
             <div className="flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark">
                 {image ? (
-                    <img src={image} alt={title} className="h-full w-full "/>
+                    <Link to={`/book/${book.book_id}`} className="block h-full w-full">
+                        <img src={image} alt={title} className="h-full w-full object-cover"/>
+                    </Link>
+
                 ) : (
                     <div className="bg-gray-200 w-full h-full flex items-center justify-center">
                         <p className="text-gray-400">No image</p>
