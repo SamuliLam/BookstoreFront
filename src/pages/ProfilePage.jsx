@@ -76,7 +76,6 @@ const ProfilePage = () => {
                                     <td className="px-6 py-4 whitespace-nowrap">$59.99</td>
                                     <td className="px-6 py-4 whitespace-nowrap">Delivered</td>
                                 </tr>
-                                {/* Add more rows as needed */}
                                 </tbody>
                             </table>
                         </div>
@@ -95,7 +94,6 @@ const ProfilePage = () => {
                                 <span>To Kill a Mockingbird</span>
                                 <button className="text-red-500 hover:text-red-700">Remove</button>
                             </li>
-                            {/* Add more favorite books as needed */}
                         </ul>
                     </>
                 );
@@ -156,9 +154,7 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            {/* Main Content Area */}
             <div className="flex-1 p-6 overflow-auto">
-                {/* Content */}
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     {renderContent()}
                 </div>
