@@ -29,7 +29,7 @@ const ShoppingCart = () => {
             ></div>
             <div
                 ref={cartRef}
-                className={`fixed top-0 text-black right-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 z-50 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}>
+                className={`dark:bg-black dark:text-white fixed top-0 text-black right-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 z-50 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}>
                 <span onClick={handleToggle} className="text-2xl hover:text-blue-500 cursor-pointer">
                     <FaTimes/>
                 </span>
