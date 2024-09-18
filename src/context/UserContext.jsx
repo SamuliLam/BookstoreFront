@@ -7,10 +7,12 @@ export const UserProvider = ({ children }) => {
 
     const login = (userData) => {
         setUser(userData);
+        sessionStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {
         setUser(null);
+        sessionStorage.removeItem('user');
     };
 
     return (
