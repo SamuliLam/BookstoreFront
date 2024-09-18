@@ -1,24 +1,24 @@
 import PropTypes from 'prop-types';
 import React from "react";
+import {Link} from "react-router-dom";
 
-const ProductCard = ({ title, price, image }) => {
+const ProductCard = ({title, price, image, book_id}) => {
     return (
         <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
             <div className="flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark">
-                {image ? (
-                    <img src={image} alt={title} className="h-full w-full "/>
-                ) : (
-                    <div className="bg-gray-200 w-full h-full flex items-center justify-center">
-                        <p className="text-gray-400">No image</p>
-                    </div>
-                )}
+                <Link to={`/book/${book_id}`}>
+                    {image ? (
+                        <img src={image} alt={title} className="h-full w-full "/>
+                    ) : (
+                        <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+                            <p className="text-gray-400">No image</p>
+                        </div>
+                    )}
+                </Link>
             </div>
             <div className="flex flex-col items-center gap-3">
                 <h4 className="mt-2 text-lg font-bold text-center">{title}</h4>
-                <p className="text-center text-gray-600 dark:text-white">{price}€</p>
-                <button className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200">
-                    Add to Cart
-                </button>
+                <p className="text-center text-gray-600">{price}€</p>
             </div>
         </div>
     );
