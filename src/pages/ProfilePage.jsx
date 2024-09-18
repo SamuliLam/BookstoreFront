@@ -19,15 +19,15 @@ const ProfilePage = () => {
             case 'editProfile':
                 return (
                     <div>
-                        <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
+                        <h2 className="text-2xl font-bold mb-4 dark:text-white">Edit Profile</h2>
                         <form className="space-y-4">
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-white">Name</label>
                                 <input type="text" id="name" name="name" defaultValue={user?.name}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
                                 <input type="email" id="email" name="email" defaultValue={user?.email}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
@@ -41,14 +41,14 @@ const ProfilePage = () => {
             case 'updateInfo':
                 return (
                     <>
-                        <h2 className="text-2xl font-bold mb-4">Change Password</h2>
+                        <h2 className="text-2xl font-bold mb-4 dark:text-white">Change Password</h2>
                         <form className="space-y-4">
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">New Password</label>
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">New Password</label>
                                 <input type="password" id="password" name="password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
                             </div>
                             <div>
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-white">Confirm New Password</label>
                                 <input type="password" id="confirmPassword" name="confirmPassword" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
                             </div>
                             <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 w-full">Update Password</button>
@@ -58,7 +58,7 @@ const ProfilePage = () => {
             case 'orderHistory':
                 return (
                     <>
-                        <h2 className="text-2xl font-bold mb-4">Order History</h2>
+                        <h2 className="text-2xl font-bold mb-4 dark:text-white">Order History</h2>
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
@@ -84,7 +84,7 @@ const ProfilePage = () => {
             case 'favoriteBooks':
                 return (
                     <>
-                        <h2 className="text-2xl font-bold mb-4">Favorite Books</h2>
+                        <h2 className="text-2xl font-bold mb-4 dark:text-white">Favorite Books</h2>
                         <ul className="space-y-2">
                             <li className="flex items-center justify-between p-2 bg-gray-50 rounded-lg shadow">
                                 <span>The Great Gatsby</span>
@@ -114,39 +114,39 @@ const ProfilePage = () => {
     return (
         <div className="flex flex-col md:flex-row w-screen bg-gray-100">
             {/* Sidebar */}
-            <div className="w-full md:w-64 bg-white shadow-lg p-6 flex flex-col">
+            <div className="w-full md:w-64 bg-white shadow-lg p-6 flex flex-col dark:bg-blue-950">
                 <div className="flex flex-col items-center mb-6">
-                    <User size={64} className="text-gray-700 mb-3" />
-                    <h1 className="text-xl font-bold mb-1">{user.first_name} {user.last_name}</h1>
-                    <p className="text-sm text-gray-600 mb-4">{user.email}</p>
+                    <User size={64} className="text-gray-700 mb-3 dark:text-white" />
+                    <h1 className="text-xl font-bold mb-1 dark:text-white">{user.first_name} {user.last_name}</h1>
+                    <p className="text-sm text-gray-600 mb-4 dark:text-white">{user.email}</p>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="space-y-2 mb-6">
                     <button
                         onClick={() => setActiveSection('editProfile')}
-                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'editProfile' ? 'bg-blue-100 text-blue-600' : 'bg-white hover:bg-gray-50'}`}
+                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'editProfile' ? 'bg-blue-100 text-blue-600' : 'bg-white hover:bg-gray-50 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-950'}`}
                     >
                         <Edit3 className="mr-2" size={18} />
                         <span>Edit Profile</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('updateInfo')}
-                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'updateInfo' ? 'bg-green-100 text-green-600' : 'bg-white hover:bg-gray-50'}`}
+                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'updateInfo' ? 'bg-green-100 text-green-600' : 'bg-white hover:bg-gray-50 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-950'}`}
                     >
                         <Settings className="mr-2" size={18} />
                         <span>Change Password</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('orderHistory')}
-                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'orderHistory' ? 'bg-purple-100 text-purple-600' : 'bg-white hover:bg-gray-50'}`}
+                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'orderHistory' ? 'bg-purple-100 text-purple-600' : 'bg-white hover:bg-gray-50 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-950'}`}
                     >
                         <Book className="mr-2" size={18} />
                         <span>Order History</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('favoriteBooks')}
-                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'favoriteBooks' ? 'bg-orange-100 text-orange-600' : 'bg-white hover:bg-gray-50'}`}
+                        className={`flex items-center w-full p-2 rounded-lg transition-colors ${activeSection === 'favoriteBooks' ? 'bg-orange-100 text-orange-600' : 'bg-white hover:bg-gray-50 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-950'}`}
                     >
                         <Sparkle className="mr-2" size={18} />
                         <span>Favorite Books</span>
@@ -154,8 +154,8 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            <div className="flex-1 p-6 overflow-auto">
-                <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="flex-1 p-6 overflow-auto dark:bg-black">
+                <div className="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700 vw-[30]">
                     {renderContent()}
                 </div>
             </div>

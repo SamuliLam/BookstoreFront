@@ -25,7 +25,7 @@ const Header = () => {
                 {user ? (
                     <>
                         <LogoutButton/>
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-700 dark:text-white">
                             Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
                         </span>
                     </>
@@ -35,11 +35,11 @@ const Header = () => {
                         <SignupButton/>
                     </>
                 )}
-                <button className="text-blue-500 text-3xl hover:text-blue-700">
+                <button className="text-blue-500 text-3xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
                         <ShoppingCart/>
                 </button>
                 <Link to="/profile">
-                    <button className="text-blue-500 text-3xl hover:text-blue-700">
+                    <button className="text-blue-500 text-3xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
                         <FaUser/>
                     </button>
                 </Link>

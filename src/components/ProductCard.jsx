@@ -29,7 +29,7 @@ const ProductCard = ({title, price, image, book}) => {
             </div>
             <div className="flex flex-col items-center gap-3">
                 <h4 className="mt-2 text-lg font-bold text-center">{title}</h4>
-                <p className="text-center text-gray-600">{price}€</p>
+                <p className="text-center text-gray-600 dark:text-white">{price}€</p>
                 <button onClick={() => handleAddToCart(book)}
                         className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200">
                     Add to Cart
