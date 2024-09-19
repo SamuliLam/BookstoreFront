@@ -141,3 +141,17 @@ export const fetchSearchResults = async (searchText) => {
         console.error("Error fetching search results:", error);
     }
 }
+
+export const fetchInventoryResult = async (bookId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/inventory/${bookId - 100}`);
+        if(response.status !== 200)
+        {
+            throw new Error("Error fetching data: " + response.status);
+        }
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error fetching inventory:", error)
+    }
+}

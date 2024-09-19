@@ -87,9 +87,7 @@ const LoginPage = () => {
                     <button
                         className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:text-black dark:bg-white"
                         type="submit"
-
                     >
-
                         Sign In
                     </button>
                     <div className="text-center mt-6">

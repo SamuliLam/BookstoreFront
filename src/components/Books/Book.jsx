@@ -1,14 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchBook from '../../hooks/useFetchBook';
 import { useCartContext } from '../../context/CartContext.jsx';
+import {fetchInventoryResult} from '../../utils/api.js';
 
 const Book = () => {
     const { id } = useParams();  // Extract the book ID from the URL
     const { book, loading, error } = useFetchBook(id);
     const { addToCart, isVisible, handleToggle } = useCartContext();
+    const [inventory, setInventoryData] = useState([]);
     const staticDescription = "This is a detailed description of the book. It includes information about the plot, themes, and significance in its genre. Readers will enjoy this book for its engaging narrative and deep historical context.";
     const [transformStyle, setTransformStyle] = useState('');
+
+    useEffect(() => {
+        const getInventory = async () => {
+            const inventoryData = await fetchInventoryResult(id);
+            setInventoryData(inventoryData);
+        }
+        getInventory();
+
+    }, [id]);
+
 
     if (loading) return <div className="text-center py-4">Loading...</div>;
     if (error) return <div className="text-center text-red-500">{error}</div>;
@@ -60,13 +72,13 @@ const Book = () => {
                 </div>
 
                 {/* Book Details */}
-                <div className="md:w-2/4 w-full md:pl-6 ">
-                    <h1 className="text-3xl font-bold mb-4 text-center md:text-left dark:text-white">{book.title}</h1>
-                    <p className="text-xl text-gray-600 mb-2 dark:text-white"><strong>ISBN:</strong> {book.isbn}</p>
-                    <p className="text-xl text-gray-600 mb-2 dark:text-white"><strong>Genre:</strong> {book.genre}</p>
-                    <p className="text-xl text-gray-600 mb-2 dark:text-white"><strong>Type:</strong> {book.type}</p>
-                    <p className="text-xl text-gray-600 mb-2 dark:text-white"><strong>Publication Year:</strong> {book.publication_year}</p>
-                    <p className="text-xl text-gray-600 mb-4 dark:text-white"><strong>Condition:</strong> {book.book_condition}</p>
+                <div className="md:w-2/4 w-full md:pl-6 light:text-gray-600 dark:text-white">
+                    <h1 className="text-3xl font-bold mb-4 text-center md:text-left ">{book.title}</h1>
+                    <p className="text-xl mb-2"><strong>ISBN:</strong> {book.isbn}</p>
+                    <p className="text-xl mb-2"><strong>Genre:</strong> {book.genre}</p>
+                    <p className="text-xl mb-2"><strong>Type:</strong> {book.type}</p>
+                    <p className="text-xl mb-2"><strong>Publication Year:</strong> {book.publication_year}</p>
+                    <p className="text-xl text"><strong>Condition:</strong> {book.book_condition}</p>
 
                     {/* Price and Add to Cart */}
                     <div className="flex items-center justify-center md:justify-start mb-4">
@@ -83,8 +95,9 @@ const Book = () => {
                     </div>
 
                     <div className="mt-4 dark:text-white">
-                        <h2 className="text-xl font-bold mb-2">Quantity of the following book in inventory: </h2>
-
+                        <h2 className="text-xl font-bold mb-2">In Stock: </h2>
+                        <p className="text-xl mb-2">New: {inventory.stock_level_new}</p>
+                        <p className="text-xl mb-2">Used: {inventory.stock_level_used}</p>
                     </div>
                 </div>
             </div>
