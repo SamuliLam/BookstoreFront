@@ -20,7 +20,7 @@ const Book = () => {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen px-4 py-8 dark:bg-gray-900 dark:text-white">
+        <div className="flex justify-center items-center min-h-screen w-screen px-4 py-8 dark:bg-gray-900 dark:text-white">
             <div className="w-full flex flex-col md:flex-row p-6">
                 <div className="md:w-2/4 w-full flex justify-center mb-6 md:mb-0">
                     <img
