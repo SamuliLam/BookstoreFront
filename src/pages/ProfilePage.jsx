@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Settings, Book, Mail, Edit3, Sparkle } from 'lucide-react';
+import {User, Settings, Book, Mail, Edit3, Sparkle, CheckCircle, XCircle} from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import {changeUserPassword, updateUserProfile} from '../utils/userApiUtils';
@@ -88,50 +88,55 @@ const ProfilePage = () => {
             case 'editProfile':
                 return (
                     <div>
-                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Edit Profile</h2>
-                        <form className="space-y-4" onSubmit={handleProfileUpdate}>
-                            <div>
-                                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
-                                <input type="text" id="first_name" name="first_name" defaultValue={currentUser.first_name}
-                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                            </div>
-                            <div>
-                                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
-                                <input type="text" id="last_name" name="last_name" defaultValue={currentUser.last_name}
-                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                        <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
+                            <Edit3 className="mr-2" size={24} />
+                            Edit Profile
+                        </h2>
+                        <form className="space-y-6" onSubmit={handleProfileUpdate}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+                                    <input type="text" id="first_name" name="first_name" defaultValue={currentUser.first_name}
+                                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+                                    <input type="text" id="last_name" name="last_name" defaultValue={currentUser.last_name}
+                                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
                                 <input type="email" id="email" name="email" defaultValue={currentUser.email}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                             </div>
-                            <div>
-                                <label htmlFor="street_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Name</label>
-                                <input type="text" id="street_name" name="street_name" defaultValue={currentUser.street_name}
-                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
-                            </div>
-                            <div>
-                                <label htmlFor="street_number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Number</label>
-                                <input type="number" id="street_number" name="street_number" defaultValue={currentUser.street_number}
-                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label htmlFor="street_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Name</label>
+                                    <input type="text" id="street_name" name="street_name" defaultValue={currentUser.street_name}
+                                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="street_number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Number</label>
+                                    <input type="number" id="street_number" name="street_number" defaultValue={currentUser.street_number}
+                                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+                                </div>
                             </div>
                             <button type="submit"
-                                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                    className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 dark:bg-blue-600 dark:hover:bg-blue-700">
                                 Save Changes
                             </button>
-                            {updateStatus && (
-                                <div className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                    {updateStatus}
-                                </div>
-                            )}
                         </form>
                     </div>
                 );
             case 'updateInfo':
                 return (
-                    <>
-                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Change Password</h2>
-                        <form className="space-y-4" onSubmit={handlePasswordChange}>
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
+                            <Settings className="mr-2" size={24} />
+                            Change Password
+                        </h2>
+                        <form className="space-y-6" onSubmit={handlePasswordChange}>
                             <div>
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
                                 <input type="password" id="password" name="password" required
@@ -142,22 +147,22 @@ const ProfilePage = () => {
                                 <input type="password" id="confirmPassword" name="confirmPassword" required
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
-                            <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 w-full dark:bg-green-600 dark:hover:bg-green-700">Update Password</button>
-                            {updateStatus && (
-                                <div className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                    {updateStatus}
-                                </div>
-                            )}
+                            <button type="submit" className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors duration-300 dark:bg-green-600 dark:hover:bg-green-700">
+                                Update Password
+                            </button>
                         </form>
-                    </>
+                    </div>
                 );
             case 'orderHistory':
                 return (
-                    <>
-                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Order History</h2>
-                        <div className="overflow-x-auto">
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
+                            <Book className="mr-2" size={24} />
+                            Order History
+                        </h2>
+                        <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead className="bg-gray-50 dark:bg-gray-800">
+                                <thead className="bg-gray-50 dark:bg-gray-700">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order ID</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
@@ -165,47 +170,59 @@ const ProfilePage = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
                                 </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 <tr>
                                     <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">#12345</td>
                                     <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">2023-09-15</td>
                                     <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">$59.99</td>
-                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">Delivered</td>
+                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
+                                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                Delivered
+                                            </span>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </>
+                    </div>
                 );
             case 'favoriteBooks':
                 return (
-                    <>
-                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Favorite Books</h2>
-                        <ul className="space-y-2">
-                            <li className="flex items-center justify-between p-2 bg-gray-50 rounded-lg shadow dark:bg-gray-800">
-                                <span className="dark:text-gray-300">The Great Gatsby</span>
-                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Remove</button>
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
+                            <Sparkle className="mr-2" size={24} />
+                            Favorite Books
+                        </h2>
+                        <ul className="space-y-4">
+                            <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                                <span className="font-medium dark:text-gray-300">The Great Gatsby</span>
+                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
+                                    Remove
+                                </button>
                             </li>
-                            <li className="flex items-center justify-between p-2 bg-gray-50 rounded-lg shadow dark:bg-gray-800">
-                                <span className="dark:text-gray-300">To Kill a Mockingbird</span>
-                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Remove</button>
+                            <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                                <span className="font-medium dark:text-gray-300">To Kill a Mockingbird</span>
+                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
+                                    Remove
+                                </button>
                             </li>
                         </ul>
-                    </>
+                    </div>
                 );
             default:
                 return (
-                    <>
+                    <div className="text-center">
                         <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Welcome to Your Profile</h2>
-                        <p className="dark:text-gray-300">Select an option from the left to get started.</p>
-                    </>
+                        <p className="text-gray-600 dark:text-gray-400">Select an option from the sidebar to get started.</p>
+                    </div>
                 );
         }
     };
 
     if (!user) {
-        return <div className="dark:text-gray-300">Loading...</div>;
+        return <div className="flex items-center justify-center h-screen dark:bg-gray-900 dark:text-gray-300">Loading...</div>;
     }
+
 
     return (
         <div className="flex flex-col md:flex-row w-screen bg-gray-100 dark:bg-gray-900">
@@ -271,6 +288,19 @@ const ProfilePage = () => {
                 <div className="bg-white rounded-lg shadow-xl p-6 dark:bg-gray-800">
                     {renderContent()}
                 </div>
+                {/* Status message */}
+                {updateStatus && (
+                    <div className={`mt-4 p-4 rounded-lg shadow-md ${
+                        updateStatus.includes('successfully') ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
+                    } flex items-center`}>
+                        {updateStatus.includes('successfully') ? (
+                            <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                        ) : (
+                            <XCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                        )}
+                        <p>{updateStatus}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
