@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchBook from '../../hooks/useFetchBook';
 import { useCartContext } from '../../context/CartContext.jsx';
@@ -8,9 +8,35 @@ const Book = () => {
     const { book, loading, error } = useFetchBook(id);
     const { addToCart, isVisible, handleToggle } = useCartContext();
     const staticDescription = "This is a detailed description of the book. It includes information about the plot, themes, and significance in its genre. Readers will enjoy this book for its engaging narrative and deep historical context.";
+    const [transformStyle, setTransformStyle] = useState('');
 
     if (loading) return <div className="text-center py-4">Loading...</div>;
     if (error) return <div className="text-center text-red-500">{error}</div>;
+
+    const handleMouseMove = (e) => {
+        const card = e.currentTarget;
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const normalizedX = (x / card.offsetWidth) - 0.5;
+        const normalizedY = (y / card.offsetHeight) - 0.5;
+
+        const centerY = 0;
+
+        const isAboveCenter = normalizedY < centerY;
+
+
+        const rotateX = (isAboveCenter ? -normalizedY : normalizedY) * 15;
+        const rotateY = normalizedX * 15;
+
+        setTransformStyle(`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+    };
+
+    const handleMouseLeave = () => {
+        setTransformStyle('');
+    };
 
     const handleAddToCart = (book) => {
         addToCart(book);
@@ -21,12 +47,15 @@ const Book = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen w-screen px-4 py-8 dark:bg-gray-900 dark:text-white">
-            <div className="w-full flex flex-col md:flex-row p-6">
+            <div className="w-full flex flex-col md:flex-row p-6" >
                 <div className="md:w-2/4 w-full flex justify-center mb-6 md:mb-0">
                     <img
                         className="shadow-custom-dark rounded-lg object-cover w-80 h-96"
                         src={book.image_url || 'https://fallback-image-url.com/default.jpg'}
                         alt={book.title}
+                        style={{ transform: transformStyle }}
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
                     />
                 </div>
 
