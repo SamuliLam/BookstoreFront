@@ -2,19 +2,20 @@ import React, {useContext} from "react";
 import useFetchBooks from "../hooks/useFetchBooks";
 import {FilterContext} from '../context/FilterContext.jsx';
 import ProductCard from "./ProductCard.jsx";
-import {useCartContext} from "../context/CartContext.jsx";
+import {SearchResultContext} from "../context/SearchContext.jsx";
 
 const ProductGrid = () => {
     const {books, loading, error} = useFetchBooks();
     const {selectedGenre, selectedPrice} = useContext(FilterContext);
+    const { searchResults } = useContext(SearchResultContext);
 
     if (loading) return <div>Loading books...</div>;
     if (error) return <div>{error}</div>;
 
-    const filteredBooks = books.filter(book => {
+
+    const filteredBooks = (searchResults.length > 0 ? searchResults : books).filter(book => {
         return (!selectedGenre || book.genre === selectedGenre) && (!selectedPrice || book.price <= selectedPrice);
     });
-
 
 
     return (
