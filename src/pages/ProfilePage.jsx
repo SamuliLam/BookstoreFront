@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {User, Settings, Book, Mail, Edit3, Sparkle} from 'lucide-react';
+import { User, Settings, Book, Mail, Edit3, Sparkle } from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { updateUserProfile } from '../utils/userApiUtils';
 
 const ProfilePage = () => {
-    const { user } = useUserContext();
+    const { user, updateUser, getUser } = useUserContext();
     const [activeSection, setActiveSection] = useState('editProfile');
+    const [updateStatus, setUpdateStatus] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,27 +16,69 @@ const ProfilePage = () => {
         }
     }, [user, navigate]);
 
+    const handleProfileUpdate = async (e) => {
+        e.preventDefault();
+        const currentUser = getUser();
+        if (!currentUser || !currentUser.user_id) {  // Changed from id to user_id
+            setUpdateStatus('Error: User information is missing. Please log in again.');
+            return;
+        }
+
+        const formData = new FormData(e.target);
+        const updatedUserData = {
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            email: formData.get('email'),
+        };
+
+        setUpdateStatus('Updating...');
+
+        const result = await updateUserProfile(currentUser.user_id, updatedUserData, currentUser.token);  // Changed from id to user_id
+
+        if (result.success) {
+            updateUser(result.user);
+            setUpdateStatus('Profile updated successfully!');
+        } else {
+            setUpdateStatus(`Failed to update profile: ${result.error}`);
+        }
+
+        setTimeout(() => setUpdateStatus(null), 5000);
+    };
+
     const renderContent = () => {
+        const currentUser = getUser();
+        if (!currentUser) return null;
+
         switch (activeSection) {
             case 'editProfile':
                 return (
                     <div>
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">Edit Profile</h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handleProfileUpdate}>
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-white">Name</label>
-                                <input type="text" id="name" name="name" defaultValue={user?.name}
+                                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-white">First Name</label>
+                                <input type="text" id="first_name" name="first_name" defaultValue={currentUser.first_name}
+                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
+                            </div>
+                            <div>
+                                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-white">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" defaultValue={currentUser.last_name}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
-                                <input type="email" id="email" name="email" defaultValue={user?.email}
+                                <input type="email" id="email" name="email" defaultValue={currentUser.email}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <button type="submit"
                                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                                 Save Changes
                             </button>
+                            {updateStatus && (
+                                <div className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600' : 'text-red-600'}`}>
+                                    {updateStatus}
+                                </div>
+                            )}
                         </form>
                     </div>
                 );
