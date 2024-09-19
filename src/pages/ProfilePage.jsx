@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Settings, Book, Mail, Edit3, Sparkle } from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { updateUserProfile } from '../utils/userApiUtils';
+import {changeUserPassword, updateUserProfile} from '../utils/userApiUtils';
 
 const ProfilePage = () => {
     const { user, updateUser, getUser } = useUserContext();
@@ -19,7 +19,7 @@ const ProfilePage = () => {
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         const currentUser = getUser();
-        if (!currentUser || !currentUser.user_id) {  // Changed from id to user_id
+        if (!currentUser || !currentUser.user_id) {
             setUpdateStatus('Error: User information is missing. Please log in again.');
             return;
         }
@@ -29,17 +29,50 @@ const ProfilePage = () => {
             first_name: formData.get('first_name'),
             last_name: formData.get('last_name'),
             email: formData.get('email'),
+            street_name: formData.get('street_name'),
+            street_number: formData.get('street_number') ? Number(formData.get('street_number')) : null,
         };
 
         setUpdateStatus('Updating...');
 
-        const result = await updateUserProfile(currentUser.user_id, updatedUserData, currentUser.token);  // Changed from id to user_id
+        const result = await updateUserProfile(currentUser.user_id, updatedUserData, currentUser.token);
 
         if (result.success) {
             updateUser(result.user);
             setUpdateStatus('Profile updated successfully!');
         } else {
             setUpdateStatus(`Failed to update profile: ${result.error}`);
+        }
+
+        setTimeout(() => setUpdateStatus(null), 5000);
+    };
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        const currentUser = getUser();
+        if (!currentUser || !currentUser.user_id) {
+            setUpdateStatus('Error: User information is missing. Please log in again.');
+            return;
+        }
+
+        const formData = new FormData(e.target);
+        const newPassword = formData.get('password');
+        const confirmPassword = formData.get('confirmPassword');
+
+        if (newPassword !== confirmPassword) {
+            setUpdateStatus('Error: Passwords do not match.');
+            return;
+        }
+
+        setUpdateStatus('Updating password...');
+
+        const result = await changeUserPassword(currentUser.user_id, newPassword, currentUser.token);
+
+        if (result.success) {
+            updateUser(result.user);
+            setUpdateStatus('Password updated successfully!');
+        } else {
+            setUpdateStatus(`Failed to update password: ${result.error}`);
         }
 
         setTimeout(() => setUpdateStatus(null), 5000);
@@ -56,18 +89,40 @@ const ProfilePage = () => {
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">Edit Profile</h2>
                         <form className="space-y-4" onSubmit={handleProfileUpdate}>
                             <div>
-                                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-white">First Name</label>
-                                <input type="text" id="first_name" name="first_name" defaultValue={currentUser.first_name}
+                                <label htmlFor="first_name"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">First
+                                    Name</label>
+                                <input type="text" id="first_name" name="first_name"
+                                       defaultValue={currentUser.first_name}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <div>
-                                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-white">Last Name</label>
+                                <label htmlFor="last_name"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">Last
+                                    Name</label>
                                 <input type="text" id="last_name" name="last_name" defaultValue={currentUser.last_name}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
+                                <label htmlFor="email"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
                                 <input type="email" id="email" name="email" defaultValue={currentUser.email}
+                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
+                            </div>
+                            <div>
+                                <label htmlFor="street_name"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">Street
+                                    Name</label>
+                                <input type="street_name" id="street_name" name="street_name"
+                                       defaultValue={currentUser.street_name}
+                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
+                            </div>
+                            <div>
+                                <label htmlFor="street_number"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">Street
+                                    Number</label>
+                                <input type="street_number" id="street_number" name="street_number"
+                                       defaultValue={currentUser.phone_number}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"/>
                             </div>
                             <button type="submit"
@@ -75,7 +130,8 @@ const ProfilePage = () => {
                                 Save Changes
                             </button>
                             {updateStatus && (
-                                <div className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600' : 'text-red-600'}`}>
+                                <div
+                                    className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600' : 'text-red-600'}`}>
                                     {updateStatus}
                                 </div>
                             )}
@@ -86,16 +142,24 @@ const ProfilePage = () => {
                 return (
                     <>
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">Change Password</h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handlePasswordChange}>
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">New Password</label>
-                                <input type="password" id="password" name="password" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
+                                <label htmlFor="password"
+                                       className="block text-sm font-medium text-gray-700 dark:text-white">New Password</label>
+                                <input type="password" id="password" name="password" required
+                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
                             </div>
                             <div>
                                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-white">Confirm New Password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
+                                <input type="password" id="confirmPassword" name="confirmPassword" required
+                                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />
                             </div>
                             <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 w-full">Update Password</button>
+                            {updateStatus && (
+                                <div className={`mt-2 text-sm ${updateStatus.includes('successfully') ? 'text-green-600' : 'text-red-600'}`}>
+                                    {updateStatus}
+                                </div>
+                            )}
                         </form>
                     </>
                 );

@@ -32,3 +32,34 @@ export const updateUserProfile = async (userId, updates, token) => {
         return { success: false, error: 'An unexpected error occurred' };
     }
 };
+
+export const changeUserPassword = async (userId, newPassword, token) => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/users/update/${userId}`,
+            { password: newPassword },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            return { success: true, user: response.data };
+        } else {
+            return { success: false, error: 'Failed to update password' };
+        }
+    } catch (error) {
+        console.error('Error changing user password:', error);
+        if (error.response) {
+            if (error.response.status === 401) {
+                return { success: false, error: 'Unauthorized. Please log in again.' };
+            } else if (error.response.status === 404) {
+                return { success: false, error: 'User not found.' };
+            }
+        }
+        return { success: false, error: 'An unexpected error occurred' };
+    }
+};
