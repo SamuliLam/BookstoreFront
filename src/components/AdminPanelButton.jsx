@@ -1,8 +1,7 @@
 
 const AdminPanelButton = ({label}) => {
   return (
-      //TODO: change hover color
-    <button className="admin-panel-button rounded-lg py-2 px-12 border-2 hover:bg-amber-100">{label}</button>
+    <button className="admin-panel-button bg-gray-200 rounded-lg py-2 px-12 border-2 hover:bg-gray-300">{label}</button>
   );
 }
 

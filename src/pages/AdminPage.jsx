@@ -42,13 +42,13 @@ const AdminPage = () => {
 
   return (
       <div className={"main-content-container h-full flex w-full"}>
-            <aside className="bg-gray-500 h-full px-24 py-40 flex flex-col justify-between">
+            <aside className="bg-gray-100 h-full px-24 py-40 flex flex-col justify-between">
                 <AdminPanelButton label="Books" onClick={showBooks} />
                 <AdminPanelButton label="Users" onClick={showUsers}/>
                 <AdminPanelButton label="Orders" onClick={showOrders}/>
                 <AdminPanelButton label="Authors" onClick={showAuthors}/>
             </aside>
-            <div className="table-container bg-gray-200 grow w-full text-center">
+            <div className="table-container grow w-full text-center">
                 - Table goes here -
                 <AdminPageTable data={tableData}/>
             </div>
