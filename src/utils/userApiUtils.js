@@ -63,3 +63,35 @@ export const changeUserPassword = async (userId, newPassword, token) => {
         return { success: false, error: 'An unexpected error occurred' };
     }
 };
+
+export const getUserOrders = async (token) => {
+    try {
+        const response = await axios.get(
+            `${API_BASE_URL}/orders/me`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            return { success: true, orders: response.data };
+        } else {
+            return { success: false, error: 'Failed to fetch orders' };
+        }
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        if (error.response) {
+            if (error.response.status === 401) {
+                return { success: false, error: 'Unauthorized. Please log in again.' };
+            } else if (error.response.status === 403) {
+                return { success: false, error: 'Access forbidden. You may not have the necessary permissions.' };
+            } else if (error.response.status === 404) {
+                return { success: false, error: 'Orders not found.' };
+            }
+        }
+        return { success: false, error: 'An unexpected error occurred' };
+    }
+};
