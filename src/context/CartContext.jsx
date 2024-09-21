@@ -12,6 +12,11 @@ export const CartProvider = ({ children }) => {
             return [];
         }
     });
+
+    const clearCart = () => {
+        setCart([]);
+    };
+
     const [isVisible, setIsVisible] = useState(false);
     const cartRef = useRef(null);
     const overlayRef = useRef(null);
@@ -72,7 +77,7 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, isVisible, handleToggle, handleClickOutside, cartRef, overlayRef }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, isVisible, handleToggle, handleClickOutside, cartRef, overlayRef, clearCart }}>
             {children}
         </CartContext.Provider>
     );

@@ -141,3 +141,23 @@ export const fetchSearchResults = async (searchText) => {
         console.error("Error fetching search results:", error);
     }
 }
+
+export const addOrder = async (orderData, token) => {
+    try {
+        const response = await axios.post("http://localhost:8080/orders/addOrder", orderData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.status === 200) {
+            return { success: true };
+        } else {
+            return { success: false, error: 'Failed to add order' };
+        }
+    } catch (error) {
+        console.error("Error adding order:", error);
+        return { success: false, error: error.message };
+    }
+};
