@@ -47,6 +47,7 @@ export const logIn = async ({ email, password }) => {
                 const userData = await userResponse.json();
                 const { password, ...userDataWithoutPassword } = userData;
                 const userToReturn = { ...userDataWithoutPassword, token };
+                sessionStorage.setItem('token', token);
                 return { success: true, user: userToReturn };
             } else {
                 return { success: false, error: 'Failed to fetch user details' };
@@ -75,7 +76,13 @@ export const fetchBooks = async () => {
 
 export const fetchUsers = async () => {
     try {
-        const response = axios.get("http://localhost:8080/users");
+        const token = sessionStorage.getItem('token' );
+        const response = await axios.get("http://localhost:8080/users", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
         if (response.status !== 200) {
             throw new Error("Error fetching users " + response.status);
         }
@@ -87,7 +94,13 @@ export const fetchUsers = async () => {
 
 export const fetchOrders = async () => {
     try {
-        const response = axios.get("http://localhost:8080/orders");
+        const token = sessionStorage.getItem('token' );
+        const response = await axios.get("http://localhost:8080/orders", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
         if (response.status !== 200) {
             throw new Error("Error fetching orders " + response.status);
         }
@@ -99,7 +112,12 @@ export const fetchOrders = async () => {
 
 export const fetchAuthors = async () => {
     try {
-        const response = axios.get("http://localhost:8080/authors");
+        const token = sessionStorage.getItem('token' );
+        const response = await axios.get("http://localhost:8080/authors", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         if (response.status !== 200) {
             throw new Error("Error fetching authors " + response.status);
         }
@@ -108,3 +126,38 @@ export const fetchAuthors = async () => {
         console.error("Error fetching authors:", error);
     }
 }
+
+export const fetchSearchResults = async (searchText) => {
+    try {
+        if(searchText.length < 3) {
+            return [];
+        }
+        const response = await axios.get(`http://localhost:8080/books/search?query=${searchText}`);
+        if (response.status !== 200) {
+            throw new Error("Error fetching search results " + response.status);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+    }
+}
+
+export const addOrder = async (orderData, token) => {
+    try {
+        const response = await axios.post("http://localhost:8080/orders/addOrder", orderData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.status === 200) {
+            return { success: true };
+        } else {
+            return { success: false, error: 'Failed to add order' };
+        }
+    } catch (error) {
+        console.error("Error adding order:", error);
+        return { success: false, error: error.message };
+    }
+};

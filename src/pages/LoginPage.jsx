@@ -43,11 +43,11 @@ const LoginPage = () => {
                     className="w-[100vw] h-[100vh]"
                 />
             </div>
-            <div className="w-1/2 flex flex-col justify-center items-center">
+            <div className="w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
                 <form onSubmit={handleSubmit} className="w-1/2">
                     <h2 className="text-2xl font-light mb-6 text-center">Sign In</h2>
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="email">
                             Email
                         </label>
                         <input
@@ -61,7 +61,7 @@ const LoginPage = () => {
                         />
                     </div>
                     <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="password">
                             Password
                         </label>
                         <input
@@ -85,7 +85,7 @@ const LoginPage = () => {
                         </a>
                     </div>
                     <button
-                        className="bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline"
+                        className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:text-black dark:bg-white"
                         type="submit"
 
                     >
@@ -93,8 +93,8 @@ const LoginPage = () => {
                         Sign In
                     </button>
                     <div className="text-center mt-6">
-                        <p className="text-gray-600 text-sm">OR</p>
-                        <a href="/signup" className="text-blue-500 hover:text-blue-800 font-bold">Sign up</a>
+                        <p className="text-gray-600 text-sm dark:text-white">OR</p>
+                        <a href="/signup" className="text-blue-500 hover:text-blue-800 font-bold dark:text-blue-400 dark:hover:text-blue-800">Sign up</a>
                     </div>
                 </form>
             </div>

@@ -3,16 +3,19 @@ import AppRoutes from "./routes/AppRoutes.jsx";
 import {UserProvider} from "./context/UserContext.jsx";
 import {FilterProvider} from "./context/FilterContext.jsx";
 import {CartProvider} from "./context/CartContext.jsx";
+import {SearchResultContextProvider} from "./context/SearchContext.jsx";
 
 const App = () => {
     return (
-        <UserProvider>
-            <CartProvider>
-                <FilterProvider>
-                    <AppRoutes/>
-                </FilterProvider>
-            </CartProvider>
-        </UserProvider>
+        <SearchResultContextProvider>
+            <UserProvider>
+                <CartProvider>
+                    <FilterProvider>
+                        <AppRoutes/>
+                    </FilterProvider>
+                </CartProvider>
+            </UserProvider>
+        </SearchResultContextProvider>
     );
 };
 
