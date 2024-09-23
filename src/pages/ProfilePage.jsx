@@ -101,14 +101,14 @@ const ProfilePage = () => {
 
         const result = await getUserOrders(currentUser.token);
         if (result.success) {
-            console.log('Fetched orders:', result.orders); // Log all orders
+            console.log('Fetched orders:', result.orders);
             setOrders(result.orders.map(order => {
-                console.log('Order date:', order.order_date); // Log each order's date
+                console.log('Order date:', order.order_date);
                 return {
                     id: order.order_id,
                     date: new Date(order.orderDate).toLocaleDateString(),
                     total: order.total,
-                    status: order.status
+                    status: "DELIVERED"
                 };
             }));
         } else {
@@ -223,7 +223,7 @@ const ProfilePage = () => {
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                                order.status === 'Delivered' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                                order.status === 'DELIVERED' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
                                                     order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
                                                         'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
                                             }`}>
