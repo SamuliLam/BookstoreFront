@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { User, Settings, Book, Edit3, Sparkle, CheckCircle, XCircle } from 'lucide-react';
+import {
+    User,
+    Settings,
+    Book,
+    Edit3,
+    Sparkle,
+    CheckCircle,
+    XCircle,
+    ArrowDownNarrowWide,
+    ArrowDownRight, MoveDown, PlusIcon, MinusIcon
+} from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { changeUserPassword, updateUserProfile, getUserOrders } from '../utils/userApiUtils';
@@ -18,6 +28,11 @@ const ProfilePage = () => {
     const [ordersPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredOrders, setFilteredOrders] = useState([]);
+    const [expandedOrderId, setExpandedOrderId] = useState(null);
+
+    const toggleOrderDetails = (orderId) => {
+        setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+    };
 
     useEffect(() => {
         if (!user) {
@@ -242,6 +257,7 @@ const ProfilePage = () => {
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Books</th>
                                         </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -251,13 +267,26 @@ const ProfilePage = () => {
                                                 <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
-                                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                                            order.status === 'SUCCESSFUL' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
-                                                                order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
-                                                                    'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                                        }`}>
+                                                        <span
+                                                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                                order.status === 'SUCCESSFUL' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                                                    order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
+                                                                        'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                                                            }`}>
                                                             {order.status}
                                                         </span>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
+                                                    <button
+                                                        onClick={() => toggleOrderDetails(order.id)}
+                                                        className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300"
+                                                    >
+                                                        {expandedOrderId === order.id ? (
+                                                            <MinusIcon className="mr-2" size={16} />
+                                                        ) : (
+                                                            <PlusIcon className="mr-2" size={16} />
+                                                        )}
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}
