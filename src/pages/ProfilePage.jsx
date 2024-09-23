@@ -101,12 +101,16 @@ const ProfilePage = () => {
 
         const result = await getUserOrders(currentUser.token);
         if (result.success) {
-            setOrders(result.orders.map(order => ({
-                id: order.order_id,
-                date: order.order_date, // Ensure date is in YYYY-MM-DD format
-                total: order.total,
-                status: order.status
-            })));
+            console.log('Fetched orders:', result.orders); // Log all orders
+            setOrders(result.orders.map(order => {
+                console.log('Order date:', order.order_date); // Log each order's date
+                return {
+                    id: order.order_id,
+                    date: new Date(order.orderDate).toLocaleDateString(),
+                    total: order.total,
+                    status: order.status
+                };
+            }));
         } else {
             setOrderError(result.error);
         }
@@ -202,17 +206,20 @@ const ProfilePage = () => {
                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead className="bg-gray-50 dark:bg-gray-700">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order ID</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order
+                                            ID
+                                        </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
                                     </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    <tbody
+                                        className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                     {orders.map((order) => (
                                         <tr key={order.id}>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{new Date(order.date).toLocaleDateString()}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -235,13 +242,14 @@ const ProfilePage = () => {
                 return (
                     <div>
                         <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
-                            <Sparkle className="mr-2" size={24} />
+                            <Sparkle className="mr-2" size={24}/>
                             Favorite Books
                         </h2>
                         <ul className="space-y-4">
                             <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
                                 <span className="font-medium dark:text-gray-300">The Great Gatsby</span>
-                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
+                                <button
+                                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
                                     Remove
                                 </button>
                             </li>
