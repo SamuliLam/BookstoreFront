@@ -14,6 +14,10 @@ const ProfilePage = () => {
     const [orders, setOrders] = useState([]);
     const [orderLoading, setOrderLoading] = useState(false);
     const [orderError, setOrderError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [ordersPerPage] = useState(10);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredOrders, setFilteredOrders] = useState([]);
 
     useEffect(() => {
         if (!user) {
@@ -101,21 +105,36 @@ const ProfilePage = () => {
 
         const result = await getUserOrders(currentUser.token);
         if (result.success) {
-            console.log('Fetched orders:', result.orders);
-            setOrders(result.orders.map(order => {
-                console.log('Order date:', order.order_date);
-                return {
-                    id: order.order_id,
-                    date: new Date(order.orderDate).toLocaleDateString(),
-                    total: order.total,
-                    status: "SUCCESSFUL"
-                };
+            const formattedOrders = result.orders.map(order => ({
+                id: order.order_id,
+                date: new Date(order.orderDate).toLocaleDateString(),
+                total: order.total,
+                status: "SUCCESSFUL"
             }));
+            setOrders(formattedOrders);
+            setFilteredOrders(formattedOrders);
         } else {
             setOrderError(result.error);
         }
         setOrderLoading(false);
     };
+
+    useEffect(() => {
+        const results = orders.filter(order =>
+            order.id.toString().includes(searchTerm) ||
+            order.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order.total.toString().includes(searchTerm) ||
+            order.status.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredOrders(results);
+        setCurrentPage(1);
+    }, [searchTerm, orders]);
+
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const renderContent = () => {
         const currentUser = getUser();
@@ -197,44 +216,76 @@ const ProfilePage = () => {
                             <Book className="mr-2" size={24} />
                             Order History
                         </h2>
+                        <div className="mb-4">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Search orders..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                />
+                                <Book className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                            </div>
+                        </div>
                         {orderLoading ? (
                             <p className="text-gray-600 dark:text-gray-400">Loading orders...</p>
                         ) : orderError ? (
                             <p className="text-red-500">{orderError}</p>
                         ) : (
-                            <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
-                                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                    <thead className="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order
-                                            ID
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody
-                                        className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                                    {orders.map((order) => (
-                                        <tr key={order.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
-                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                                order.status === 'SUCCESSFUL' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
-                                                    order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
-                                                        'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                            }`}>
-                                                {order.status}
-                                            </span>
-                                            </td>
+                            <>
+                                <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
+                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead className="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order ID</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
                                         </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                        {currentOrders.map((order) => (
+                                            <tr key={order.id}>
+                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
+                                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                            order.status === 'SUCCESSFUL' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                                                order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
+                                                                    'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                                                        }`}>
+                                                            {order.status}
+                                                        </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="mt-4 flex justify-between items-center">
+                                    <button
+                                        onClick={() => paginate(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
+                                    >
+                                        <Book size={16} className="mr-2" />
+                                        Previous
+                                    </button>
+                                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                                        Page {currentPage} of {Math.ceil(filteredOrders.length / ordersPerPage)}
+                                    </span>
+                                    <button
+                                        onClick={() => paginate(currentPage + 1)}
+                                        disabled={indexOfLastOrder >= filteredOrders.length}
+                                        className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
+                                    >
+                                        Next
+                                        <Book size={16} className="ml-2" />
+                                    </button>
+                                </div>
+                            </>
                         )}
                     </div>
                 );
