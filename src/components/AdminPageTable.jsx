@@ -1,12 +1,20 @@
-const AdminPageTable = ({ data }) => {
+import {useState} from "react";
+import AdminTableModal from "./AdminTableModal.jsx";
+
+const AdminPageTable = ({data}) => {
     if (!data || data.length === 0) {
         return <div>No data available</div>;
     }
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
     // Data mapping identifiers for each type
-    const bookDataMapIdentifiers = { title: "Title", isbn: "ISBN" };
-    const userDataMapIdentifiers = { first_name: "First name", last_name: "Last name", email: "Email" };
-    const orderDataMapIdentifiers = { user: "User", date: "Date" };
+    const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
+    const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};
+    const orderDataMapIdentifiers = {user: "User", date: "Date"};
+
+    const modalHeaders = Object.keys(data[0]);
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
@@ -26,31 +34,48 @@ const AdminPageTable = ({ data }) => {
         tableHeaders = Object.values(orderDataMapIdentifiers);
     }
 
+    const handleEdit = (item) => {
+        setSelectedItem(item);
+        setIsModalOpen(true);
+    }
+
     return (
-        <table className="table-auto w-full">
-            <thead>
-            <tr>
-                {tableHeaders.map((header, index) => (
-                    <th key={index}>{header}</th>
-                ))}
-                <th>Edit</th>
-            </tr>
-            </thead>
-            <tbody>
-            {data.map((item, index) => (
-                <tr key={index}>
-                    {Object.keys(dataMapIdentifiers).map((key, i) => (
-                        <td key={i}>{item[key]}</td>
+        <>
+            <table className="table-auto w-full">
+                <thead>
+                <tr>
+                    {tableHeaders.map((header, index) => (
+                        <th key={index}>{header}</th>
                     ))}
-                    <td>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={}>
-                            Edit
-                        </button>
-                    </td>
+                    <th>Edit</th>
                 </tr>
-            ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {data.map((item, index) => (
+                    <tr key={index}>
+                        {Object.keys(dataMapIdentifiers).map((key, i) => (
+                            <td key={i}>{item[key]}</td>
+                        ))}
+                        <td>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={() => handleEdit(item)}>
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            {isModalOpen && (
+                <AdminTableModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    item={selectedItem}
+                    headers={modalHeaders}
+                />
+            )}
+        </>
+
     );
 }
 
