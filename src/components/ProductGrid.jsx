@@ -25,7 +25,7 @@ const ProductGrid = () => {
             ) : (
                 filteredBooks.map((book) => (
                     <div key={book.book_id} className="flex flex-col items-center">
-                        <ProductCard price={book.price} title={book.title} image={book.image_url}
+                        <ProductCard author={book.author} price={book.price} title={book.title} image={book.image_url}
                                      book={book}/>
                     </div>
                 ))
