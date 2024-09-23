@@ -101,7 +101,12 @@ const ProfilePage = () => {
 
         const result = await getUserOrders(currentUser.token);
         if (result.success) {
-            setOrders(result.orders);
+            setOrders(result.orders.map(order => ({
+                id: order.order_id,
+                date: order.order_date, // Ensure date is in YYYY-MM-DD format
+                total: order.total,
+                status: order.status
+            })));
         } else {
             setOrderError(result.error);
         }
@@ -206,17 +211,17 @@ const ProfilePage = () => {
                                     <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                     {orders.map((order) => (
                                         <tr key={order.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">#{order.id}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{new Date(order.date).toLocaleDateString()}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
                                             <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
-                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                                    order.status === 'Delivered' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
-                                                        order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
-                                                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                                }`}>
-                                                    {order.status}
-                                                </span>
+                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                order.status === 'Delivered' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                                    order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
+                                                        'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                                            }`}>
+                                                {order.status}
+                                            </span>
                                             </td>
                                         </tr>
                                     ))}
