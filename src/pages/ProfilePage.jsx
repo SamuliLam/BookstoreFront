@@ -124,7 +124,12 @@ const ProfilePage = () => {
                 id: order.order_id,
                 date: new Date(order.orderDate).toLocaleDateString(),
                 total: order.total,
-                status: "SUCCESSFUL"
+                status: "SUCCESSFUL",
+                orderItems: order.orderItems.map(item => ({
+                    book: item.book,
+                    quantity: item.quantity,
+                    price: item.price
+                }))
             }));
             setOrders(formattedOrders);
             setFilteredOrders(formattedOrders);
@@ -150,6 +155,28 @@ const ProfilePage = () => {
     const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const renderOrderDetails = (order) => {
+        if (!order.orderItems) return null;
+
+        return (
+            <div className="mt-4 bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
+                <h4 className="text-lg font-semibold mb-2 dark:text-gray-200">Order Items:</h4>
+                <ul className="space-y-2">
+                    {order.orderItems.map((item, index) => (
+                        <li key={index} className="flex justify-between items-center">
+                        <span className="dark:text-gray-300">
+                            {item.book.title} - Quantity: {item.quantity}
+                        </span>
+                            <span className="font-semibold dark:text-gray-200">
+                            ${(item.price * item.quantity).toFixed(2)}
+                        </span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+    };
 
     const renderContent = () => {
         const currentUser = getUser();
@@ -253,20 +280,24 @@ const ProfilePage = () => {
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead className="bg-gray-50 dark:bg-gray-700">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order ID</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order
+                                                ID
+                                            </th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Status</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Books</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Details</th>
                                         </tr>
                                         </thead>
-                                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                        <tbody
+                                            className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                         {currentOrders.map((order) => (
-                                            <tr key={order.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
+                                            <React.Fragment key={order.id}>
+                                                <tr>
+                                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.id}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">{order.date}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">${order.total.toFixed(2)}</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
                                                         <span
                                                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                                                 order.status === 'SUCCESSFUL' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
@@ -275,20 +306,34 @@ const ProfilePage = () => {
                                                             }`}>
                                                             {order.status}
                                                         </span>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
-                                                    <button
-                                                        onClick={() => toggleOrderDetails(order.id)}
-                                                        className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300"
-                                                    >
-                                                        {expandedOrderId === order.id ? (
-                                                            <MinusIcon className="mr-2" size={16} />
-                                                        ) : (
-                                                            <PlusIcon className="mr-2" size={16} />
-                                                        )}
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap dark:text-gray-300">
+                                                        <button
+                                                            onClick={() => toggleOrderDetails(order.id)}
+                                                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300 flex items-center"
+                                                        >
+                                                            {expandedOrderId === order.id ? (
+                                                                <>
+                                                                    <MinusIcon className="mr-1" size={16}/>
+                                                                    Hide Details
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <PlusIcon className="mr-1" size={16}/>
+                                                                    Show Details
+                                                                </>
+                                                            )}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                {expandedOrderId === order.id && (
+                                                    <tr>
+                                                        <td colSpan="5" className="px-6 py-4 dark:bg-gray-700">
+                                                            {renderOrderDetails(order)}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </React.Fragment>
                                         ))}
                                         </tbody>
                                     </table>
@@ -299,7 +344,7 @@ const ProfilePage = () => {
                                         disabled={currentPage === 1}
                                         className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                     >
-                                        <Book size={16} className="mr-2" />
+                                        <Book size={16} className="mr-2"/>
                                         Previous
                                     </button>
                                     <span className="text-sm text-gray-700 dark:text-gray-300">
@@ -311,7 +356,7 @@ const ProfilePage = () => {
                                         className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                     >
                                         Next
-                                        <Book size={16} className="ml-2" />
+                                        <Book size={16} className="ml-2"/>
                                     </button>
                                 </div>
                             </>
@@ -335,7 +380,8 @@ const ProfilePage = () => {
                             </li>
                             <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
                                 <span className="font-medium dark:text-gray-300">To Kill a Mockingbird</span>
-                                <button className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
+                                <button
+                                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
                                     Remove
                                 </button>
                             </li>
@@ -346,14 +392,16 @@ const ProfilePage = () => {
                 return (
                     <div className="text-center">
                         <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Welcome to Your Profile</h2>
-                        <p className="text-gray-600 dark:text-gray-400">Select an option from the sidebar to get started.</p>
+                        <p className="text-gray-600 dark:text-gray-400">Select an option from the sidebar to get
+                            started.</p>
                     </div>
                 );
         }
     };
 
     if (!user) {
-        return <div className="flex items-center justify-center h-screen dark:bg-gray-900 dark:text-gray-300">Loading...</div>;
+        return <div
+            className="flex items-center justify-center h-screen dark:bg-gray-900 dark:text-gray-300">Loading...</div>;
     }
 
 
