@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Settings, Book, Mail, Edit3, Sparkle, CheckCircle, XCircle } from 'lucide-react';
+import { User, Settings, Book, Edit3, Sparkle, CheckCircle, XCircle } from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { changeUserPassword, updateUserProfile, getUserOrders } from '../utils/userApiUtils';
