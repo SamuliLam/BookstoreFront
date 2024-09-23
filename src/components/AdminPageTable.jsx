@@ -1,35 +1,29 @@
-const AdminPageTable = ({data}) => {
-
+const AdminPageTable = ({ data }) => {
     if (!data || data.length === 0) {
         return <div>No data available</div>;
     }
 
-    const bookDataTableHeaderIdentifiers = ["Title", "ISBN", "Edit"];
-    const userDataTableHeaderIdentifiers = ["First name", "Last name", "Email", "Edit"];
-    const orderDataTableHeaderIdentifiers = ["User", "Date", "Edit"];
-    const authorDataTableHeaderIdentifiers = ["First name", "Last name", "Edit"];
+    // Data mapping identifiers for each type
+    const bookDataMapIdentifiers = { title: "Title", isbn: "ISBN" };
+    const userDataMapIdentifiers = { first_name: "First name", last_name: "Last name", email: "Email" };
+    const orderDataMapIdentifiers = { user: "User", date: "Date" };
 
-
-    const bookDataTableRowIdentifiers = ["ID", "Title", "ISBN", "Genre", "Type", "Publication year", "Price", "Book condition", "Reserved", "Inventory", "Publisher", "Image URL"]
-    const userDataTableRowIdentifiers = ["ID", "First name", "Last name", "Street number", "Street name", "Phone", "Postal code", "Province", "Password", "Role", "Email"];
-    const orderDataTableRowIdentifiers = ["ID", "Date", "Total", "User"];
-    const authorDataTableRowIdentifiers = ["ID", "First name", "Last name"]
-
+    let dataMapIdentifiers = {};
     let tableHeaders = [];
-    let tableRowIdentifiers = [];
 
+    // Check the type of data and set the map and headers accordingly
     if (data[0].isbn) {
-        tableHeaders = bookDataTableHeaderIdentifiers;
-        tableRowIdentifiers = bookDataTableRowIdentifiers;
-    } else if (data[0].phone) {
-        tableHeaders = userDataTableHeaderIdentifiers;
-        tableRowIdentifiers = userDataTableRowIdentifiers;
-    } else if (data[0].total) {
-        tableHeaders = orderDataTableHeaderIdentifiers;
-        tableRowIdentifiers = orderDataTableRowIdentifiers;
-    } else if (data[0].last_name) {
-        tableHeaders = authorDataTableHeaderIdentifiers;
-        tableRowIdentifiers = authorDataTableRowIdentifiers;
+        // if book data
+        dataMapIdentifiers = bookDataMapIdentifiers;
+        tableHeaders = Object.values(bookDataMapIdentifiers);
+    } else if (data[0].email) {
+        // if user data
+        dataMapIdentifiers = userDataMapIdentifiers;
+        tableHeaders = Object.values(userDataMapIdentifiers);
+    } else if (data[0].date) {
+        // if order data
+        dataMapIdentifiers = orderDataMapIdentifiers;
+        tableHeaders = Object.values(orderDataMapIdentifiers);
     }
 
     return (
@@ -39,16 +33,19 @@ const AdminPageTable = ({data}) => {
                 {tableHeaders.map((header, index) => (
                     <th key={index}>{header}</th>
                 ))}
+                <th>Edit</th>
             </tr>
             </thead>
             <tbody>
             {data.map((item, index) => (
                 <tr key={index}>
-                    {tableRowIdentifiers.map((identifier, i) => (
-                        <td key={i}>{item[identifier]}</td>
+                    {Object.keys(dataMapIdentifiers).map((key, i) => (
+                        <td key={i}>{item[key]}</td>
                     ))}
                     <td>
-                        <button>Edit</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={}>
+                            Edit
+                        </button>
                     </td>
                 </tr>
             ))}
