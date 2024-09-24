@@ -40,9 +40,9 @@ const ProductCard = ({ title, author, price, image, book }) => {
     };
 
     return (
-        <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
+        <div className="productcard overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
             <div
-                className="flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark transition-transform duration-300 ease-in-out hover:shadow-xl transform-style: preserve-3d"
+                className="productcard-inner flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark transition-transform duration-300 ease-in-out hover:shadow-xl transform-style: preserve-3d"
                 style={{ transform: transformStyle }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -57,7 +57,7 @@ const ProductCard = ({ title, author, price, image, book }) => {
                     </div>
                 )}
             </div>
-            <div className="flex flex-col items-center gap-3">
+            <div className="productcard-detail flex flex-col items-center gap-3">
                 <h4 className="mt-2 text-lg font-bold text-center">{title}</h4>
                 <p className="text-center text-gray-400 dark:text-white">{author}</p>
                 <p className="text-center text-gray-600 dark:text-white">{price}€</p>

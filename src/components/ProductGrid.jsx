@@ -19,12 +19,12 @@ const ProductGrid = () => {
 
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-20 p-4">
+        <div className="productgrid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-20 p-4">
             {filteredBooks.length === 0 ? (
                 <p>No books found</p>
             ) : (
                 filteredBooks.map((book) => (
-                    <div key={book.book_id} className="flex flex-col items-center">
+                    <div key={book.book_id} className="productdetails flex flex-col items-center">
                         <ProductCard author={book.author} price={book.price} title={book.title} image={book.image_url}
                                      book={book}/>
                     </div>

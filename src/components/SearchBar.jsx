@@ -32,7 +32,7 @@ const SearchBar = () => {
     }
 
     return (
-        <div className="flex justify-center p-4">
+        <div className="searchbar flex justify-center p-4">
             <input
                 type="text"
                 className="border rounded-lg w-full max-w-lg p-2"

@@ -31,11 +31,11 @@ const FilterPanel = () => {
             </button>
             <h3 className="font-bold mb-2">Keywords</h3>
             <h4 className="font-semibold mt-4 mb-2">Genre</h4>
-            <div className="my-4 flex flex-wrap">
+            <div className="genrechoice my-4 flex flex-wrap">
                 {genres.map((genre) => (
                     <button
                         key={genre}
-                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-gray-200 text-black'}`}
+                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-gray-200 text-black dark:text-white'}`}
                         onClick={() => handleGenreClick(genre)}
                     >
                         {genre}

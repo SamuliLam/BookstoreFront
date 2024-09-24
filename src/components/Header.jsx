@@ -15,10 +15,10 @@ const Header = () => {
     console.log('Current user state:', user);
 
     return (
-        <header className="header flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white">
+        <header className="flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white">
             <Link to="/" className="text-2xl font-bold dark:text-white">Ink & Quill</Link>
                 <SearchBar/>
-            <div className="flex space-x-4 items-center">
+            <div className="navbar-links flex space-x-4 items-center">
                 <Link to="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-white">
                     Home
                 </Link>
