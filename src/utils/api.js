@@ -157,6 +157,7 @@ export const fetchInventoryResult = async (bookId) => {
 }
 
 export const addOrder = async (orderData, token) => {
+    console.log("orderData", orderData);
     try {
         const response = await axios.post("http://localhost:8080/orders/addOrder", orderData, {
             headers: {
