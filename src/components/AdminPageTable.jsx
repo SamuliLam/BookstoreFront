@@ -2,9 +2,6 @@ import {useState} from "react";
 import AdminTableModal from "./AdminTableModal.jsx";
 
 const AdminPageTable = ({data}) => {
-    if (!data || data.length === 0) {
-        return <div>No data available</div>;
-    }
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -14,25 +11,38 @@ const AdminPageTable = ({data}) => {
     const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};
     const orderDataMapIdentifiers = {user: "User", date: "Date"};
 
-    const modalHeaders = Object.keys(data[0]);
+    // Check if data is not null or undefined
+
+
+
+
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
+    let modalHeaders = [];
 
     // Check the type of data and set the map and headers accordingly
-    if (data[0].isbn) {
-        // if book data
-        dataMapIdentifiers = bookDataMapIdentifiers;
-        tableHeaders = Object.values(bookDataMapIdentifiers);
-    } else if (data[0].email) {
-        // if user data
-        dataMapIdentifiers = userDataMapIdentifiers;
-        tableHeaders = Object.values(userDataMapIdentifiers);
-    } else if (data[0].date) {
-        // if order data
-        dataMapIdentifiers = orderDataMapIdentifiers;
-        tableHeaders = Object.values(orderDataMapIdentifiers);
+    if (data && data.length > 0) {
+
+        if (data[0].isbn) {
+            // if book data
+            dataMapIdentifiers = bookDataMapIdentifiers;
+            tableHeaders = Object.values(bookDataMapIdentifiers);
+            modalHeaders = Object.keys(bookDataMapIdentifiers);
+
+        } else if (data[0].email) {
+            // if user data
+            dataMapIdentifiers = userDataMapIdentifiers;
+            tableHeaders = Object.values(userDataMapIdentifiers);
+            modalHeaders = Object.keys(userDataMapIdentifiers);
+        } else if (data[0].date) {
+            // if order data
+            dataMapIdentifiers = orderDataMapIdentifiers;
+            tableHeaders = Object.values(orderDataMapIdentifiers);
+            modalHeaders = Object.keys(orderDataMapIdentifiers);
+        }
     }
+
 
     const handleEdit = (item) => {
         setSelectedItem(item);
@@ -41,7 +51,7 @@ const AdminPageTable = ({data}) => {
 
     return (
         <>
-            <table className="table-auto w-full">
+            <table className="w-3/4">
                 <thead>
                 <tr>
                     {tableHeaders.map((header, index) => (
@@ -51,10 +61,10 @@ const AdminPageTable = ({data}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((item, index) => (
-                    <tr key={index}>
-                        {Object.keys(dataMapIdentifiers).map((key, i) => (
-                            <td key={i}>{item[key]}</td>
+                {data.map((item) => (
+                    <tr key={item.book_id || item.user_id || item.order_id}>
+                        {Object.keys(dataMapIdentifiers).map((key) => (
+                            <td key={key}>{item[key]}</td>
                         ))}
                         <td>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

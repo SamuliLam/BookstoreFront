@@ -5,47 +5,55 @@ import {useEffect, useState} from "react";
 
 
 const AdminPage = () => {
-
+    console.log("AdminPage");
 
     const [bookData, setBookData] = useState([]);
     const [userData, setUserData] = useState([]);
     const [orderData, setOrderData] = useState([]);
     const [tableData, setTableData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
-            const bookData = await fetchBooks();
-            setBookData(bookData);
-            // set default data to books
-            setTableData(bookData);
+            try {
+                const books = await fetchBooks();
+                const users = await fetchUsers();
+                const orders = await fetchOrders();
 
-            const userData = await fetchUsers();
-            setUserData(userData);
+                setBookData(books);
+                setUserData(users);
+                setOrderData(orders);
+                setTableData(books);
+                setIsLoading(false);
 
-            const orderData = await fetchOrders();
-            setOrderData(orderData);
-
-
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                setIsLoading(false);
+            }
         };
 
         fetchData();
     }, []);
 
+    const handleTableDataChange = (data) => {
+        console.log("changing data to: ", data);
+        setTableData(data);
+    }
 
-    const showBooks = () => {setTableData(bookData)};
-    const showUsers = () => {setTableData(userData)};
-    const showOrders = () => {setTableData(orderData)};
+    if (isLoading) {
+        return <div className={"m-auto"}>Loading...</div>;
+    }
+
 
 
   return (
-      <div className={"main-content-container flex w-full max-h"}>
-            <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between max-">
-                <AdminPanelButton label="Books" onClick={showBooks} />
-                <AdminPanelButton label="Users" onClick={showUsers}/>
-                <AdminPanelButton label="Orders" onClick={showOrders}/>
+      <div className={"main-content-container flex grow"}>
+            <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between">
+                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(bookData)} />
+                <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(userData)}/>
+                <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(orderData)}/>
             </aside>
-            <div className="table-container grow w-full text-center overflow-y-scroll h-4/5">
-                - Table goes here -
+            <div className="table-container grow text-center overflow-y-scroll flex justify-center">
                 <AdminPageTable data={tableData}/>
             </div>
       </div>

@@ -7,8 +7,9 @@ html, body {
     margin: 0;
 }
 
-#root {
-    height: 100%;
+:root {
+    --header-height: 5rem;
+    --footer-height: 2rem;
     display: flex;
     flex-direction: column;
 }
@@ -17,4 +18,21 @@ h1 {
     font-size: 2rem;
     font-weight: 500;
     margin-bottom: 1rem;
+}
+
+
+.header {
+    height: var(--header-height);
+}
+
+.footer {
+    height: var(--footer-height);
+}
+
+.root-container {
+    margin-top: var(--header-height);
+}
+
+.main-content-container {
+    height: calc(100vh - var(--header-height) - var(--footer-height));
 }
