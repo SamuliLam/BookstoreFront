@@ -1,8 +1,8 @@
-// InventoryFields component for rendering inventory details
+// InventoryFieldsContainer component for rendering inventory details
 import {InputField} from "./InputField.jsx";
 import React from "react";
 
-export const InventoryFields = ({inventory, onChange}) => (
+export const InventoryFieldsContainer = ({inventory, onChange}) => (
     <div className="flex flex-col">
         <label className="font-bold">Inventory</label>
         {Object.keys(inventory).map((inventoryKey, index) => (

@@ -1,8 +1,8 @@
-// ProductFields component for rendering products array
+// ProductFieldsContainer component for rendering products array
 import {InputField} from "./InputField.jsx";
 import React from "react";
 
-export const ProductFields = ({products, onChange}) => (
+export const ProductFieldsContainer = ({products, onChange}) => (
     <div className="flex flex-col">
         {products.map((product, productIndex) => (
             <div key={productIndex} className="flex flex-col ml-4 border p-2 rounded">

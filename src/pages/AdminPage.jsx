@@ -63,8 +63,10 @@ const AdminPage = () => {
                 <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
                 <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
             </aside>
-            <div className="table-container grow text-center overflow-y-scroll flex justify-center">
-                <AdminPageTable data={dataState.tableData}/>
+            <div className="table-content-container flex flex-grow">
+                <div className="table-container w-3/4 overflow-y-scroll p-0">
+                    <AdminPageTable data={dataState.tableData}/>
+                </div>
             </div>
       </div>
   )

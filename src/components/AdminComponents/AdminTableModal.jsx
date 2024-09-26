@@ -1,9 +1,9 @@
 // InputField component for rendering single input fields
 import React from "react";
-import Modal from "../Modal.jsx";
+import Modal from "./Modal.jsx";
 import {InputField} from "./InputField.jsx";
-import {ProductFields} from "./ProductFields.jsx";
-import {InventoryFields} from "./InventoryFields.jsx";
+import {ProductFieldsContainer} from "./ProductFieldsContainer.jsx";
+import {InventoryFieldsContainer} from "./InventoryFieldsContainer.jsx";
 
 const AdminTableModal = ({open, onClose, item, headers}) => {
     const [formData, setFormData] = React.useState(item || {});
@@ -44,14 +44,14 @@ const AdminTableModal = ({open, onClose, item, headers}) => {
                             return (
                                 <div key={index} className="flex flex-col">
                                     <label className="font-bold">{key}</label>
-                                    <ProductFields products={formData[key]} onChange={handleInputChange}/>
+                                    <ProductFieldsContainer products={formData[key]} onChange={handleInputChange}/>
                                 </div>
                             );
                         }
 
                         if (key === "Inventory") {
                             return (
-                                <InventoryFields inventory={formData[key]} onChange={handleInputChange} key={index}/>
+                                <InventoryFieldsContainer inventory={formData[key]} onChange={handleInputChange} key={index}/>
                             );
                         }
 

@@ -91,13 +91,13 @@ const AdminPageTable = ({data}) => {
 
     return (
         <>
-            <table className="w-3/4">
+            <table className="w-3/4 text-center">
                 <thead>
                 <tr>
                     {tableHeaders.map((header, index) => (
-                        <th key={index}>{header}</th>
+                        <th className={"p-5"} key={index}>{header}</th>
                     ))}
-                    <th>Edit</th>
+                    <th className={"p-5"}>Edit</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,16 +105,16 @@ const AdminPageTable = ({data}) => {
                     <tr key={index}>
                         {Object.keys(dataMapIdentifiers).map((key, i) => {
                             if (key === 'email' && item.user) {
-                                return <td key={i}>{item.user.email}</td>;
+                                return <td className={"p-5"} key={i}>{item.user.email}</td>;
                             }
 
                             if (key === 'orderDate') {
-                                return <td key={i}>{item.orderDate}</td>;
+                                return <td className={"p-5"} key={i}>{item.orderDate}</td>;
                             }
 
-                            return <td key={i}>{item[key]}</td>;
+                            return <td className={"p-5"} key={i}>{item[key]}</td>;
                         })}
-                        <td>
+                        <td className={"p-5"}>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => handleEdit(item)}>
                                 Edit

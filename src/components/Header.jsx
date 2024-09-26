@@ -15,7 +15,7 @@ const Header = () => {
     console.log('Current user state:', user);
 
     return (
-        <header className="header flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white fixed w-full top-0">
+        <header className="header flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white fixed w-full top-0 z-10">
             <Link to="/" className="text-2xl font-bold dark:text-white">Ink & Quill</Link>
                 <SearchBar/>
             <div className="flex space-x-4 items-center">
