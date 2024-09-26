@@ -1,4 +1,5 @@
 import {useState} from "react";
+
 import AdminTableModal from "./AdminTableModal.jsx";
 
 const AdminPageTable = ({data}) => {

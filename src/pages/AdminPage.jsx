@@ -1,5 +1,5 @@
-import AdminPanelButton from "../components/AdminPanelButton.jsx";
-import AdminPageTable from "../components/AdminPageTable.jsx";
+import AdminPanelButton from "../components/AdminComponents/AdminPanelButton.jsx";
+import AdminPageTable from "../components/AdminComponents/AdminPageTable.jsx";
 import { fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
 import {useEffect, useState} from "react";
 
