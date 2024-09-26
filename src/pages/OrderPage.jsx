@@ -125,17 +125,19 @@ const OrderPage = () => {
                     {cart.length > 0 ? cart.map((book) => (
                         <div key={book.book_id} className="flex justify-between mb-4">
                             <div className="relative flex space-x-4">
-                                <img src={book.image_url} alt={book.title}
-                                     className="w-15 h-20 object-cover rounded-md"/>
+                                <div className="w-14 h-20">
+                                    <img src={book.image_url} alt={book.title} className="w-full h-full object-cover"/>
+                                </div>
                                 <div
                                     className="absolute bottom-16 left-6 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
                                     {book.quantity}
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-semibold">{book.title}</h3>
+                                    <h3 className="text-base font-semibold">{book.title}</h3>
+                                    <p className="text-sm font-light italic">{book.type}</p>
                                 </div>
                             </div>
-                            <p className="text-sm font-light mr-3 mt-1">{book.price}€</p>
+                            <p className="text-base font-light mr-3 mt-1">{book.price}€</p>
                         </div>
                     )) : <p className="text-lg font-semibold">No items in cart</p>}
                 </div>
