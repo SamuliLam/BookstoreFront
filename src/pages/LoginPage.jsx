@@ -18,13 +18,17 @@ const LoginPage = () => {
         setError('');
         try {
             const { success, user, error: loginError } = await logIn({ email, password });
-            console.log('Login response:', { success, user, loginError });
             if (success && user) {
                 login(user);
-                console.log('User set after login:', user);
                 setSuccessMessage('Login successful!');
                 setTimeout(() => {
-                    navigate("/");
+                    const intendedDestination = sessionStorage.getItem("intendedDestination");
+                    if (intendedDestination) {
+                        navigate(intendedDestination);
+                        sessionStorage.removeItem("intendedDestination");
+                    } else {
+                        navigate('/');
+                    }
                 }, 1000);
             } else {
                 setError(loginError || 'Login failed. Please check your credentials.');

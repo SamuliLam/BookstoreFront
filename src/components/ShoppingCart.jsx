@@ -24,8 +24,13 @@ const ShoppingCart = () => {
 
     const proceedToCheckout = () => {
         handleToggle();
-        user ? navigate('/order') : navigate('/login');
-    }
+        if (user) {
+            navigate('/order');
+        } else {
+            sessionStorage.setItem("intendedDestination", "/order");
+            navigate('/login');
+        }
+    };
 
     return (
         <div>
