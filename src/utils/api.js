@@ -74,6 +74,17 @@ export const fetchBooks = async () => {
     }
 }
 
+export const updateBooks = async (bookData, token, book_id) => {
+    try {
+        const response = await axios.post(`http://localhost:8080/books/${book_id}`, bookData, {
+            headers: {}
+        });
+    }catch (error) {
+        console.error("Error updating books:", error);
+
+    }
+}
+
 export const fetchUsers = async () => {
     try {
         const token = sessionStorage.getItem('token' );
@@ -107,23 +118,6 @@ export const fetchOrders = async () => {
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);
-    }
-}
-
-export const fetchAuthors = async () => {
-    try {
-        const token = sessionStorage.getItem('token' );
-        const response = await axios.get("http://localhost:8080/authors", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (response.status !== 200) {
-            throw new Error("Error fetching authors " + response.status);
-        }
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching authors:", error);
     }
 }
 
@@ -229,3 +223,5 @@ export const updateInventory = async (bookId, quantity, token) => {
         return { success: false };
     }
 };
+
+
