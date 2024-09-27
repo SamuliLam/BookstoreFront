@@ -3,6 +3,7 @@ import { useUserContext } from '../context/UserContext';
 import { logIn } from '../utils/api';
 import bookImage from '../assets/readbook.png';
 import { useNavigate } from "react-router-dom";
+import jenkinsAudio from '../assets/jenkins.m4a';
 
 const LoginPage = () => {
     const { login } = useUserContext();
@@ -21,6 +22,10 @@ const LoginPage = () => {
             if (success && user) {
                 login(user);
                 setSuccessMessage('Login successful!');
+
+                const audio = document.getElementById("jenkins");
+                audio.play();
+
                 setTimeout(() => {
                     const intendedDestination = sessionStorage.getItem("intendedDestination");
                     if (intendedDestination) {
@@ -29,7 +34,7 @@ const LoginPage = () => {
                     } else {
                         navigate('/');
                     }
-                }, 1000);
+                }, 2000);
             } else {
                 setError(loginError || 'Login failed. Please check your credentials.');
             }
@@ -47,7 +52,8 @@ const LoginPage = () => {
                     className="w-[100vw] h-[100vh]"
                 />
             </div>
-            <div className="w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
+            <div
+                className="w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
                 <form onSubmit={handleSubmit} className="w-1/2">
                     <h2 className="text-2xl font-light mb-6 text-center">Sign In</h2>
                     <div className="mb-4">
@@ -65,7 +71,8 @@ const LoginPage = () => {
                         />
                     </div>
                     <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                               htmlFor="password">
                             Password
                         </label>
                         <input
@@ -96,10 +103,14 @@ const LoginPage = () => {
                     </button>
                     <div className="text-center mt-6">
                         <p className="text-gray-600 text-sm dark:text-white">OR</p>
-                        <a href="/signup" className="text-blue-500 hover:text-blue-800 font-bold dark:text-blue-400 dark:hover:text-blue-800">Sign up</a>
+                        <a href="/signup"
+                           className="text-blue-500 hover:text-blue-800 font-bold dark:text-blue-400 dark:hover:text-blue-800">Sign
+                            up</a>
                     </div>
                 </form>
             </div>
+            <audio id="jenkins" src={jenkinsAudio} preload="auto"/>
+
         </div>
     );
 };
