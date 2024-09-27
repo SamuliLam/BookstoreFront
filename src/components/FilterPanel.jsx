@@ -35,7 +35,7 @@ const FilterPanel = () => {
                 {genres.map((genre) => (
                     <button
                         key={genre}
-                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-gray-200 text-black dark:text-white'}`}
+                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-blue-950 text-black dark:text-white'}`}
                         onClick={() => handleGenreClick(genre)}
                     >
                         {genre}
