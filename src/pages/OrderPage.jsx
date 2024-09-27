@@ -57,7 +57,7 @@ const OrderPage = () => {
                 console.log(`Updating inventory for book ID: ${book.book_id} with quantity: ${book.quantity}`);
                 console.log("book quantity: ", book.quantity);
                 console.log("book id: ", book.book_id);
-                let response = await updateInventory(book.book_id, book.quantity, user.token);
+                let response = await updateInventory(book.book_id, book.quantity, user.token, book.book_condition);
                 console.log("response: ", response);
                 return response;
             }));

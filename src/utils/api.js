@@ -177,7 +177,7 @@ export const addOrder = async (orderData, token) => {
     }
 };
 
-export const updateInventory = async (bookId, quantity, token) => {
+export const updateInventory = async (bookId, quantity, token, book) => {
     try {
         console.log("Attempting to update inventory for book ID:", bookId);
         console.log("Updating with quantity:", quantity);
@@ -187,20 +187,31 @@ export const updateInventory = async (bookId, quantity, token) => {
 
 
         const currentInventoryResponse = await fetchInventoryResult(bookId);
-        const currentStockLevel = currentInventoryResponse?.stock_level_used;
+        const currentUsedStockLevel = currentInventoryResponse?.stock_level_used;
+        const currentNewStockLevel = currentInventoryResponse?.stock_level_new;
 
-        console.log("Current stock level:", currentStockLevel);
-
-        if (currentStockLevel < quantity) {
+        console.log("Current used stock level:", currentUsedStockLevel);
+        console.log("Current new stock level:", currentNewStockLevel);
+        if (currentUsedStockLevel < quantity || currentNewStockLevel < quantity) {
             console.error("Not enough stock available");
             return { success: false };
         }
 
-        const stockLevelNew = currentStockLevel - quantity;
+        let stockLevelNew;
+        if (book==="New") {
+            console.log(book)
+            stockLevelNew = currentNewStockLevel - quantity;
+        }
+        else if (book==="Used") {
+            console.log(book)
+            stockLevelNew = currentUsedStockLevel - quantity;
+        }
 
         const updateData = {
-            stock_level_new: stockLevelNew,
+            stock_level_new: book === "New" ? stockLevelNew : currentNewStockLevel,
+            stock_level_used: book === "Used" ? stockLevelNew : currentUsedStockLevel,
         };
+
 
         console.log("Update Data:", updateData);
         console.log(token);
