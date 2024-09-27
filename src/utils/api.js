@@ -199,10 +199,7 @@ export const updateInventory = async (bookId, quantity, token) => {
         const stockLevelNew = currentStockLevel - quantity;
 
         const updateData = {
-            inventory_id: inventoryId,
-            stock_level_used: stockLevelNew,
-            stock_level_new: currentInventoryResponse?.stock_level_new,
-            reserved_stock: currentInventoryResponse?.reserved_stock,
+            stock_level_new: stockLevelNew,
         };
 
         console.log("Update Data:", updateData);
@@ -210,18 +207,17 @@ export const updateInventory = async (bookId, quantity, token) => {
 
         const response = await axios.post(`http://localhost:8080/inventory/${inventoryId}`, updateData, {
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
 
         });
-
 
         if (response.status === 200) {
             console.log("Inventory updated successfully:", response.data);
             return response.data;
         } else {
-            console.error("Failed to update inventory:", response.data);
+            console.error("Failed to update inventory:", response.data, response.status);
             return { success: false };
         }
     } catch (error) {
