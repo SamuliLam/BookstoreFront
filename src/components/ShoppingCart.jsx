@@ -53,7 +53,7 @@ const ShoppingCart = () => {
                     <FaTimes />
                 </span>
                 <div>
-                    <h2 className="text-lg font-light p-4">Shopping Cart</h2>
+                    <h2 className="text-lg font-bold p-3">Shopping Cart</h2>
                     <div ref={overlayRef} className="flex-1 overflow-y-auto max-h-[75vh]">
                         {cart.length === 0 ? (
                             <p className="text-base font-light p-4">No items in the cart</p>
@@ -71,8 +71,8 @@ const ShoppingCart = () => {
                             <div>
                                 <div className="flex justify-between p-4">
                                     <div className="flex">
-                                        <p className="text-sm font-light">Total:</p>
-                                        <p className="text-sm font-light">
+                                        <p className="text-sm font-bold">Total: </p>
+                                        <p className="text-sm font-bold">
                                             {cart.reduce((acc, item) => acc + item.price * item.quantity, 0)}€
                                         </p>
                                     </div>
