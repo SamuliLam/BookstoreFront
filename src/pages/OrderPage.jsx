@@ -29,6 +29,7 @@ const OrderPage = () => {
         const updatedFormData = {
             ...formData, postal_code: parseInt(formData.postal_code, 10),
         };
+
         const orderData = {
             user_id: user.user_id, orderItems: cart.map((book) => ({
                 book_id: book.book_id, quantity: book.quantity, price: book.price,
@@ -52,28 +53,19 @@ const OrderPage = () => {
     useEffect(() => {
         if (orderSuccess) {
             console.log("Order was successful, updating inventory...");
-            const updateInventoryPromises = cart.map((book) => {
+            const updateInventoryPromises = (cart.map(async (book) => {
                 console.log(`Updating inventory for book ID: ${book.book_id} with quantity: ${book.quantity}`);
-                return updateInventory(book.book_id, book.quantity, user.token);
-            });
-
-            Promise.all(updateInventoryPromises)
-                .then((responses) => {
-                    responses.forEach((res, index) => {
-                        if (!res.success) {
-                            console.error(`Failed to update inventory for book ID: ${cart[index].book_id}`, res);
-                        }
-                    });
-                    const allSuccessful = responses.every((res) => res.success);
-                    if (allSuccessful) {
-                        console.log("Inventory updated successfully.");
-                    } else {
-                        console.error("Some inventory updates failed.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error updating inventory:", error);
+                console.log("book quantity: ", book.quantity);
+                console.log("book id: ", book.book_id);
+                let response = await updateInventory(book.book_id, book.quantity, user.token);
+                console.log("response: ", response);
+                return response;
+            }));
+            updateInventoryPromises.forEach((promise) => {
+                promise.then((response) => {
+                    console.log("Inventory update response: ", response);
                 });
+            });
         }
     }, [orderSuccess, cart, user.token]);
 
