@@ -208,7 +208,7 @@ export const updateInventory = async (bookId, quantity, token) => {
         console.log("Update Data:", updateData);
         console.log(token);
 
-        const response = await axios.put(`http://localhost:8080/inventory/${inventoryId}`, updateData, {
+        const response = await axios.post(`http://localhost:8080/inventory/${inventoryId}`, updateData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
