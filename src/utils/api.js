@@ -157,6 +157,7 @@ export const fetchInventoryResult = async (bookId) => {
 }
 
 export const addOrder = async (orderData, token) => {
+    console.log("orderData", orderData);
     try {
         const response = await axios.post("http://localhost:8080/orders/addOrder", orderData, {
             headers: {
@@ -173,5 +174,58 @@ export const addOrder = async (orderData, token) => {
     } catch (error) {
         console.error("Error adding order:", error);
         return { success: false, error: error.message };
+    }
+};
+
+export const updateInventory = async (bookId, quantity, token) => {
+    try {
+        console.log("Attempting to update inventory for book ID:", bookId);
+        console.log("Updating with quantity:", quantity);
+
+        const inventoryId = bookId - 100;
+        console.log("Calculated Inventory ID:", inventoryId);
+
+
+        const currentInventoryResponse = await fetchInventoryResult(bookId);
+        const currentStockLevel = currentInventoryResponse?.stock_level_used;
+
+        console.log("Current stock level:", currentStockLevel);
+
+        if (currentStockLevel < quantity) {
+            console.error("Not enough stock available");
+            return { success: false };
+        }
+
+        const stockLevelNew = currentStockLevel - quantity;
+
+        const updateData = {
+            stock_level_new: stockLevelNew,
+        };
+
+        console.log("Update Data:", updateData);
+        console.log(token);
+
+        const response = await axios.post(`http://localhost:8080/inventory/${inventoryId}`, updateData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+
+        });
+
+        if (response.status === 200) {
+            console.log("Inventory updated successfully:", response.data);
+            return response.data;
+        } else {
+            console.error("Failed to update inventory:", response.data, response.status);
+            return { success: false };
+        }
+    } catch (error) {
+        if (error.response) {
+            console.error("Error updating inventory:", error.response.data);
+        } else {
+            console.error("Error updating inventory:", error.message);
+        }
+        return { success: false };
     }
 };

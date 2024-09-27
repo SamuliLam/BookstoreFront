@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { useUserContext } from '../context/UserContext';
 import SearchBar from "./SearchBar.jsx";
 import LoginButton from './LoginButton';
@@ -11,40 +11,88 @@ import ShoppingCart from "./ShoppingCart.jsx";
 
 const Header = () => {
     const { user } = useUserContext();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    console.log('Current user state:', user);
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
-        <header className="header flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 dark:shadow-white fixed w-full top-0 z-10">
-            <Link to="/" className="text-2xl font-bold dark:text-white">Ink & Quill</Link>
-                <SearchBar/>
-            <div className="flex space-x-4 items-center">
-                <Link to="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-white">
-                    Home
-                </Link>
-                {user ? (
-                    <>
-                        <LogoutButton/>
-                        <span className="text-sm text-gray-700 dark:text-white">
-                            Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
-                        </span>
-                    </>
-                ) : (
-                    <>
-                        <LoginButton/>
-                        <SignupButton/>
-                    </>
-                )}
-                <button className="text-blue-500 text-3xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
-                        <ShoppingCart/>
-                </button>
-                <Link to="/profile">
-                    <button className="text-blue-500 text-3xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
-                        <FaUser/>
-                    </button>
-                </Link>
-                <ThemeToggle />
+        <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-white fixed w-full top-0 z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <div className="flex items-center">
+                        <Link to="/" className="text-2xl font-bold dark:text-white">Ink & Quill</Link>
+                    </div>
+                    <div className="hidden md:block">
+                        <SearchBar />
+                    </div>
+                    <div className="hidden md:flex items-center space-x-4">
+                        <Link to="/" className="text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-white">
+                            Home
+                        </Link>
+                        {user ? (
+                            <>
+                                <LogoutButton />
+                                <span className="text-sm text-gray-700 dark:text-white">
+                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <LoginButton />
+                                <SignupButton />
+                            </>
+                        )}
+                        <div className="flex items-center">
+                            <ShoppingCart/>
+                        </div>
+                        <Link to="/profile">
+                            <FaUser
+                                className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                        </Link>
+                        <ThemeToggle />
+                    </div>
+                    <div className="md:hidden flex items-center">
+                        <button
+                            onClick={toggleMenu}
+                            className="text-gray-700 dark:text-white hover:text-blue-500 focus:outline-none"
+                        >
+                            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+                        </button>
+                    </div>
+                </div>
             </div>
+
+            {/* Mobile menu */}
+            {isMenuOpen && (
+                <div className="md:hidden">
+                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        <SearchBar />
+                        <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-500 dark:text-white">
+                            Home
+                        </Link>
+                        {user ? (
+                            <>
+                                <LogoutButton />
+                                <span className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-white">
+                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <LoginButton />
+                                <SignupButton />
+                            </>
+                        )}
+                        <div className="flex items-center space-x-4 px-3 py-2">
+                            <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                            <Link to="/profile">
+                                <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                            </Link>
+                            <ThemeToggle />
+                        </div>
+                    </div>
+                </div>
+            )}
         </header>
     );
 };

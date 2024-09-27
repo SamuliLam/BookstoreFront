@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../context/CartContext.jsx";
 
-const ProductCard = ({ title, price, image, book }) => {
+const ProductCard = ({ title, author, price, image, book }) => {
     const { addToCart, isVisible, handleToggle } = useCartContext();
 
     const [transformStyle, setTransformStyle] = useState('');
@@ -21,7 +21,6 @@ const ProductCard = ({ title, price, image, book }) => {
         const centerY = 0;
 
         const isAboveCenter = normalizedY < centerY;
-
 
         const rotateX = (isAboveCenter ? -normalizedY : normalizedY) * 30;
         const rotateY = normalizedX * 30;
@@ -41,9 +40,9 @@ const ProductCard = ({ title, price, image, book }) => {
     };
 
     return (
-        <div className="overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
+        <div className="productcard overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
             <div
-                className="flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark transition-transform duration-300 ease-in-out hover:shadow-xl transform-style: preserve-3d"
+                className="productcard-inner flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark transition-transform duration-300 ease-in-out hover:shadow-xl transform-style: preserve-3d"
                 style={{ transform: transformStyle }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -58,8 +57,9 @@ const ProductCard = ({ title, price, image, book }) => {
                     </div>
                 )}
             </div>
-            <div className="flex flex-col items-center gap-3">
+            <div className="productcard-detail flex flex-col items-center gap-3">
                 <h4 className="mt-2 text-lg font-bold text-center">{title}</h4>
+                <p className="text-center text-gray-400 dark:text-white">{author}</p>
                 <p className="text-center text-gray-600 dark:text-white">{price}€</p>
                 <button onClick={() => handleAddToCart(book)}
                         className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200">
@@ -72,6 +72,7 @@ const ProductCard = ({ title, price, image, book }) => {
 
 ProductCard.propTypes = {
     title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string,
     book: PropTypes.object.isRequired
