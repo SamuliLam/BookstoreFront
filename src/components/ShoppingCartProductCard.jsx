@@ -1,6 +1,6 @@
 import React from "react";
-import { FaPlus, FaMinus } from "react-icons/fa";
 import { useCartContext } from "../context/CartContext.jsx";
+import CartButton from "./CartButton.jsx";
 
 const ShoppingCartProductCard = ({ book }) => {
     const { title, price, image_url, quantity } = book;
@@ -14,18 +14,8 @@ const ShoppingCartProductCard = ({ book }) => {
                 <p className="text-gray-600 dark:text-white">Quantity: {quantity}</p>
             </div>
             <div className="flex flex-col justify-center items-center gap-1">
-                <button
-                    onClick={() => addToCart(book)}
-                    className="border border-gray-200 w-6 h-6 flex items-center justify-center text-sm font-light p-1"
-                >
-                    <FaPlus style={{ fontSize: '0.75rem', fontWeight: '300' }} />
-                </button>
-                <button
-                    onClick={() => removeFromCart(book)}
-                    className="border border-gray-200 w-6 h-6 flex items-center justify-center text-sm font-light p-1"
-                >
-                    <FaMinus style={{ fontSize: '0.75rem', fontWeight: '300' }} />
-                </button>
+                <CartButton onClick={() => addToCart(book)} type="add" />
+                <CartButton onClick={() => removeFromCart(book)} type="remove" />
             </div>
         </div>
     );

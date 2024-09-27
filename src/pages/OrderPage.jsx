@@ -3,10 +3,11 @@ import {useUserContext} from "../context/UserContext.jsx";
 import {useCartContext} from "../context/CartContext.jsx";
 import {updateUserProfile} from "../utils/userApiUtils.js";
 import {addOrder} from "../utils/api.js";
+import CartButton from "../components/CartButton.jsx";
 
 const OrderPage = () => {
-    const {user} = useUserContext();
-    const {cart} = useCartContext();
+    const { user } = useUserContext();
+    const { cart, addToCart, removeFromCart } = useCartContext();
     const [formData, setFormData] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -25,28 +26,32 @@ const OrderPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedFormData = {
-            ...formData, postal_code: parseInt(formData.postal_code, 10),
-        };
-        const orderData = {
-            user_id: user.user_id, orderItems: cart.map((book) => ({
-                book_id: book.book_id, quantity: book.quantity, price: book.price,
-            })),
-        };
-        updateUserProfile(user.user_id, updatedFormData, user.token).then((response) => {
-            if (response.success) {
-                addOrder(orderData, user.token).then((response) => {
-                    if (response.success) {
-
-                    } else {
-
-                    }
-                });
-            }
-        });
-    };
+        if (cart.length > 0) {
+            const updatedFormData = {
+                ...formData, postal_code: parseInt(formData.postal_code, 10),
+            };
+            const orderData = {
+                user_id: user.user_id, orderItems: cart.map((book) => ({
+                    book_id: book.book_id, quantity: book.quantity, price: book.price,
+                })),
+            };
+            updateUserProfile(user.user_id, updatedFormData, user.token).then((response) => {
+                if (response.success) {
+                    addOrder(orderData, user.token).then((response) => {
+                        if (response.success) {
+                            //TODO: Implement successful order message
+                        } else {
+                            //TODO: Implement not successful order message
+                        }
+                    });
+                }
+            });
+        } else {
+            alert("Cart empty");
+        }
+    }
     return (
-        <div className="flex flex-col lg:flex-row justify-center w-screen p-5 ">
+        <div className="flex flex-col lg:flex-row justify-center w-screen p-5">
             <form onSubmit={handleSubmit} className="w-2/6 space-y-6 mx-10">
                 <h2 className="text-xl font-bold">Recipient Information</h2>
 
@@ -113,8 +118,8 @@ const OrderPage = () => {
                 />
 
                 <button
-                    type="submit"
-                    className="bg-black text-white py-3 rounded-md hover:bg-gray-800 w-1/4 mx-auto block"
+                    className={`bg-black text-white py-3 rounded-md w-1/4 mx-auto block ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'}`}
+                    disabled={cart.length === 0}
                 >
                     Confirm Order
                 </button>
@@ -135,16 +140,20 @@ const OrderPage = () => {
                                 <div>
                                     <h3 className="text-base font-semibold">{book.title}</h3>
                                     <p className="text-sm font-light italic">{book.type}</p>
+                                    <p className="text-base font-light mr-3 mt-1">{book.price}€</p>
                                 </div>
                             </div>
-                            <p className="text-base font-light mr-3 mt-1">{book.price}€</p>
+                            <div className="flex flex-col justify-center items-center gap-1">
+                                <CartButton onClick={() => addToCart(book)} type="add"/>
+                                <CartButton onClick={() => removeFromCart(book)} type="remove"/>
+                            </div>
                         </div>
                     )) : <p className="text-lg font-semibold">No items in cart</p>}
                 </div>
                 <div>
                     {cart.length > 0 && (
                         <div className="flex justify-between p-4">
-                            <p className="text-sm font-semibold">Total:</p>
+                        <p className="text-sm font-semibold">Total:</p>
                             <p className="text-sm font-semibold">{cart.reduce((acc, book) => acc + book.price * book.quantity, 0)}€</p>
                         </div>
                     )}
