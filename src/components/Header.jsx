@@ -42,12 +42,9 @@ const Header = () => {
                                 <SignupButton />
                             </>
                         )}
-                        <div className="flex items-center">
-                            <ShoppingCart/>
-                        </div>
+                        <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                         <Link to="/profile">
-                            <FaUser
-                                className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                            <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                         </Link>
                         <ThemeToggle />
                     </div>
@@ -65,29 +62,45 @@ const Header = () => {
             {/* Mobile menu */}
             {isMenuOpen && (
                 <div className="md:hidden">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <SearchBar />
-                        <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-500 dark:text-white">
-                            Home
-                        </Link>
+                    <div className="px-2 pt-2 pb-3 space-y-4 sm:px-3">
+                        <div className="flex justify-center mb-4">
+                            <SearchBar />
+                        </div>
+                        <div className="flex justify-center">
+                            <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-500 dark:text-white">
+                                Home
+                            </Link>
+                        </div>
                         {user ? (
                             <>
-                                <LogoutButton />
-                                <span className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-white">
-                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
-                                </span>
+                                <div className="flex justify-center mb-2">
+                                    <LogoutButton />
+                                </div>
+                                <div className="flex justify-center">
+                                    <span className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-white">
+                                        Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                                    </span>
+                                </div>
                             </>
                         ) : (
                             <>
-                                <LoginButton />
-                                <SignupButton />
+                                <div className="flex justify-center mb-2">
+                                    <LoginButton />
+                                </div>
+                                <div className="flex justify-center mb-2">
+                                    <SignupButton />
+                                </div>
                             </>
                         )}
-                        <div className="flex items-center space-x-4 px-3 py-2">
+                        <div className="flex justify-center mb-2">
                             <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                        </div>
+                        <div className="flex justify-center mb-2">
                             <Link to="/profile">
                                 <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                             </Link>
+                        </div>
+                        <div className="flex justify-center">
                             <ThemeToggle />
                         </div>
                     </div>
