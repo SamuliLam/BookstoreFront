@@ -40,15 +40,15 @@ const LoginPage = () => {
     };
     return (
         <div className="main-container flex min-h-screen">
-            <div className="w-1/2 flex flex-col justify-start items-start">
+            <div className="hidden xl:block w-1/2 flex flex-col justify-start items-start">
                 <img
                     src={bookImage}
                     alt="Books"
                     className="w-[100vw] h-[100vh]"
                 />
             </div>
-            <div className="w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
-                <form onSubmit={handleSubmit} className="w-1/2">
+            <div className="w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
+                <form onSubmit={handleSubmit} className="w-full md:w-1/2 px-4">
                     <h2 className="text-2xl font-light mb-6 text-center">Sign In</h2>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="email">

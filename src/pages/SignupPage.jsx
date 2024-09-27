@@ -45,10 +45,10 @@ const SignupPage = () => {
 
     return (
         <div className="main-container flex min-h-screen">
-            <div className={"w-1/2 flex flex-col justify-start items-start"}>
+            <div className={"hidden xl:block w-1/2 flex flex-col justify-start items-start"}>
                 <img src={bookImage} alt="Books" className="w-[100vw] h-[100vh]"/>
             </div>
-            <div className={"w-1/2 flex flex-col justify-center items-center dark:bg-gray-900"}>
+            <div className={"w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900"}>
             <form onSubmit={handleSubmit} className="w-1/2">
                 <h2 className="text-2xl font-light mb-6 text-center dark:text-white">Sign Up</h2>
                 <div className="mb-4">
