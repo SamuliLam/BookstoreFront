@@ -74,11 +74,21 @@ export const fetchBooks = async () => {
     }
 }
 
-export const updateBooks = async (bookData, token, book_id) => {
+export const updateBook = async (bookData, token, id) => {
     try {
-        const response = await axios.post(`http://localhost:8080/books/${book_id}`, bookData, {
-            headers: {}
+
+        const response = await axios.post(`http://localhost:8080/books/${id}`, bookData, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
         });
+        if (response.status !== 200) {
+            throw new Error("Error updating book " + response.status);
+        }
+        return (
+            console.log("Book updated successfully:", response.data, response.status)
+        );
     }catch (error) {
         console.error("Error updating books:", error);
 

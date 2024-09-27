@@ -1,36 +1,50 @@
-// InputField component for rendering single input fields
-import React from "react";
+import {useState} from "react";
 import Modal from "./Modal.jsx";
-import {InputField} from "./InputField.jsx";
-import {ProductFieldsContainer} from "./ProductFieldsContainer.jsx";
-import {InventoryFieldsContainer} from "./InventoryFieldsContainer.jsx";
+import {properties} from "../../utils/adminModalProperties.js";
+import {RenderProperties} from "./Properties/RenderProperties.jsx";
+import {updateBook, updateInventory} from "../../utils/api.js";
+import {updateUserProfile} from "../../utils/userApiUtils.js";
+import {useUserContext} from "../../context/UserContext.jsx";
 
-const AdminTableModal = ({open, onClose, item, headers}) => {
-    const [formData, setFormData] = React.useState(item || {});
 
-    const handleInputChange = (e) => {
-        const {name, value} = e.target;
+const AdminTableModal = ({open, onClose, item, dataType, id}) => {
+    const {user} = useUserContext();
 
-        // Check for array or nested object structure
-        const arrayMatch = name.match(/(.*)\[(\d+)\]\.(.*)/);
-        if (arrayMatch) {
-            const [, parentKey, index, childKey] = arrayMatch;
-            const updatedFormData = {...formData};
-            if (updatedFormData[parentKey] && Array.isArray(updatedFormData[parentKey])) {
-                updatedFormData[parentKey][index][childKey] = value;
-            }
-            setFormData(updatedFormData);
-        } else if (name.startsWith('Inventory.')) {
-            const key = name.replace('Inventory.', '');
-            setFormData({...formData, Inventory: {...formData.Inventory, [key]: value}});
-        } else {
-            setFormData({...formData, [name]: value});
-        }
+    console.log(item);
+
+    const allowedFieldsMap = {
+        book: ["title", "isbn", "author", "price", "quantity", "genre", "type", "publication_year", "book_condition", "image_url"]
     };
+
+
+    const tableProperties = properties(item);
+
+    const endpointMap = {
+        "book": updateBook,
+        "user": updateUserProfile,
+        "inventory": updateInventory,
+        "order": null
+    }
+
+    const filterFormData = (FormObject, allowedFields) => {
+        return Object.fromEntries(
+            Object.entries(FormObject).filter(([key]) => allowedFields.includes(key))
+        );
+    };
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        let data = new FormData(e.target);
+        let formObject = Object.fromEntries(data.entries());
+
+        const allowedFields = allowedFieldsMap[dataType] || [];
+
+        const filteredFormObject = filterFormData(formObject, allowedFields);
+
+        if (endpointMap[dataType]){
+            endpointMap[dataType](filteredFormObject, user.token, id);
+        }
         onClose();
     };
 
@@ -38,33 +52,7 @@ const AdminTableModal = ({open, onClose, item, headers}) => {
         <Modal open={open} onClose={onClose}>
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col space-y-4">
-                    {/* Top-level fields */}
-                    {Object.keys(formData).map((key, index) => {
-                        if (key === "Products" && Array.isArray(formData[key])) {
-                            return (
-                                <div key={index} className="flex flex-col">
-                                    <label className="font-bold">{key}</label>
-                                    <ProductFieldsContainer products={formData[key]} onChange={handleInputChange}/>
-                                </div>
-                            );
-                        }
-
-                        if (key === "Inventory") {
-                            return (
-                                <InventoryFieldsContainer inventory={formData[key]} onChange={handleInputChange} key={index}/>
-                            );
-                        }
-
-                        return (
-                            <InputField
-                                key={index}
-                                label={key}
-                                value={formData[key]}
-                                name={key}
-                                onChange={handleInputChange}
-                            />
-                        );
-                    })}
+                    <RenderProperties tableProperties={tableProperties}/>
                     <button type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Save
@@ -74,4 +62,6 @@ const AdminTableModal = ({open, onClose, item, headers}) => {
         </Modal>
     );
 };
+
+
 export default AdminTableModal;
