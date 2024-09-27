@@ -29,8 +29,11 @@ const ShoppingCart = () => {
 
     return (
         <div>
-            <button onClick={handleToggle} className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
-                <FaShoppingCart />
+            <button
+                onClick={handleToggle}
+                className="flex items-center justify-center w-8 h-8 text-blue-500 hover:text-blue-700 dark:text-white dark:hover:text-blue-700 focus:outline-none"
+            >
+                <FaShoppingCart className="w-6 h-6"/>
             </button>
             <div
                 className={`fixed inset-0 bg-gray-800 transition-opacity duration-300 ${isVisible ? 'opacity-50' : 'opacity-0 pointer-events-none'} z-40`}

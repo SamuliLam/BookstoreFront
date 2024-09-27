@@ -42,9 +42,12 @@ const Header = () => {
                                 <SignupButton />
                             </>
                         )}
-                        <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                        <div className="flex items-center">
+                            <ShoppingCart/>
+                        </div>
                         <Link to="/profile">
-                            <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                            <FaUser
+                                className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                         </Link>
                         <ThemeToggle />
                     </div>
@@ -81,7 +84,7 @@ const Header = () => {
                             </>
                         )}
                         <div className="flex items-center space-x-4 px-3 py-2">
-                            <ShoppingCart className="text-blue-500 !important text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                            <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                             <Link to="/profile">
                                 <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
                             </Link>
