@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {useUserContext} from "../context/UserContext.jsx";
-import {useCartContext} from "../context/CartContext.jsx";
-import {updateUserProfile} from "../utils/userApiUtils.js";
-import {addOrder} from "../utils/api.js";
+import React, {useEffect, useState} from 'react';
+import { useUserContext } from "../context/UserContext.jsx";
+import { useCartContext } from "../context/CartContext.jsx";
+import { updateUserProfile } from "../utils/userApiUtils.js";
+import { addOrder, updateInventory  } from "../utils/api.js";
 import CartButton from "../components/CartButton.jsx";
 
 const OrderPage = () => {
@@ -16,7 +16,7 @@ const OrderPage = () => {
         province: user.province,
         phone_number: user.phone_number,
     });
-
+    const [orderSuccess, setOrderSuccess] = useState(false);
     const handleChange = (e) => {
         const {name, value,} = e.target;
         setFormData({
@@ -26,30 +26,58 @@ const OrderPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (cart.length > 0) {
-            const updatedFormData = {
-                ...formData, postal_code: parseInt(formData.postal_code, 10),
-            };
-            const orderData = {
-                user_id: user.user_id, orderItems: cart.map((book) => ({
-                    book_id: book.book_id, quantity: book.quantity, price: book.price,
-                })),
-            };
-            updateUserProfile(user.user_id, updatedFormData, user.token).then((response) => {
-                if (response.success) {
-                    addOrder(orderData, user.token).then((response) => {
-                        if (response.success) {
-                            //TODO: Implement successful order message
-                        } else {
-                            //TODO: Implement not successful order message
+        const updatedFormData = {
+            ...formData, postal_code: parseInt(formData.postal_code, 10),
+        };
+        const orderData = {
+            user_id: user.user_id, orderItems: cart.map((book) => ({
+                book_id: book.book_id, quantity: book.quantity, price: book.price,
+            })),
+        };
+
+        updateUserProfile(user.user_id, updatedFormData, user.token).then((response) => {
+            if (response.success) {
+                addOrder(orderData, user.token).then((response) => {
+                    if (response.success) {
+                        setOrderSuccess(true); // Mark the order as successful
+                        alert('Order placed successfully');
+                    } else {
+
+                    }
+                });
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (orderSuccess) {
+            console.log("Order was successful, updating inventory...");
+            const updateInventoryPromises = cart.map((book) => {
+                console.log(`Updating inventory for book ID: ${book.book_id} with quantity: ${book.quantity}`);
+                return updateInventory(book.book_id, book.quantity, user.token);
+            });
+
+            Promise.all(updateInventoryPromises)
+                .then((responses) => {
+                    responses.forEach((res, index) => {
+                        if (!res.success) {
+                            console.error(`Failed to update inventory for book ID: ${cart[index].book_id}`, res);
                         }
                     });
-                }
-            });
-        } else {
-            alert("Cart empty");
+                    const allSuccessful = responses.every((res) => res.success);
+                    if (allSuccessful) {
+                        console.log("Inventory updated successfully.");
+                    } else {
+                        console.error("Some inventory updates failed.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error updating inventory:", error);
+                });
         }
-    }
+    }, [orderSuccess, cart, user.token]);
+
+
     return (
         <div className="flex flex-col lg:flex-row justify-center w-screen p-5">
             <form onSubmit={handleSubmit} className="w-2/6 space-y-6 mx-10">

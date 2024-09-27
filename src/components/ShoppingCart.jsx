@@ -29,7 +29,7 @@ const ShoppingCart = () => {
 
     return (
         <div>
-            <button onClick={handleToggle} className="text-3xl hover:text-blue-500">
+            <button onClick={handleToggle} className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white">
                 <FaShoppingCart />
             </button>
             <div
