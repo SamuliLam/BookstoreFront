@@ -3,7 +3,6 @@ import { useUserContext } from '../context/UserContext';
 import { logIn } from '../utils/api';
 import bookImage from '../assets/readbook.png';
 import { useNavigate } from "react-router-dom";
-import jenkinsAudio from '../assets/jenkins.m4a';
 
 const LoginPage = () => {
     const { login } = useUserContext();
@@ -23,8 +22,6 @@ const LoginPage = () => {
                 login(user);
                 setSuccessMessage('Login successful!');
 
-                const audio = document.getElementById("jenkins");
-                audio.play();
 
                 setTimeout(() => {
                     const intendedDestination = sessionStorage.getItem("intendedDestination");
@@ -109,7 +106,6 @@ const LoginPage = () => {
                     </div>
                 </form>
             </div>
-            <audio id="jenkins" src={jenkinsAudio} preload="auto"/>
 
         </div>
     );
