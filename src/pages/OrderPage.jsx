@@ -4,10 +4,15 @@ import { useCartContext } from "../context/CartContext.jsx";
 import { updateUserProfile } from "../utils/userApiUtils.js";
 import { addOrder, updateInventory  } from "../utils/api.js";
 import CartButton from "../components/CartButton.jsx";
+import OrderAlert from "../components/OrderAlert.jsx";
+import { useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
+    const navigate = useNavigate();
+    const [displayAlert, setDisplayAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
     const { user } = useUserContext();
-    const { cart, addToCart, removeFromCart } = useCartContext();
+    const { cart, addToCart, removeFromCart, clearCart } = useCartContext();
     const [formData, setFormData] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -40,10 +45,17 @@ const OrderPage = () => {
             if (response.success) {
                 addOrder(orderData, user.token).then((response) => {
                     if (response.success) {
-                        setOrderSuccess(true); // Mark the order as successful
-                        alert('Order placed successfully');
+                        setOrderSuccess(true);
+                        setAlertMessage("Order placed successfully");
+                        setDisplayAlert(true);
+                        setTimeout(() => {
+                            navigate("/");
+                            clearCart();
+                        }, 2000);
                     } else {
-
+                        setOrderSuccess(false);
+                        setAlertMessage("Failed to place an order");
+                        setDisplayAlert(true);
                     }
                 });
             }
@@ -178,6 +190,7 @@ const OrderPage = () => {
                         </div>
                     )}
                 </div>
+                {displayAlert && <OrderAlert status={orderSuccess} message={alertMessage}/>}
             </div>
         </div>
     );
