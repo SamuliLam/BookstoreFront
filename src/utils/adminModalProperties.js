@@ -1,5 +1,4 @@
 export const properties = (book, user, order) => {
-
     return [
         {
             name: "title",
@@ -41,7 +40,7 @@ export const properties = (book, user, order) => {
             name: "publication_year",
             label: "Publish Year",
             value: book.publication_year,
-            type: "text",
+            type: "number",
             update: (value) => {
                 book.publication_year = value;
             }
@@ -50,7 +49,7 @@ export const properties = (book, user, order) => {
             name: "price",
             label: "Price",
             value: book.price,
-            type: "text",
+            type: "number",
             update: (value) => {
                 book.price = value;
             }
@@ -82,7 +81,7 @@ export const inventoryProperties = (inventory) => {
             name: "inventory_id",
             label: "ID",
             value: inventory.inventory_id,
-            type: "text",
+            type: "number",
             update: (value) => {
                 inventory.inventory_id = value;
             }
@@ -91,7 +90,7 @@ export const inventoryProperties = (inventory) => {
             name: "stock_level_used",
             label: "Stock Used",
             value: inventory.stock_level_used,
-            type: "text",
+            type: "number",
             update: (value) => {
                 inventory.stock_level_used = value;
             }
@@ -100,7 +99,7 @@ export const inventoryProperties = (inventory) => {
             name: "stock_level_new",
             label: "Stock New",
             value: inventory.stock_level_new,
-            type: "text",
+            type: "number",
             update: (value) => {
                 inventory.stock_level_new = value;
             }

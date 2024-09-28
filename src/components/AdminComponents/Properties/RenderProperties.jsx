@@ -1,10 +1,11 @@
 import TextProperty from "./TextProperty.jsx";
 import InventoryProperty from "./InventoryProperty.jsx";
 
-export const RenderProperties = ({tableProperties}) => {
+export const RenderProperties = ({tableProperties, onInputChange}) => {
 
     const propertiesMap = {
         "text": TextProperty,
+        "number": TextProperty,
         "inventory": InventoryProperty,
     }
 
@@ -18,6 +19,7 @@ export const RenderProperties = ({tableProperties}) => {
                     <PropertyComponent
                         key={property.name}
                         {...property}
+                        update={(value) => onInputChange(property.name, value, property.parse)}
                     />
                 );
             }
