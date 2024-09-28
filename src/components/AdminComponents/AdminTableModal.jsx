@@ -33,13 +33,7 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         "order": null
     }
 
-    const handleInputChange = (name, value, parse) => {
-        const parsedValue = parse ? parse(value) : value;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: parsedValue
-        }));
-    }
+
 
     const filterFormData = (FormObject, allowedFields) => {
         return Object.fromEntries(
@@ -47,6 +41,14 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         );
     };
 
+    const handleInputChange = (name, value) => {
+        setFormData((prevData) => {
+            return {
+                ...prevData,
+                [name]: value
+            };
+        });
+    }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();

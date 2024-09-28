@@ -1,5 +1,7 @@
 import TextProperty from "./TextProperty.jsx";
 import InventoryProperty from "./InventoryProperty.jsx";
+import OrderItemsProperty from "./OrderItemsProperty.jsx";
+import BookProperty from "./BookProperty.jsx";
 
 export const RenderProperties = ({tableProperties, onInputChange}) => {
 
@@ -7,7 +9,9 @@ export const RenderProperties = ({tableProperties, onInputChange}) => {
         "text": TextProperty,
         "number": TextProperty,
         "inventory": InventoryProperty,
-    }
+        "orderItems": OrderItemsProperty,
+        "book": BookProperty,
+    };
 
     return (
         tableProperties.map((property) => {
@@ -19,7 +23,7 @@ export const RenderProperties = ({tableProperties, onInputChange}) => {
                     <PropertyComponent
                         key={property.name}
                         {...property}
-                        update={(value) => onInputChange(property.name, value, property.parse)}
+                        update={(value) => onInputChange(property.name, value)}
                     />
                 );
             }
