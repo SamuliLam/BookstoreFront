@@ -17,3 +17,7 @@ h1 {
     font-weight: 500;
     margin-bottom: 1rem;
 }
+
+.main-content-container {
+    height: 90vh;
+}
