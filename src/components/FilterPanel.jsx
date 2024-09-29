@@ -24,7 +24,7 @@ const FilterPanel = () => {
     };
 
     return (
-        <aside className="p-4 w-64 bg-gray-100 dark:bg-gray-950 dark:text-white">
+        <aside className="p-4 w-64 bg-gray-100 dark:bg-gray-900 dark:text-white">
             <button onClick={() => setIsOpen(false)}
                     className="float-right top-50 transform -translate-y-1/2 m-4 p-4 text-2xl">
                 &gt;
@@ -35,7 +35,7 @@ const FilterPanel = () => {
                 {genres.map((genre) => (
                     <button
                         key={genre}
-                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-blue-950 text-black dark:text-white'}`}
+                        className={`bg-gray-200 rounded-full px-2 py-1 mr-2 mb-2 text-sm dark:text-black ${selectedGenre === genre ? 'bg-blue-300 text-white' : 'bg-blue-900 text-black dark:text-white'}`}
                         onClick={() => handleGenreClick(genre)}
                     >
                         {genre}
