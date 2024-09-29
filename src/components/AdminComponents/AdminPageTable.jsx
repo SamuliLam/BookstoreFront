@@ -61,8 +61,8 @@ const AdminPageTable = ({data}) => {
         setIsModalOpen(true);
     }
     return (
-        <>
-        <table className="w-3/4 text-center">
+        <div>
+        <table className="text-center">
             <thead>
             <tr>
                 {tableHeaders.map((header, index) => (
@@ -108,7 +108,7 @@ const AdminPageTable = ({data}) => {
         />
     )
 }
-</>
+</div>
 
 )
     ;
