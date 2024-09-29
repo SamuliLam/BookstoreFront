@@ -1,6 +1,4 @@
 export const TextProperty = ({name, label, value, type, update}) => {
-    console.log(name);
-    console.log(type);
     return (
         <div className="flex flex-col">
             <label className="font-bold">{label}</label>

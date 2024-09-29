@@ -16,7 +16,7 @@ export const updateUserProfile = async (userId, updates, token) => {
         );
 
         if (response.status === 200) {
-            return { success: true, user: response.data };
+            return { success: true, user: response };
         } else {
             return { success: false, error: 'Failed to update profile' };
         }

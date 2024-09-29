@@ -86,9 +86,7 @@ export const updateBook = async (id, bookData, token) => {
         if (response.status !== 200) {
             throw new Error("Error updating book " + response.status);
         }
-        return (
-            console.log("Book updated successfully:", response.data, response.status)
-        );
+        return response;
     }catch (error) {
         console.error("Error updating books:", error);
 
@@ -231,6 +229,37 @@ export const updateInventory = async (bookId, quantity, token) => {
             console.error("Error updating inventory:", error.message);
         }
         return { success: false };
+    }
+};
+
+export const updateUser = async (userId, updates, token) => {
+    try {
+        const response = await axios.post(
+            `http://localhost:8080/users/update/${userId}`,
+            updates,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            return response
+        } else {
+            return { success: false, error: 'Failed to update profile' };
+        }
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        if (error.response) {
+            if (error.response.status === 401) {
+                return { success: false, error: 'Unauthorized. Please log in again.' };
+            } else if (error.response.status === 404) {
+                return { success: false, error: 'User not found.' };
+            }
+        }
+        return { success: false, error: 'An unexpected error occurred' };
     }
 };
 
