@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import Modal from "./Modal.jsx";
 import {properties} from "../../utils/adminModalProperties.js";
 import {RenderProperties} from "./Properties/RenderProperties.jsx";

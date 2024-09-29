@@ -1,7 +1,8 @@
 import AdminPanelButton from "../components/AdminComponents/AdminPanelButton.jsx";
 import AdminPageTable from "../components/AdminComponents/AdminPageTable.jsx";
-import { fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
-import {useEffect, useState} from "react";
+import {fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
+import {useContext, useEffect, useState} from "react";
+import {SearchResultContext} from "../context/SearchContext.jsx";
 
 
 const AdminPage = () => {
@@ -14,6 +15,8 @@ const AdminPage = () => {
         tableData: [],
         isLoading: true,
     });
+
+    const {searchResults} = useContext(SearchResultContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,20 +59,23 @@ const AdminPage = () => {
     }
 
 
-  return (
-      <div className={"main-content-container flex grow"}>
+    return (
+        <div className={"main-content-container flex grow"}>
             <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between">
-                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books)} />
+                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books)}/>
                 <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
                 <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
             </aside>
-            <div className="table-content-container flex flex-grow">
-                <div className="table-container overflow-y-scroll p-0 mx-auto">
+            <div className="table-content-container flex-col">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4">
+                    Add New
+                </button>
+                <div className="table-container overflow-y-scroll p-0 h-5/6 mx-auto">
                     <AdminPageTable data={dataState.tableData}/>
                 </div>
             </div>
-      </div>
-  )
+        </div>
+    )
 }
 
 export default AdminPage;
