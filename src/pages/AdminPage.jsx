@@ -1,59 +1,81 @@
-import AdminPanelButton from "../components/AdminPanelButton.jsx";
-import AdminPageTable from "../components/AdminPageTable.jsx";
-import {fetchAuthors, fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
-import {useEffect, useState} from "react";
+import AdminPanelButton from "../components/AdminComponents/AdminPanelButton.jsx";
+import AdminPageTable from "../components/AdminComponents/AdminPageTable.jsx";
+import {fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
+import {useContext, useEffect, useState} from "react";
+import {SearchResultContext} from "../context/SearchContext.jsx";
 
 
 const AdminPage = () => {
+    console.log("AdminPage");
 
+    const [dataState, setDataState] = useState({
+        books: [],
+        users: [],
+        orders: [],
+        tableData: [],
+        isLoading: true,
+    });
 
-    const [bookData, setBookData] = useState([]);
-    const [userData, setUserData] = useState([]);
-    const [orderData, setOrderData] = useState([]);
-    const [authorData, setAuthorData] = useState([]);
-    const [tableData, setTableData] = useState([]);
+    const {searchResults} = useContext(SearchResultContext);
 
     useEffect(() => {
         const fetchData = async () => {
-            const bookData = await fetchBooks();
-            setBookData(bookData);
-            // set default data to books
-            setTableData(bookData);
+            try {
+                const books = await fetchBooks();
+                const users = await fetchUsers();
+                const orders = await fetchOrders();
 
-            const userData = await fetchUsers();
-            setUserData(userData);
+                setDataState({
+                    books,
+                    users,
+                    orders,
+                    tableData: books,
+                    isLoading: false,
+                });
 
-            const orderData = await fetchOrders();
-            setOrderData(orderData);
-
-            const authorData = await fetchAuthors();
-            setAuthorData(authorData);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                setDataState((prevState) => ({
+                    ...prevState,
+                    isLoading: false,
+                }));
+            }
         };
 
         fetchData();
     }, []);
 
 
-    const showBooks = () => {setTableData(bookData)};
-    const showUsers = () => {setTableData(userData)};
-    const showOrders = () => {setTableData(orderData)};
-    const showAuthors = () => {setTableData(authorData)};
+    const handleTableDataChange = (data) => {
+        console.log("changing data to: ", data);
+        setDataState((prevState) => ({
+            ...prevState,
+            tableData: data,
+        }));
+    }
+
+    if (dataState.isLoading) {
+        return <div className={"m-auto"}>Loading...</div>;
+    }
 
 
-  return (
-      <div className={"main-content-container h-full flex w-full"}>
-            <aside className="bg-gray-100 h-full px-24 py-40 flex flex-col justify-between">
-                <AdminPanelButton label="Books" onClick={showBooks} />
-                <AdminPanelButton label="Users" onClick={showUsers}/>
-                <AdminPanelButton label="Orders" onClick={showOrders}/>
-                <AdminPanelButton label="Authors" onClick={showAuthors}/>
+    return (
+        <div className={"main-content-container flex grow"}>
+            <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between">
+                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books)}/>
+                <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
+                <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
             </aside>
-            <div className="table-container grow w-full text-center">
-                - Table goes here -
-                <AdminPageTable data={tableData}/>
+            <div className="table-content-container flex-col">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4">
+                    Add New
+                </button>
+                <div className="table-container overflow-y-scroll p-0 h-5/6 mx-auto">
+                    <AdminPageTable data={dataState.tableData}/>
+                </div>
             </div>
-      </div>
-  )
+        </div>
+    )
 }
 
 export default AdminPage;

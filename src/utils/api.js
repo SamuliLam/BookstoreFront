@@ -74,6 +74,25 @@ export const fetchBooks = async () => {
     }
 }
 
+export const updateBook = async (id, bookData, token) => {
+    try {
+
+        const response = await axios.post(`http://localhost:8080/books/${id}`, bookData, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        if (response.status !== 200) {
+            throw new Error("Error updating book " + response.status);
+        }
+        return response;
+    }catch (error) {
+        console.error("Error updating books:", error);
+
+    }
+}
+
 export const fetchUsers = async () => {
     try {
         const token = sessionStorage.getItem('token' );
@@ -107,23 +126,6 @@ export const fetchOrders = async () => {
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);
-    }
-}
-
-export const fetchAuthors = async () => {
-    try {
-        const token = sessionStorage.getItem('token' );
-        const response = await axios.get("http://localhost:8080/authors", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (response.status !== 200) {
-            throw new Error("Error fetching authors " + response.status);
-        }
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching authors:", error);
     }
 }
 
@@ -240,3 +242,36 @@ export const updateInventory = async (bookId, quantity, token, book) => {
         return { success: false };
     }
 };
+
+export const updateUser = async (userId, updates, token) => {
+    try {
+        const response = await axios.post(
+            `http://localhost:8080/users/update/${userId}`,
+            updates,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+
+        if (response.status === 200) {
+            return response
+        } else {
+            return { success: false, error: 'Failed to update profile' };
+        }
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        if (error.response) {
+            if (error.response.status === 401) {
+                return { success: false, error: 'Unauthorized. Please log in again.' };
+            } else if (error.response.status === 404) {
+                return { success: false, error: 'User not found.' };
+            }
+        }
+        return { success: false, error: 'An unexpected error occurred' };
+    }
+};
+
+

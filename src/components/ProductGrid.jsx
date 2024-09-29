@@ -23,15 +23,27 @@ const ProductGrid = () => {
             {filteredBooks.length === 0 ? (
                 <p>No books found</p>
             ) : (
-                filteredBooks.map((book) => (
-                    <div key={book.book_id} className="productdetails flex flex-col items-center">
-                        <ProductCard author={book.author} price={book.price} title={book.title} image={book.image_url}
-                                     book={book}/>
-                    </div>
-                ))
+                filteredBooks.map((book) => {
+                    const authorNames = book.authors
+                        .map(author => `${author.firstName} ${author.lastName}`)
+                        .join(', ');
+
+                    return (
+                        <div key={book.book_id} className="productdetails flex flex-col items-center">
+                            <ProductCard
+                                author={authorNames || 'Unknown Authors'}
+                                price={book.price}
+                                title={book.title}
+                                image={book.image_url}
+                                book={book}
+                            />
+                        </div>
+                    );
+                })
             )}
         </div>
     );
+
 };
 
 export default ProductGrid;
