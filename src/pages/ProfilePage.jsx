@@ -7,14 +7,12 @@ import {
     Sparkle,
     CheckCircle,
     XCircle,
-    ArrowDownNarrowWide,
-    ArrowDownRight, MoveDown, PlusIcon, MinusIcon
+    PlusIcon, MinusIcon
 } from 'lucide-react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { changeUserPassword, updateUserProfile, getUserOrders } from '../utils/userApiUtils';
 
-/// TODO only use UserToken
 
 const ProfilePage = () => {
     const { user, updateUser, getUser } = useUserContext();
@@ -360,18 +358,7 @@ const ProfilePage = () => {
                         </h2>
                         <ul className="space-y-4">
                             <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-                                <span className="font-medium dark:text-gray-300">The Great Gatsby</span>
-                                <button
-                                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
-                                    Remove
-                                </button>
-                            </li>
-                            <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-                                <span className="font-medium dark:text-gray-300">To Kill a Mockingbird</span>
-                                <button
-                                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-300">
-                                    Remove
-                                </button>
+                                <span className="items-center dark:text-gray-300">No favorite books</span>
                             </li>
                         </ul>
                     </div>

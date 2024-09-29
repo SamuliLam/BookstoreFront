@@ -8,12 +8,15 @@ import SignupButton from './SignupButton';
 import LogoutButton from './LogoutButton';
 import ThemeToggle from "./ThemeToggle.jsx";
 import ShoppingCart from "./ShoppingCart.jsx";
+import HeaderAdminPanelButton from "./HeaderAdminPanelButton.jsx";
 
 const Header = () => {
-    const { user } = useUserContext();
+    const { user, getUser } = useUserContext();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const currentUser = getUser();
 
     return (
         <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-white sticky w-full top-0 z-10">
@@ -26,15 +29,13 @@ const Header = () => {
                         <SearchBar />
                     </div>
                     <div className="hidden md:flex items-center space-x-4">
-                        <Link to="/" className="text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-white">
-                            Home
-                        </Link>
-                        {user ? (
+                        {currentUser ? (
                             <>
                                 <LogoutButton />
                                 <span className="text-sm text-gray-700 dark:text-white">
-                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                                    Welcome, {currentUser.first_name || currentUser.email.split('@')[0] || 'User'}!
                                 </span>
+                                {currentUser.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
                         ) : (
                             <>
@@ -48,7 +49,11 @@ const Header = () => {
                         </Link>
                         <ThemeToggle />
                     </div>
-                    <div className="md:hidden flex items-center">
+                    <div className="md:hidden flex items-center space-x-4">
+                        <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                        <Link to="/profile">
+                            <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
+                        </Link>
                         <button
                             onClick={toggleMenu}
                             className="text-gray-700 dark:text-white hover:text-blue-500 focus:outline-none"
@@ -61,48 +66,32 @@ const Header = () => {
 
             {/* Mobile menu */}
             {isMenuOpen && (
-                <div className="md:hidden">
-                    <div className="px-2 pt-2 pb-3 space-y-4 sm:px-3">
-                        <div className="flex justify-center mb-4">
-                            <SearchBar />
-                        </div>
-                        <div className="flex justify-center">
-                            <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-500 dark:text-white">
-                                Home
-                            </Link>
-                        </div>
-                        {user ? (
+                <div className="md:hidden fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-50 transition-transform duration-300 ease-in-out transform translate-x-0">
+                    <div className="flex justify-end p-4">
+                        <button
+                            onClick={toggleMenu}
+                            className="text-gray-700 dark:text-white hover:text-blue-500 focus:outline-none"
+                        >
+                            <FaTimes size={24} />
+                        </button>
+                    </div>
+                    <div className="flex flex-col items-center space-y-4 mt-8">
+                        <SearchBar />
+                        {currentUser ? (
                             <>
-                                <div className="flex justify-center mb-2">
-                                    <LogoutButton />
-                                </div>
-                                <div className="flex justify-center">
-                                    <span className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-white">
-                                        Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
-                                    </span>
-                                </div>
+                                <LogoutButton />
+                                <span className="text-sm text-gray-700 dark:text-white">
+                                    Welcome, {currentUser.first_name || currentUser.email.split('@')[0] || 'User'}!
+                                </span>
+                                {currentUser.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
                         ) : (
                             <>
-                                <div className="flex justify-center mb-2">
-                                    <LoginButton />
-                                </div>
-                                <div className="flex justify-center mb-2">
-                                    <SignupButton />
-                                </div>
+                                <LoginButton />
+                                <SignupButton />
                             </>
                         )}
-                        <div className="flex justify-center mb-2">
-                            <ShoppingCart className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
-                        </div>
-                        <div className="flex justify-center mb-2">
-                            <Link to="/profile">
-                                <FaUser className="text-blue-500 text-2xl hover:text-blue-700 dark:hover:text-blue-700 dark:text-white" />
-                            </Link>
-                        </div>
-                        <div className="flex justify-center">
-                            <ThemeToggle />
-                        </div>
+                        <ThemeToggle />
                     </div>
                 </div>
             )}
