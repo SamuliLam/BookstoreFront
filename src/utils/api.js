@@ -74,7 +74,7 @@ export const fetchBooks = async () => {
     }
 }
 
-export const updateBook = async (bookData, token, id) => {
+export const updateBook = async (id, bookData, token) => {
     try {
 
         const response = await axios.post(`http://localhost:8080/books/${id}`, bookData, {

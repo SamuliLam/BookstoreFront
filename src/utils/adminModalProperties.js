@@ -87,6 +87,12 @@ export const userProperties = (user) => {
 
         },
         {
+            name: "password",
+            label: "Password",
+            value: user.password,
+            type: "text",
+        },
+        {
             name: "first_name",
             label: "First Name",
             value: user.first_name,

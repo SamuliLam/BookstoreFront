@@ -20,10 +20,15 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         setFormData(initialFormData);
     }, [item]);
 
-    console.log(item);
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
 
     const allowedFieldsMap = {
-        book: ["title", "isbn", "author", "price", "quantity", "genre", "type", "publication_year", "book_condition", "image_url"]
+        book: ["title", "isbn", "author", "price", "quantity", "genre", "type", "publication_year", "book_condition", "image_url"],
+        user: ["email", "password", "first_name", "last_name", "street_number", "street_name", "province", "postal_code", "phone_number", "role"],
+        inventory: ["quantity"],
+        order: ["order_date", "total"]
     };
 
     const endpointMap = {
@@ -42,13 +47,19 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
     };
 
     const handleInputChange = (name, value) => {
+        const numericFields = ["street_number", "postal_code"];
+
         setFormData((prevData) => {
+            let parsedValue = value;
+            if (numericFields.includes(name)) {
+                parsedValue = parseInt(value, 10) || value;
+            }
             return {
                 ...prevData,
-                [name]: value
+                [name]: parsedValue,
             };
         });
-    }
+    };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -57,7 +68,7 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         const filteredFormData = filterFormData(formData, allowedFields);
 
         if (endpointMap[dataType]){
-            endpointMap[dataType](filteredFormData, user.token, id);
+            endpointMap[dataType](id, filteredFormData, user.token);
         }
         onClose();
     };
