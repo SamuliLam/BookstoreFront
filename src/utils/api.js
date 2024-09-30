@@ -276,24 +276,19 @@ export const updateUser = async (userId, updates, token) => {
 
 export const addBook = async (bookData, token) => {
     try {
-        const response = await axios.post("http://localhost:8080/books/add", bookData, {
+        const response = await axios.post("http://localhost:8080/books", bookData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }
         });
-        if (response.status === 200) {
-            return response;
-        } else {
-            return { success: false, error: 'Failed to add book' };
-        }
+        return response.data;
 
-
-    }catch (error) {
+    } catch (error) {
         console.error("Error creating book:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: error.response?.data?.message || error.message };
     }
-}
+};
 
 export const addUser = async (userData, token) => {
     try {
