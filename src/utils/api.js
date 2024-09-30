@@ -194,8 +194,6 @@ export const updateInventory = async (bookId, quantity, token, book) => {
 
         console.log("Current used stock level:", currentUsedStockLevel);
         console.log("Current new stock level:", currentNewStockLevel);
-
-        // 
         if (currentUsedStockLevel < quantity || currentNewStockLevel < quantity) {
             console.error("Not enough stock available");
             return { success: false };
@@ -276,4 +274,44 @@ export const updateUser = async (userId, updates, token) => {
     }
 };
 
+export const addBook = async (bookData, token) => {
+    try {
+        const response = await axios.post("http://localhost:8080/books/add", bookData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        if (response.status === 200) {
+            return response;
+        } else {
+            return { success: false, error: 'Failed to add book' };
+        }
 
+
+    }catch (error) {
+        console.error("Error creating book:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export const addUser = async (userData, token) => {
+    try {
+        const response = await axios.post("http://localhost:8080/users", userData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        if (response.status === 200) {
+            return response;
+        } else {
+            return { success: false, error: 'Failed to add user' };
+        }
+
+
+    }catch (error) {
+        console.error("Error creating user:", error);
+        return { success: false, error: error.message };
+    }
+}
