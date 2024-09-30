@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { useUserContext } from "../context/UserContext.jsx";
-import { useCartContext } from "../context/CartContext.jsx";
-import { updateUserProfile } from "../utils/userApiUtils.js";
-import { addOrder, updateInventory  } from "../utils/api.js";
+import {useUserContext} from "../context/UserContext.jsx";
+import {useCartContext} from "../context/CartContext.jsx";
+import {updateUserProfile} from "../utils/userApiUtils.js";
+import {addOrder, updateInventory} from "../utils/api.js";
 import CartButton from "../components/CartButton.jsx";
 import OrderAlert from "../components/OrderAlert.jsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const OrderPage = () => {
     const navigate = useNavigate();
     const [displayAlert, setDisplayAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
-    const { user } = useUserContext();
-    const { cart, addToCart, removeFromCart, clearCart } = useCartContext();
+    const {user} = useUserContext();
+    const {cart, addToCart, removeFromCart, clearCart} = useCartContext();
     const [formData, setFormData] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -83,11 +83,11 @@ const OrderPage = () => {
 
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center w-screen p-5">
-            <form onSubmit={handleSubmit} className="w-2/6 space-y-6 mx-10">
+        <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row">
+            <form onSubmit={handleSubmit} className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
                 <h2 className="text-xl font-bold">Recipient Information</h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <input
                         type="text"
                         name="first_name"
@@ -150,15 +150,15 @@ const OrderPage = () => {
                 />
 
                 <button
-                    className={`bg-black text-white py-3 rounded-md w-1/4 mx-auto block ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'}`}
+                    className={`bg-blue-500 text-white py-3 rounded-md w-full sm:w-1/4 md:w-1/3 mx-auto block text-center ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                     disabled={cart.length === 0}
                 >
                     Confirm Order
                 </button>
             </form>
 
-            <div>
-                <div className="w-96 max-h-[30rem] h-auto p-3 overflow-auto">
+            <div className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
+                <div className="max-h-[30rem] h-auto p-3 overflow-auto">
                     {cart.length > 0 ? cart.map((book) => (
                         <div key={book.book_id} className="flex justify-between mb-4">
                             <div className="relative flex space-x-4">
@@ -184,8 +184,8 @@ const OrderPage = () => {
                 </div>
                 <div>
                     {cart.length > 0 && (
-                        <div className="flex justify-between p-4">
-                        <p className="text-sm font-semibold">Total:</p>
+                        <div className="w-full flex justify-between p-4">
+                            <p className="text-sm font-semibold">Total:</p>
                             <p className="text-sm font-semibold">{cart.reduce((acc, book) => acc + book.price * book.quantity, 0)}€</p>
                         </div>
                     )}
