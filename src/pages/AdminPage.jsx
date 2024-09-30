@@ -61,12 +61,12 @@ const AdminPage = () => {
 
     return (
         <div className={"main-content-container flex grow "}>
-            <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between">
+            <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between dark:text-white dark:bg-gray-900">
                 <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books)}/>
                 <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
                 <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
             </aside>
-            <div className="table-content-container flex-col">
+            <div className="table-content-container flex-col dark:text-white dark:bg-gray-700">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4">
                     Add New
                 </button>

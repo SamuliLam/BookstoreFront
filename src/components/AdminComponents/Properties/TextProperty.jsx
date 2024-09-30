@@ -7,7 +7,7 @@ export const TextProperty = ({name, label, value, type, update}) => {
                 name={name}
                 defaultValue={value}
                 onChange={(e) => update(e.target.value)}
-                className="border rounded p-2"
+                className="border rounded p-2 dark:text-black"
             />
         </div>
     )

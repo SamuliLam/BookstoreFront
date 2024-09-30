@@ -93,7 +93,7 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
     return (
         <Modal open={open} onClose={onClose}>
             <form onSubmit={handleFormSubmit}>
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4 dark:bg-blue-950 dark:text-white dark:placeholder-gray-500">
                     <RenderProperties tableProperties={properties(item)} onInputChange={handleInputChange}/>
                     {successMessage && (
                         <div className="text-green-500 font-semibold">

@@ -22,6 +22,7 @@ export const RenderProperties = ({tableProperties, onInputChange}) => {
                 return (
                     <PropertyComponent
                         key={property.name}
+                        className="dark:text-white"
                         {...property}
                         update={(value) => onInputChange(property.name, value)}
                     />

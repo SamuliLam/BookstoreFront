@@ -8,7 +8,7 @@ const InventoryProperty = ({ name, label, value, type }) => {
 
     return (
         <div className="flex flex-col">
-            <h3 className="font-bold">{label}</h3>
+            <h3 className="font-bold ">{label}</h3>
             <RenderProperties tableProperties={properties} />
         </div>
     )

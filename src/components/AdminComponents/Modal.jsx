@@ -5,11 +5,11 @@ const Modal = ({ open, onClose, children }) => {
 
     return (
         <div
-            className="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            className="modal-container fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 "
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg shadow-lg p-6 h-1/2 overflow-y-scroll"
+                className="bg-white rounded-lg shadow-lg p-6 h-1/2 overflow-y-scroll dark:bg-blue-950"
                 onClick={(event) => event.stopPropagation()}
             >
                 <button

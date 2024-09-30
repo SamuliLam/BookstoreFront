@@ -194,6 +194,8 @@ export const updateInventory = async (bookId, quantity, token, book) => {
 
         console.log("Current used stock level:", currentUsedStockLevel);
         console.log("Current new stock level:", currentNewStockLevel);
+
+        // 
         if (currentUsedStockLevel < quantity || currentNewStockLevel < quantity) {
             console.error("Not enough stock available");
             return { success: false };
