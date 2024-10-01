@@ -85,7 +85,7 @@ const OrderPage = () => {
     return (
         <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row">
             <form onSubmit={handleSubmit} className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
-                <h2 className="text-xl font-bold">Recipient Information</h2>
+                <h2 className="text-xl font-bold dark:text-white">Recipient Information</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <input
@@ -158,7 +158,7 @@ const OrderPage = () => {
             </form>
 
             <div className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
-                <div className="max-h-[30rem] h-auto p-3 overflow-auto">
+                <div className="max-h-[30rem] h-auto p-3 overflow-auto dark:text-white">
                     {cart.length > 0 ? cart.map((book) => (
                         <div key={book.book_id} className="flex justify-between mb-4">
                             <div className="relative flex space-x-4">
@@ -184,7 +184,7 @@ const OrderPage = () => {
                 </div>
                 <div>
                     {cart.length > 0 && (
-                        <div className="w-full flex justify-between p-4">
+                        <div className="w-full flex justify-between p-4 dark:text-white">
                             <p className="text-sm font-semibold">Total:</p>
                             <p className="text-sm font-semibold">{cart.reduce((acc, book) => acc + book.price * book.quantity, 0)}€</p>
                         </div>
