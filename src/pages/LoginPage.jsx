@@ -52,7 +52,7 @@ const LoginPage = () => {
             <div
                 className="w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
                 <form onSubmit={handleSubmit} className="w-1/2">
-                    <h2 className="text-2xl font-light mb-6 text-center">Sign In</h2>
+                    <h2 className="text-2xl font-light mb-6 text-center ">Sign In</h2>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="email">
                             Email
@@ -93,7 +93,7 @@ const LoginPage = () => {
                         </a>
                     </div>
                     <button
-                        className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:text-black dark:bg-white"
+                        className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:text-black dark:bg-blue-500"
                         type="submit"
                     >
                         Sign In
