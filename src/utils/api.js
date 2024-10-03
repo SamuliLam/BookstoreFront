@@ -50,7 +50,7 @@ export const logIn = async ({email, password}) => {
 
 
                 window.location.href = '/login';
-            }, expiresInSeconds * 1000);
+            }, expiresIn);
 
             const userResponse = await fetch('http://localhost:8080/auth/me', {
                 headers: {
