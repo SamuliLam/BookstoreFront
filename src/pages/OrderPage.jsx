@@ -83,7 +83,7 @@ const OrderPage = () => {
 
 
     return (
-        <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row">
+        <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row ">
             <form onSubmit={handleSubmit} className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
                 <h2 className="text-xl font-bold dark:text-white">Recipient Information</h2>
 
