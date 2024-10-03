@@ -36,7 +36,6 @@ const ProfilePage = () => {
     useEffect(() => {
         // Check if the token is expired
         if (!user || isTokenExpired()) {
-            alert('Session expired. Please log in again.');
             navigate('/login');
         }
     }, [user, navigate]);
