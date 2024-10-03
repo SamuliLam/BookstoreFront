@@ -1,11 +1,19 @@
-import {useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 
 import AdminTableModal from "./AdminTableModal.jsx";
+import {deleteBook, deleteOrder, deleteUser} from "../../utils/api.js";
+import {useUserContext} from "../../context/UserContext.jsx";
+import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 
 const AdminPageTable = ({data}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [itemId, setItemId] = useState(null);
+    const {user} = useUserContext();
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
 
     // Data mapping identifiers for each type
@@ -17,20 +25,6 @@ const AdminPageTable = ({data}) => {
     let dataMapIdentifiers = {};
     let tableHeaders = [];
     let dataType;
-
-    const itemId = useMemo(() => {
-        if (!selectedItem) {
-            return null;
-        }
-
-        if (selectedItem.book_id) {
-            return selectedItem.book_id;
-        } else if (selectedItem.user_id) {
-            return selectedItem.user_id;
-        } else if (selectedItem.order_id) {
-            return selectedItem.order_id;
-        }
-    }, [selectedItem]);
 
     // Check the type of data and set the map and headers accordingly
     if (Array.isArray(data) && data.length > 0) {
@@ -54,12 +48,61 @@ const AdminPageTable = ({data}) => {
         }
     }
 
+    useEffect(() => {
+        if (selectedItem) {
+            const id = selectedItem.book_id || selectedItem.user_id || selectedItem.order_id || null;
+            setItemId(id);
+        }
+    }, [selectedItem]);
 
-    const handleEdit = (item, id) => {
+    const handleEdit = (item) => {
         setSelectedItem(item);
-        console.log("selected id is: ", id);
+        console.log("selected item is ", item);
         setIsModalOpen(true);
     }
+
+    const handleDeleteClick = (item) => {
+        setSelectedItem(item);
+        setIsDeleteModalOpen(true);
+    }
+
+    const handleDelete = async (item) => {
+        const id = item.book_id || item.user_id || item.order_id;
+        if (!id) {
+            console.error("No valid ID found for the item.");
+            return;
+        }
+
+        let response;
+        switch (dataType) {
+            case "book":
+                response = await deleteBook(id, user.token);
+                break;
+            case "user":
+                response = await deleteUser(id, user.token);
+                break;
+            case "order":
+                response = await deleteOrder(id, user.token);
+                break;
+            default:
+                console.error("Unknown data type, cannot delete.");
+                return;
+        }
+
+        if (response && response.success) {
+            console.log(`${dataType} with ID ${id} was successfully deleted.`);
+            setSuccessMessage(`${dataType} with ID ${id} was successfully deleted.`);
+            setTimeout(() => {
+                setIsDeleteModalOpen(false);
+            }, 2000);
+        } else {
+            console.error(`Failed to delete ${dataType} with ID ${id}.`);
+            console.log("error ", response.error)
+            setErrorMessage(`Failed to delete ${dataType} with ID ${id}.`);
+        }
+    };
+
+
     return (
         <>
             <table className="text-center">
@@ -73,7 +116,6 @@ const AdminPageTable = ({data}) => {
                 </thead>
                 <tbody>
                 {data.map((item, index) => (
-
 
                     <tr key={index}>
                         {Object.keys(dataMapIdentifiers).map((key, i) => {
@@ -92,6 +134,9 @@ const AdminPageTable = ({data}) => {
                                 Edit
                             </button>
                         </td>
+                        <td className={"p-5"}>
+                            <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"} onClick={() => handleDeleteClick(item)}>Delete</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
@@ -105,6 +150,18 @@ const AdminPageTable = ({data}) => {
                         item={selectedItem}
                         dataType={dataType}
                         id={itemId}
+                    />
+                )
+            }
+            {
+                isDeleteModalOpen && (
+                    <AdminDeleteConfirmModal
+                        open={isDeleteModalOpen}
+                        onClose={() => setIsDeleteModalOpen(false)}
+                        handleDelete={() => handleDelete(selectedItem)}
+                        title={selectedItem.title || selectedItem.email || selectedItem.orderDate}
+                        successMessage={successMessage}
+                        errorMessage={errorMessage}
                     />
                 )
             }
