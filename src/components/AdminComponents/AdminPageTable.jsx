@@ -2,12 +2,14 @@ import {useEffect, useState} from "react";
 
 import AdminTableModal from "./AdminTableModal.jsx";
 import {deleteBook, deleteOrder, deleteUser} from "../../utils/api.js";
+import {useUserContext} from "../../context/UserContext.jsx";
 
 const AdminPageTable = ({data}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemId, setItemId] = useState(null);
+    const {user} = useUserContext();
 
 
     // Data mapping identifiers for each type
@@ -65,13 +67,13 @@ const AdminPageTable = ({data}) => {
         let response;
         switch (dataType) {
             case "book":
-                response = await deleteBook(id);
+                response = await deleteBook(id, user.token);
                 break;
             case "user":
-                response = await deleteUser(id);
+                response = await deleteUser(id, user.token);
                 break;
             case "order":
-                response = await deleteOrder(id);
+                response = await deleteOrder(id, user.token);
                 break;
             default:
                 console.error("Unknown data type, cannot delete.");
@@ -82,6 +84,7 @@ const AdminPageTable = ({data}) => {
             console.log(`${dataType} with ID ${id} was successfully deleted.`);
         } else {
             console.error(`Failed to delete ${dataType} with ID ${id}.`);
+            console.log("error ", response.error)
         }
     };
 

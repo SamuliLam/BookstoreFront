@@ -12,30 +12,30 @@ export const handleSignUp = async (data) => {
 
         if (response.ok) {
             const userData = await response.json();
-            const { password, ...userDataWithoutPassword } = userData;
-            return { success: true, user: userDataWithoutPassword };
+            const {password, ...userDataWithoutPassword} = userData;
+            return {success: true, user: userDataWithoutPassword};
         } else {
             const errorData = await response.json();
-            return { success: false, error: errorData.message || 'Signup failed' };
+            return {success: false, error: errorData.message || 'Signup failed'};
         }
     } catch (error) {
         console.error('Signup error:', error);
-        return { success: false, error: 'An unexpected error occurred' };
+        return {success: false, error: 'An unexpected error occurred'};
     }
 };
 
-export const logIn = async ({ email, password }) => {
+export const logIn = async ({email, password}) => {
     try {
         const response = await fetch('http://localhost:8080/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({email, password}),
         });
 
         if (response.ok) {
-            const { token } = await response.json();
+            const {token} = await response.json();
 
             const userResponse = await fetch('http://localhost:8080/auth/me', {
                 headers: {
@@ -45,20 +45,20 @@ export const logIn = async ({ email, password }) => {
 
             if (userResponse.ok) {
                 const userData = await userResponse.json();
-                const { password, ...userDataWithoutPassword } = userData;
-                const userToReturn = { ...userDataWithoutPassword, token };
+                const {password, ...userDataWithoutPassword} = userData;
+                const userToReturn = {...userDataWithoutPassword, token};
                 sessionStorage.setItem('token', token);
-                return { success: true, user: userToReturn };
+                return {success: true, user: userToReturn};
             } else {
-                return { success: false, error: 'Failed to fetch user details' };
+                return {success: false, error: 'Failed to fetch user details'};
             }
         } else {
             const errorData = await response.json();
-            return { success: false, error: errorData.message || 'Login failed' };
+            return {success: false, error: errorData.message || 'Login failed'};
         }
     } catch (error) {
         console.error('Login error:', error);
-        return { success: false, error: 'An unexpected error occurred' };
+        return {success: false, error: 'An unexpected error occurred'};
     }
 };
 
@@ -87,7 +87,7 @@ export const updateBook = async (id, bookData, token) => {
             throw new Error("Error updating book " + response.status);
         }
         return response;
-    }catch (error) {
+    } catch (error) {
         console.error("Error updating books:", error);
 
     }
@@ -95,7 +95,7 @@ export const updateBook = async (id, bookData, token) => {
 
 export const fetchUsers = async () => {
     try {
-        const token = sessionStorage.getItem('token' );
+        const token = sessionStorage.getItem('token');
         const response = await axios.get("http://localhost:8080/users", {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -113,7 +113,7 @@ export const fetchUsers = async () => {
 
 export const fetchOrders = async () => {
     try {
-        const token = sessionStorage.getItem('token' );
+        const token = sessionStorage.getItem('token');
         const response = await axios.get("http://localhost:8080/orders", {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -131,7 +131,7 @@ export const fetchOrders = async () => {
 
 export const fetchSearchResults = async (searchText) => {
     try {
-        if(searchText.length < 3) {
+        if (searchText.length < 3) {
             return [];
         }
         const response = await axios.get(`http://localhost:8080/books/search?query=${searchText}`);
@@ -147,13 +147,11 @@ export const fetchSearchResults = async (searchText) => {
 export const fetchInventoryResult = async (bookId) => {
     try {
         const response = await axios.get(`http://localhost:8080/inventory/${bookId - 100}`);
-        if(response.status !== 200)
-        {
+        if (response.status !== 200) {
             throw new Error("Error fetching data: " + response.status);
         }
         return response.data;
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error fetching inventory:", error)
     }
 }
@@ -169,13 +167,13 @@ export const addOrder = async (orderData, token) => {
         });
 
         if (response.status === 200) {
-            return { success: true };
+            return {success: true};
         } else {
-            return { success: false, error: 'Failed to add order' };
+            return {success: false, error: 'Failed to add order'};
         }
     } catch (error) {
         console.error("Error adding order:", error);
-        return { success: false, error: error.message };
+        return {success: false, error: error.message};
     }
 };
 
@@ -196,15 +194,14 @@ export const updateInventory = async (bookId, quantity, token, book) => {
         console.log("Current new stock level:", currentNewStockLevel);
         if (currentUsedStockLevel < quantity || currentNewStockLevel < quantity) {
             console.error("Not enough stock available");
-            return { success: false };
+            return {success: false};
         }
 
         let stockLevelNew;
-        if (book==="New") {
+        if (book === "New") {
             console.log(book)
             stockLevelNew = currentNewStockLevel - quantity;
-        }
-        else if (book==="Used") {
+        } else if (book === "Used") {
             console.log(book)
             stockLevelNew = currentUsedStockLevel - quantity;
         }
@@ -231,7 +228,7 @@ export const updateInventory = async (bookId, quantity, token, book) => {
             return response.data;
         } else {
             console.error("Failed to update inventory:", response.data, response.status);
-            return { success: false };
+            return {success: false};
         }
     } catch (error) {
         if (error.response) {
@@ -239,7 +236,7 @@ export const updateInventory = async (bookId, quantity, token, book) => {
         } else {
             console.error("Error updating inventory:", error.message);
         }
-        return { success: false };
+        return {success: false};
     }
 };
 
@@ -259,18 +256,18 @@ export const updateUser = async (userId, updates, token) => {
         if (response.status === 200) {
             return response
         } else {
-            return { success: false, error: 'Failed to update profile' };
+            return {success: false, error: 'Failed to update profile'};
         }
     } catch (error) {
         console.error('Error updating user profile:', error);
         if (error.response) {
             if (error.response.status === 401) {
-                return { success: false, error: 'Unauthorized. Please log in again.' };
+                return {success: false, error: 'Unauthorized. Please log in again.'};
             } else if (error.response.status === 404) {
-                return { success: false, error: 'User not found.' };
+                return {success: false, error: 'User not found.'};
             }
         }
-        return { success: false, error: 'An unexpected error occurred' };
+        return {success: false, error: 'An unexpected error occurred'};
     }
 };
 
@@ -286,7 +283,7 @@ export const addBook = async (bookData, token) => {
 
     } catch (error) {
         console.error("Error creating book:", error);
-        return { success: false, error: error.response?.data?.message || error.message };
+        return {success: false, error: error.response?.data?.message || error.message};
     }
 };
 
@@ -301,50 +298,64 @@ export const addUser = async (userData, token) => {
         if (response.status === 200) {
             return response;
         } else {
-            return { success: false, error: 'Failed to add user' };
+            return {success: false, error: 'Failed to add user'};
         }
 
-    }catch (error) {
+    } catch (error) {
         console.error("Error creating user:", error);
-        return { success: false, error: error.message };
+        return {success: false, error: error.message};
     }
 }
 
-export const deleteBook = async (book_id) => {
+export const deleteBook = async (book_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/${book_id}`)
-        if (response.status === 200){
+        const response = await axios.delete(`http://localhost:8080/books/${book_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 200) {
             return response;
         } else {
-            return { success: false, error: 'Failed to delete book' };
+            return {success: false, error: 'Failed to delete book'};
         }
     } catch (error) {
-        return { success: false, error: error.message}
+        return {success: false, error: error.message}
     }
 }
 
-export const deleteUser = async (user_id) => {
+export const deleteUser = async (user_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/${user_id}`)
-        if (response.status === 200){
+        const response = await axios.delete(`http://localhost:8080/users/${user_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 200) {
             return response;
         } else {
-            return { success: false, error: 'Failed to delete book' };
+            return {success: false, error: 'Failed to delete book'};
         }
     } catch (error) {
-        return { success: false, error: error.message}
+        return {success: false, error: error.message}
     }
 }
 
-export const deleteOrder = async (order_id) => {
+export const deleteOrder = async (order_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/${order_id}`)
-        if (response.status === 200){
+        const response = await axios.delete(`http://localhost:8080/orders/${order_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
             return response;
         } else {
-            return { success: false, error: 'Failed to delete book' };
+            return {success: false, error: 'Failed to delete book'};
         }
     } catch (error) {
-        return { success: false, error: error.message}
+        return {success: false, error: error.message}
     }
 }
