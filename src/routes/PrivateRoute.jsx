@@ -12,8 +12,12 @@ export const PrivateRoute = ({ children, requiredRole }) => {
         return <Navigate to='/' />;
     }
 
-    if (requiredRole === 'USER' && user.role === 'USER'  || user.role === 'ADMIN') {
+    if (requiredRole === 'USER' && (user.role === 'USER' || user.role === 'ADMIN')) {
         return children;
+    }
+
+    if (requiredRole === 'ADMIN' && user.role === 'ADMIN') {
+        return children; 
     }
 
     return <Navigate to='/' />;
