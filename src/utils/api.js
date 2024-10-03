@@ -35,7 +35,22 @@ export const logIn = async ({ email, password }) => {
         });
 
         if (response.ok) {
-            const { token } = await response.json();
+            const { token, expiresIn } = await response.json();
+            const expiresInSeconds = 5;
+            const expirationTime = (new Date().getTime() + expiresIn).toString();
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('token_expiration', expirationTime);
+
+
+            setTimeout(() => {
+                console.log('Token has expired, logging out...');
+                sessionStorage.clear();
+
+                alert('Session expired. Please log in again.');
+
+
+                window.location.href = '/login';
+            }, expiresInSeconds * 1000);
 
             const userResponse = await fetch('http://localhost:8080/auth/me', {
                 headers: {
@@ -47,7 +62,6 @@ export const logIn = async ({ email, password }) => {
                 const userData = await userResponse.json();
                 const { password, ...userDataWithoutPassword } = userData;
                 const userToReturn = { ...userDataWithoutPassword, token };
-                sessionStorage.setItem('token', token);
                 return { success: true, user: userToReturn };
             } else {
                 return { success: false, error: 'Failed to fetch user details' };
@@ -92,9 +106,17 @@ export const updateBook = async (id, bookData, token) => {
 
     }
 }
+export const isTokenExpired = () => {
+    const tokenExpiration = sessionStorage.getItem('token_expiration');
+    return new Date().getTime() > tokenExpiration;
+}
 
 export const fetchUsers = async () => {
     try {
+        if (isTokenExpired()) {
+            return { success: false, error: 'Session expired. Please log in again.' };
+        }
+
         const token = sessionStorage.getItem('token' );
         const response = await axios.get("http://localhost:8080/users", {
             headers: {

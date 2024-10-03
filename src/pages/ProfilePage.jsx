@@ -12,6 +12,7 @@ import {
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { changeUserPassword, updateUserProfile, getUserOrders } from '../utils/userApiUtils';
+import {isTokenExpired} from "../utils/api.js";
 
 
 const ProfilePage = () => {
@@ -33,7 +34,9 @@ const ProfilePage = () => {
     };
 
     useEffect(() => {
-        if (!user) {
+        // Check if the token is expired
+        if (!user || isTokenExpired()) {
+            alert('Session expired. Please log in again.');
             navigate('/login');
         }
     }, [user, navigate]);

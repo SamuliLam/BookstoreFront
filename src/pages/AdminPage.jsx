@@ -5,7 +5,7 @@ import {useContext, useEffect, useState} from "react";
 import {SearchResultContext} from "../context/SearchContext.jsx";
 import AdminTableModal from "../components/AdminComponents/AdminTableModal.jsx";
 import NewItemModal from "../components/AdminComponents/NewItemModal.jsx";
-
+import { isTokenExpired } from '../utils/api';
 
 const AdminPage = () => {
     console.log("AdminPage");
