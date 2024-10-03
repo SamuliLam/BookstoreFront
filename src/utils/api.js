@@ -279,8 +279,9 @@ export const addBook = async (bookData, token) => {
                 'Content-Type': 'application/json',
             }
         });
-        return response.data;
-
+        if (response.status === 201){
+            return response;
+        }
     } catch (error) {
         console.error("Error creating book:", error);
         return {success: false, error: error.response?.data?.message || error.message};
@@ -295,7 +296,7 @@ export const addUser = async (userData, token) => {
                 'Content-Type': 'application/json',
             }
         });
-        if (response.status === 200) {
+        if (response.status === 201) {
             return response;
         } else {
             return {success: false, error: 'Failed to add user'};
@@ -309,7 +310,8 @@ export const addUser = async (userData, token) => {
 
 export const deleteBook = async (book_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/books/${book_id}`, {
+        console.log("token " + token);
+        const response = await axios.delete(`http://localhost:8080/books/delete/${book_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -327,7 +329,7 @@ export const deleteBook = async (book_id, token) => {
 
 export const deleteUser = async (user_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/users/${user_id}`, {
+        const response = await axios.delete(`http://localhost:8080/users/delete/${user_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -345,7 +347,7 @@ export const deleteUser = async (user_id, token) => {
 
 export const deleteOrder = async (order_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/orders/${order_id}`, {
+        const response = await axios.delete(`http://localhost:8080/orders/delete/${order_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
