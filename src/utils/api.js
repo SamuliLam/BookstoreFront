@@ -304,9 +304,47 @@ export const addUser = async (userData, token) => {
             return { success: false, error: 'Failed to add user' };
         }
 
-
     }catch (error) {
         console.error("Error creating user:", error);
         return { success: false, error: error.message };
+    }
+}
+
+export const deleteBook = async (book_id) => {
+    try {
+        const response = await axios.delete(`http://localhost:8080/${book_id}`)
+        if (response.status === 200){
+            return response;
+        } else {
+            return { success: false, error: 'Failed to delete book' };
+        }
+    } catch (error) {
+        return { success: false, error: error.message}
+    }
+}
+
+export const deleteUser = async (user_id) => {
+    try {
+        const response = await axios.delete(`http://localhost:8080/${user_id}`)
+        if (response.status === 200){
+            return response;
+        } else {
+            return { success: false, error: 'Failed to delete book' };
+        }
+    } catch (error) {
+        return { success: false, error: error.message}
+    }
+}
+
+export const deleteOrder = async (order_id) => {
+    try {
+        const response = await axios.delete(`http://localhost:8080/${order_id}`)
+        if (response.status === 200){
+            return response;
+        } else {
+            return { success: false, error: 'Failed to delete book' };
+        }
+    } catch (error) {
+        return { success: false, error: error.message}
     }
 }
