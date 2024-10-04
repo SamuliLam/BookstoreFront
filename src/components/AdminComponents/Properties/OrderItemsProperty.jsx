@@ -1,7 +1,7 @@
 import {RenderProperties} from "./RenderProperties.jsx";
 import {orderItemProperties} from "../../../utils/adminModalProperties.js";
 
-const OrderItemsProperty = ({name, label, value, type}) => {
+const OrderItemsProperty = ({name, label, value, type, onInputChange}) => {
 
     console.log(value);
 
@@ -12,7 +12,7 @@ const OrderItemsProperty = ({name, label, value, type}) => {
                 const properties = orderItemProperties(item);
                 return (
                     <div key={index} className="mb-4">
-                        <RenderProperties tableProperties={properties}/>
+                        <RenderProperties tableProperties={properties} onInputChange={onInputChange}/>
                     </div>
                 );
             })

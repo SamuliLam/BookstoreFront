@@ -14,7 +14,8 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
 
     useEffect(() => {
         const initialFormData = {};
-        const tableProperties = properties(item);
+        const tableProperties = properties(item, dataType);
+        console.log("table properties:", tableProperties);
         tableProperties.forEach((property) => {
             initialFormData[property.name] = property.value;
         });
@@ -94,7 +95,7 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         <Modal open={open} onClose={onClose}>
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col space-y-4 dark:bg-blue-950 dark:text-white dark:placeholder-gray-500">
-                    <RenderProperties tableProperties={properties(item)} onInputChange={handleInputChange}/>
+                    <RenderProperties tableProperties={properties(item, dataType)} onInputChange={handleInputChange}/>
                     {successMessage && (
                         <div className="text-green-500 font-semibold">
                             {successMessage}

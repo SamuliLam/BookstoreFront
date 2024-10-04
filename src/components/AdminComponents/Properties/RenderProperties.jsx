@@ -2,6 +2,8 @@ import TextProperty from "./TextProperty.jsx";
 import InventoryProperty from "./InventoryProperty.jsx";
 import OrderItemsProperty from "./OrderItemsProperty.jsx";
 import BookProperty from "./BookProperty.jsx";
+import AuthorProperty from "./AuthorProperty.jsx";
+import PublisherProperty from "./PublisherProperty.jsx";
 
 export const RenderProperties = ({tableProperties, onInputChange}) => {
 
@@ -9,6 +11,8 @@ export const RenderProperties = ({tableProperties, onInputChange}) => {
         "text": TextProperty,
         "number": TextProperty,
         "inventory": InventoryProperty,
+        "authors": AuthorProperty,
+        "publisher": PublisherProperty,
         "orderItems": OrderItemsProperty,
         "book": BookProperty,
     };

@@ -3,6 +3,10 @@ export const properties = (item, dataType) => {
         return userProperties(item || {});
     } else if (dataType === "inventory") {
         return inventoryProperties(item || {});
+    } else if (dataType === "authors") {
+        return authorProperties(item || {});
+    } else if (dataType === "publisher") {
+        return publisherProperties(item || {});
     } else if (dataType === "order") {
         return orderProperties(item || {});
     } else {
@@ -72,6 +76,18 @@ export const bookProperties = (book) => {
             label: "Inventory",
             value: book.inventory || "",
             type: "inventory",
+        },
+        {
+            name: "publisher",
+            label: "Publisher",
+            value: book.publisher || "",
+            type: "publisher"
+        },
+        {
+            name: "authors",
+            label: "Authors",
+            value: book.authors || "",
+            type: "authors"
         },
     ]
 }
@@ -212,12 +228,7 @@ export const orderBookProperties = (book) => {
 
 export const inventoryProperties = (inventory) => {
     return [
-        {
-            name: "inventory_id",
-            label: "ID",
-            value: inventory.inventory_id || "",
-            type: "number",
-        },
+
         {
             name: "stock_level_used",
             label: "Stock Used",
@@ -231,5 +242,45 @@ export const inventoryProperties = (inventory) => {
             value: inventory.stock_level_new || "",
             type: "number",
         },
+        {
+            name: "reserved_stock",
+            label: "Reserved Stock",
+            value: inventory.reserved_stock || "",
+            type: "number"
+        }
+    ]
+}
+
+export const publisherProperties = (publisher) => {
+    return [
+        {
+            name: "name",
+            label: "Name",
+            value: publisher.name || "",
+            type: "text",
+        },
+        {
+            name: "country",
+            label: "Country",
+            value: publisher.country || "",
+            type: "text"
+        }
+    ]
+}
+
+export const authorProperties = (author) => {
+    return [
+        {
+            name: "first_name",
+            label: "First Name",
+            value: author.first_name || "",
+            type: "text",
+        },
+        {
+            name: "last_name",
+            label: "Last Name",
+            value: author.last_name || "",
+            type: "text"
+        }
     ]
 }

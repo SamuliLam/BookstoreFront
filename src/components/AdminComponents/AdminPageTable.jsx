@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import AdminTableModal from "./AdminTableModal.jsx";
 
@@ -17,6 +17,10 @@ const AdminPageTable = ({data}) => {
     let dataMapIdentifiers = {};
     let tableHeaders = [];
     let dataType;
+
+    useEffect(() => {
+        console.log("selected item is: ", selectedItem);
+    }, [selectedItem]);
 
     const itemId = useMemo(() => {
         if (!selectedItem) {
