@@ -9,19 +9,22 @@ import SignupPage from "../pages/SignupPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import OrderPage from "../pages/OrderPage.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 const AppRoutes = () => (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader/>}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="/book/:id" element={<Book />} />
-                    <Route path="/admin" element={<AdminPage />} />
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<HomePage/>}/>
+                    <Route path="/book/:id" element={<Book/>}/>
+                    <Route path="/admin" element={<PrivateRoute>
+                        <AdminPage/>
+                    </PrivateRoute>}/>
                     <Route path="/signup" element={<SignupPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/order" element={<OrderPage/>}/>
-                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="profile" element={<ProfilePage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -50,7 +50,7 @@ const NewItemModal = ({ open, onClose, dataType }) => {
 
             console.log("Fetch response:", response);
 
-            if (response && response.success === false) {
+            if (response.success === false) {
                 setErrorMessage("Failed to create item");
                 setSuccessMessage("");
             } else {
