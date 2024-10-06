@@ -77,23 +77,23 @@ const Header = () => {
                             <FaTimes size={24} />
                         </button>
                     </div>
-                    <div className="flex flex-col items-center space-y-4 mt-8">
+                    <div className="flex flex-col items-center space-y-4 mt-4">
                         <SearchBar />
-                        {currentUser ? (
+                        {user ? (
                             <>
                                 <LogoutButton />
                                 <span className="text-sm text-gray-700 dark:text-white">
-                                    Welcome, {currentUser.first_name || currentUser.email.split('@')[0] || 'User'}!
+                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
                                 </span>
-                                {currentUser.role === 'ADMIN' && <HeaderAdminPanelButton />}
+                                {user.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
                         ) : (
-                            <>
-                                <LoginButton />
-                                <SignupButton />
-                            </>
+                            <div className="flex flex-col space-y-4 w-full">
+                                <LoginButton className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600" />
+                                <SignupButton className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600" />
+                            </div>
                         )}
-                        <ThemeToggle />
+                        <ThemeToggle/>
                     </div>
                 </div>
             )}
