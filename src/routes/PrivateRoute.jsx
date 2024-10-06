@@ -1,19 +1,26 @@
-import {Navigate} from 'react-router-dom';
-import {useUserContext} from "../context/UserContext.jsx";
+import { Navigate } from 'react-router-dom';
+import { useUserContext } from "../context/UserContext.jsx";
 
-export const PrivateRoute = ({children}) => {
-    const {user} = useUserContext();
+export const PrivateRoute = ({ children, requiredRole }) => {
+    const { user } = useUserContext();
 
-
-    if (!user){
-        return <Navigate to='/login'/>
+    if (!user) {
+        return <Navigate to='/login' />;
     }
 
-    if (user.role !== 'ADMIN'){
-        return <Navigate to='/'/>
+    if (requiredRole === 'ADMIN' && user.role !== 'ADMIN') {
+        return <Navigate to='/' />;
     }
 
-    return children;
-}
+    if (requiredRole === 'USER' && (user.role === 'USER' || user.role === 'ADMIN')) {
+        return children;
+    }
+
+    if (requiredRole === 'ADMIN' && user.role === 'ADMIN') {
+        return children; 
+    }
+
+    return <Navigate to='/' />;
+};
 
 export default PrivateRoute;

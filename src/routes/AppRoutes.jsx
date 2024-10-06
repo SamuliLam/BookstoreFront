@@ -18,13 +18,15 @@ const AppRoutes = () => (
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<HomePage/>}/>
                     <Route path="/book/:id" element={<Book/>}/>
-                    <Route path="/admin" element={<PrivateRoute>
+                    <Route path="/admin" element={<PrivateRoute requiredRole={"ADMIN"}>
                         <AdminPage/>
                     </PrivateRoute>}/>
                     <Route path="/signup" element={<SignupPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/order" element={<OrderPage/>}/>
-                    <Route path="profile" element={<ProfilePage/>}/>
+                    <Route path="profile" element={<PrivateRoute requiredRole={"USER"}>
+                        <ProfilePage/>
+                    </PrivateRoute>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

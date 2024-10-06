@@ -83,7 +83,7 @@ const OrderPage = () => {
 
 
     return (
-        <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row">
+        <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row ">
             <form onSubmit={handleSubmit} className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
                 <h2 className="text-xl font-bold dark:text-white">Recipient Information</h2>
 
@@ -166,7 +166,7 @@ const OrderPage = () => {
                                     <img src={book.image_url} alt={book.title} className="w-full h-full object-cover"/>
                                 </div>
                                 <div
-                                    className="absolute bottom-16 left-6 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
+                                    className="absolute bottom-20 left-6 xs:bottom-16 xs:left-7 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
                                     {book.quantity}
                                 </div>
                                 <div>

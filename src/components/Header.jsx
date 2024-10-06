@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { useUserContext } from '../context/UserContext';
@@ -16,7 +16,9 @@ const Header = () => {
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-    const currentUser = getUser();
+    useEffect(() => {
+        getUser();
+    }, [getUser]);
 
     return (
         <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-700 sticky w-full top-0 z-10">
@@ -29,13 +31,13 @@ const Header = () => {
                         <SearchBar />
                     </div>
                     <div className="hidden md:flex items-center space-x-4">
-                        {currentUser ? (
+                        {user ? (
                             <>
                                 <LogoutButton />
                                 <span className="text-sm text-gray-700 dark:text-white">
-                                    Welcome, {currentUser.first_name || currentUser.email.split('@')[0] || 'User'}!
+                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
                                 </span>
-                                {currentUser.role === 'ADMIN' && <HeaderAdminPanelButton />}
+                                {user.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
                         ) : (
                             <>
