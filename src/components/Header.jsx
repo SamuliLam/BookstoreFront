@@ -88,7 +88,7 @@ const Header = () => {
                                 {user.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
                         ) : (
-                            <div className="flex flex-col space-y-4 w-full">
+                            <div className="flex flex-col space-y-4 w-fit">
                                 <LoginButton className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600" />
                                 <SignupButton className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600" />
                             </div>
