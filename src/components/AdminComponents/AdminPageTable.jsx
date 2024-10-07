@@ -56,13 +56,12 @@ const AdminPageTable = ({data}) => {
     }, [selectedItem]);
 
     const handleEdit = async (item) => {
+        setSelectedItem(item);
         if (dataType === "order") {
             const response= await getOrderById(item.order_id, user.token);
             const formattedOrder = response.data;
             if (formattedOrder) {
                 setSelectedItem(formattedOrder);
-            } else {
-                setSelectedItem(item);
             }
         }
         console.log("selected item is ", item);

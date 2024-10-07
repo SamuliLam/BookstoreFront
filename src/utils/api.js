@@ -400,3 +400,20 @@ export const getOrderById = async (order_id, token) => {
         return {success: false, error: error.message}
     }
 }
+
+export const getDummyBook = async (token) => {
+    try {
+        const response = await axios.get("http://localhost:8080/books/dummy", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if (response.status === 200) {
+            return {success: true, data: response.data};
+        } else {
+            return {success: false, error: 'Failed to get dummy book'};
+        }
+    } catch (error) {
+        return {success: false, error: error.message}
+    }
+}

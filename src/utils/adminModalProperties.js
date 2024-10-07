@@ -2,6 +2,8 @@
 export const computedProperties = (object) => {
     const keys = Object.keys(object);
 
+    console.log("keys:", keys);
+
     const disabled = [
         'author_id',
         'publisher_id',
@@ -58,7 +60,6 @@ export const computedProperties = (object) => {
             return 'text';
         }
 
-
         return typeof value;
     };
 
@@ -85,10 +86,6 @@ export const computedProperties = (object) => {
         }
     })
 }
-
-
-
-
 
 export const userProperties = (user) => {
     return [

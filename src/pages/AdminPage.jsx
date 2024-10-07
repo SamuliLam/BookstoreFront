@@ -82,7 +82,7 @@ const AdminPage = () => {
                 <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
                 <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
             </aside>
-            <div className="table-content-container flex-col dark:text-white dark:bg-gray-700">
+            <div className="table-content-container flex-col dark:text-white dark:bg-gray-700 w-full">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4" onClick={handleAddNewClick}>
                     Add New
                 </button>
