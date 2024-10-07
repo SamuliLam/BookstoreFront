@@ -4,7 +4,7 @@ import {fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
 import {useContext, useEffect, useState} from "react";
 import {SearchResultContext} from "../context/SearchContext.jsx";
 import AdminTableModal from "../components/AdminComponents/AdminTableModal.jsx";
-import NewItemModal from "../components/AdminComponents/NewItemModal.jsx";
+import NewBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
 import { isTokenExpired } from '../utils/api';
 
 const AdminPage = () => {
@@ -91,10 +91,9 @@ const AdminPage = () => {
                 </div>
             </div>
             {isModalOpen && (
-                <NewItemModal
+                <NewBookModal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    dataType={modalDataType}
                 />
             )}
         </div>
