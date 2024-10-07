@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal.jsx";
-import { addBook, addUser, addOrder } from "../../utils/api.js";
-import { properties } from "../../utils/adminModalProperties.js";
+import { addBook, addUser, addOrder, getDummyBook } from "../../utils/api.js"; // Import the function
 import { useUserContext } from "../../context/UserContext.jsx";
 import { RenderProperties } from "./Properties/RenderProperties.jsx";
+import { computedProperties } from "../../utils/adminModalProperties.js";
 
 const NewItemModal = ({ open, onClose, dataType }) => {
     const { user } = useUserContext();
@@ -11,9 +11,31 @@ const NewItemModal = ({ open, onClose, dataType }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Fetch dummy book data when modal is opened for books
+    useEffect(() => {
+        const fetchDummyBook = async () => {
+            if (dataType === "book" && open) {
+                const result = await getDummyBook(user.token);
+                if (result.success) {
+                    // Create a new object excluding publisherId
+                    const { publisherId, ...dataWithoutPublisherId } = result.data;
+                    setFormData(dataWithoutPublisherId);
+                } else {
+                    console.error(result.error);
+                }
+            }
+        };
+
+        fetchDummyBook();
+    }, [dataType, open, user.token]);
+
+
     useEffect(() => {
         console.log(formData);
     }, [formData]);
+
+    // Dynamically compute the form fields using computedProperties
+    const computedFields = computedProperties(formData);
 
     const handleInputChange = (name, value) => {
         const numericFields = ["publication_year", "price", "quantity", "street_number", "postal_code"];
@@ -68,12 +90,13 @@ const NewItemModal = ({ open, onClose, dataType }) => {
         }
     };
 
-
     return (
         <Modal open={open} onClose={onClose}>
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col space-y-4 dark:bg-blue-950 dark:text-white dark:placeholder-gray-500">
-                    <RenderProperties tableProperties={properties(null, dataType)} onInputChange={handleInputChange}/>
+                    {/* Pass computedFields to RenderProperties */}
+                    <RenderProperties value={computedFields} onInputChange={handleInputChange} />
+
                     {successMessage && (
                         <div className="text-green-500 font-semibold">
                             {successMessage}

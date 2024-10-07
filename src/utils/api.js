@@ -346,7 +346,7 @@ export const addUser = async (userData, token) => {
 export const deleteBook = async (book_id, token) => {
     console.log('bookid ' + book_id)
     try {
-        const response = await axios.delete(`http://localhost:8080/books/delete/${book_id}`, {
+        const response = await axios.delete(`http://localhost:8080/books/${book_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -391,6 +391,40 @@ export const deleteOrder = async (order_id, token) => {
             return {success: true, data: response.data};
         } else {
             return {success: false, error: 'Failed to delete book'};
+        }
+    } catch (error) {
+        return {success: false, error: error.message}
+    }
+}
+
+export const getOrderById = async (order_id, token) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/orders/${order_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+            return {success: true, data: response.data};
+        } else {
+            return {success: false, error: 'Failed to get order'};
+        }
+    } catch (error) {
+        return {success: false, error: error.message}
+    }
+}
+
+export const getDummyBook = async (token) => {
+    try {
+        const response = await axios.get("http://localhost:8080/books/dummy", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        if (response.status === 200) {
+            return {success: true, data: response.data};
+        } else {
+            return {success: false, error: 'Failed to get dummy book'};
         }
     } catch (error) {
         return {success: false, error: error.message}

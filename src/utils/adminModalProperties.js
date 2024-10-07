@@ -1,79 +1,90 @@
-export const properties = (item, dataType) => {
-    if (dataType === "user") {
-        return userProperties(item || {});
-    } else if (dataType === "inventory") {
-        return inventoryProperties(item || {});
-    } else if (dataType === "order") {
-        return orderProperties(item || {});
-    } else {
-        return bookProperties(item || {});
+
+export const computedProperties = (object) => {
+    const keys = Object.keys(object);
+
+    console.log("keys:", keys);
+
+    const disabled = [
+        'author_id',
+        'publisher_id',
+        'book_id',
+        'order_id',
+        'user_id',
+    ];
+
+    const labels = {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "street_name": "Street Name",
+        "street_number": "Street Number",
+        "province": "Province",
+        "postal_code": "Postal Code",
+        "phone_number": "Phone Number",
+        "role": "Role",
+        "order_date": "Order Date",
+        "total": "Total Price",
+        "orderItems": "Ordered Products",
+        "book": "Book",
+        "quantity": "Quantity",
+        "stock_level_used": "Stock Used",
+        "stock_level_new": "Stock New",
+        "reserved_stock": "Reserved Stock",
+        "title": "Title",
+        "isbn": "ISBN",
+        "price": "Price",
+        "genre": "Genre",
+        "type": "Type",
+        "book_condition": "Book Condition",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "name": "Name",
+        "country": "Country",
+        "publication_year": "Publish Year",
+        "authors": "Authors",
+        "publisher": "Publisher",
+        "orderDate": "Order Date",
+        "userEmail": "User Email",
+        "bookTitle": "Book Title",
     }
-};
 
-export const bookProperties = (book) => {
-    return [
-        {
-            name: "title",
-            label: "Title",
-            value: book.title || "",
-            type: "text",
+    const isObject = (value) => typeof value === 'object'  && !Array.isArray(value) && value !== null;
 
-        },
-        {
-            name: "isbn",
-            label: "ISBN",
-            value: book.isbn || "",
-            type: "text",
+    const resolveType = (value) => {
+        if (Array.isArray(value)){
+            return 'array';
+        }else if (isObject(value)){
+            return 'object';
+        } else if (typeof value === 'string'){
+            return 'text';
+        }
 
-        },
-        {
-            name: "genre",
-            label: "Genre",
-            value: book.genre || "",
-            type: "text",
+        return typeof value;
+    };
 
-        },
-        {
-            name: "type",
-            label: "Type",
-            value: book.type || "",
-            type: "text",
+    const resolveValue = (value) => {
+        if (isObject(value)) {
+            return computedProperties(value)
+        }else if (Array.isArray(value)){
+            return value.map(computedProperties);
+        }
+        return value
+    }
 
-        },
-        {
-            name: "publication_year",
-            label: "Publish Year",
-            value: book.publication_year || "",
-            type: "number",
 
-        },
-        {
-            name: "price",
-            label: "Price",
-            value: book.price || "",
-            type: "number",
+    return keys.map((key) => {
 
-        },
-        {
-            name: "book_condition",
-            label: "Condition",
-            value: book.book_condition || "",
-            type: "text",
+        const objectValue = object[key];
 
-        },
-        {
-            name: "image_url",
-            label: "Image URL",
-            value: book.image_url || "",
-            type: "text",
-        },
-        {
-            name: "inventory",
-            label: "Inventory",
-            value: book.inventory || "",
-            type: "inventory",
-        },
-    ]
+        return {
+            name: key,
+            label: labels[key] || key,
+            type: resolveType(objectValue),
+            value: resolveValue(objectValue),
+            disabled: disabled.includes(key)
+        }
+    })
 }
 
 export const userProperties = (user) => {
@@ -149,19 +160,19 @@ export const orderProperties = (order) => {
     return [
 
         {
-            name: "order_date",
+            name: "order.order_date",
             label: "Order Date",
             value: order.order_date || "",
             type: "text",
         },
         {
-            name: "total",
+            name: "order.total",
             label: "Total Price",
             value: order.total || "",
             type: "number",
         },
         {
-            name: "orderItems",
+            name: "order.orderItems",
             label: "Ordered Products",
             value: order.orderItems || "",
             type: "orderItems",
@@ -172,13 +183,13 @@ export const orderProperties = (order) => {
 export const orderItemProperties = (orderItem) => {
     return [
         {
-            name: "book",
+            name: "orderItems.book",
             label: "Book",
             value: orderItem.book || "",
             type: "book",
         },
         {
-            name: "quantity",
+            name: "orderItems.quantity",
             label: "Quantity",
             value: orderItem.quantity || "",
             type: "number",
@@ -189,20 +200,20 @@ export const orderItemProperties = (orderItem) => {
 export const orderBookProperties = (book) => {
     return [
         {
-            name: "title",
+            name: "book.title",
             label: "Title",
             value: book.title || "",
             type: "text",
         },
         {
-            name: "isbn",
+            name: "book.isbn",
             label: "ISBN",
             value: book.isbn || "",
             type: "text",
         },
 
         {
-            name: "price",
+            name: "book.price",
             label: "Price",
             value: book.price || "",
             type: "number",
@@ -212,24 +223,59 @@ export const orderBookProperties = (book) => {
 
 export const inventoryProperties = (inventory) => {
     return [
+
         {
-            name: "inventory_id",
-            label: "ID",
-            value: inventory.inventory_id || "",
-            type: "number",
-        },
-        {
-            name: "stock_level_used",
+            name: "inventory.stock_level_used",
             label: "Stock Used",
             value: inventory.stock_level_used || "",
             type: "number",
 
         },
         {
-            name: "stock_level_new",
+            name: "inventory.stock_level_new",
             label: "Stock New",
             value: inventory.stock_level_new || "",
             type: "number",
         },
+        {
+            name: "inventory.reserved_stock",
+            label: "Reserved Stock",
+            value: inventory.reserved_stock || "",
+            type: "number"
+        }
+    ]
+}
+
+export const publisherProperties = (publisher) => {
+    return [
+        {
+            name: "publisher.name",
+            label: "Name",
+            value: publisher.name || "",
+            type: "text",
+        },
+        {
+            name: "publisher.country",
+            label: "Country",
+            value: publisher.country || "",
+            type: "text"
+        }
+    ]
+}
+
+export const authorProperties = (author) => {
+    return [
+        {
+            name: "authors.first_name",
+            label: "First Name",
+            value: author.first_name || "",
+            type: "text",
+        },
+        {
+            name: "authors.last_name",
+            label: "Last Name",
+            value: author.last_name || "",
+            type: "text"
+        }
     ]
 }
