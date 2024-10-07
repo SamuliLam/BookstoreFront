@@ -24,6 +24,7 @@ const AdminPage = () => {
     const [currentDataType, setCurrentDataType] = useState(""); // New state to track which type is currently being viewed
 
 
+
     const {searchResults} = useContext(SearchResultContext);
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import AdminTableModal from "./AdminTableModal.jsx";
-import {deleteBook, deleteOrder, deleteUser} from "../../utils/api.js";
+import {deleteBook, deleteOrder, deleteUser, getOrderById} from "../../utils/api.js";
 import {useUserContext} from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 
@@ -55,9 +55,18 @@ const AdminPageTable = ({data}) => {
         }
     }, [selectedItem]);
 
-    const handleEdit = (item) => {
-        setSelectedItem(item);
+    const handleEdit = async (item) => {
+        if (dataType === "order") {
+            const response= await getOrderById(item.order_id, user.token);
+            const formattedOrder = response.data;
+            if (formattedOrder) {
+                setSelectedItem(formattedOrder);
+            } else {
+                setSelectedItem(item);
+            }
+        }
         console.log("selected item is ", item);
+
         setIsModalOpen(true);
     }
 

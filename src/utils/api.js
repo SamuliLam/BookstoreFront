@@ -383,3 +383,20 @@ export const deleteOrder = async (order_id, token) => {
         return {success: false, error: error.message}
     }
 }
+
+export const getOrderById = async (order_id, token) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/orders/${order_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+            return {success: true, data: response.data};
+        } else {
+            return {success: false, error: 'Failed to get order'};
+        }
+    } catch (error) {
+        return {success: false, error: error.message}
+    }
+}
