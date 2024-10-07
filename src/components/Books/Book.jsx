@@ -74,7 +74,19 @@ const Book = () => {
                 {/* Book Details */}
                 <div className="md:w-2/4 w-full md:pl-6 light:text-gray-600 dark:text-white">
                     <h1 className="text-3xl font-bold mb-4 text-center md:text-left ">{book.title}</h1>
-                    <p className="text-xl mb-2"><strong>Author: </strong>{book.author}</p>
+                    <p className="text-xl mb-2">
+                        <strong>Author: </strong>
+                        {book.authors && book.authors.length > 0 ? (
+                            book.authors.map((author, index) => (
+                                <span key={author.author_id}>
+                                    {author.firstName} {author.lastName}
+                                    {index < book.authors.length - 1 && ', '}
+                                </span>
+                            ))
+                        ) : (
+                            <span>No authors available</span>
+                        )}
+                    </p>
                     <p className="text-xl mb-2"><strong>ISBN:</strong> {book.isbn}</p>
                     <p className="text-xl mb-2"><strong>Genre:</strong> {book.genre}</p>
                     <p className="text-xl mb-2"><strong>Type:</strong> {book.type}</p>
@@ -83,7 +95,7 @@ const Book = () => {
 
                     {/* Price and Add to Cart */}
                     <div className="flex items-center justify-center md:justify-start mb-4">
-                        <span className="text-3xl font-semibold text-green-900 mr-4 dark:text-white">€{book.price}</span>
+                    <span className="text-3xl font-semibold text-green-900 mr-4 dark:text-white">€{book.price}</span>
                         <button onClick={() => handleAddToCart(book)}
                                 className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg">
                             Add to Cart
