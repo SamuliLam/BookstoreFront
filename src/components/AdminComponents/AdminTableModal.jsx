@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Modal from "./Modal.jsx";
 import {properties} from "../../utils/adminModalProperties.js";
 import {RenderProperties} from "./Properties/RenderProperties.jsx";
@@ -27,12 +27,6 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
     }, [formData]);
 
 
-    const allowedFieldsMap = {
-        book: ["title", "isbn", "author", "price", "quantity", "genre", "type", "publication_year", "book_condition", "image_url"],
-        user: ["email", "password", "first_name", "last_name", "street_number", "street_name", "province", "postal_code", "phone_number", "role"],
-        inventory: ["quantity"],
-        order: ["order_date", "total"]
-    };
 
     const endpointMap = {
         "book": updateBook,
@@ -41,25 +35,10 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
         "order": null
     }
 
-    const filterFormData = (FormObject, allowedFields) => {
-        return Object.fromEntries(
-            Object.entries(FormObject)
-                .filter(([key, value]) => allowedFields.includes(key) && value !== '' && value !== null)        );
-    };
-
     const handleInputChange = (name, value) => {
-        const numericFields = ["street_number", "postal_code"];
-
-
         setFormData((prevData) => {
-            let parsedValue = value;
-            if (numericFields.includes(name)) {
-                parsedValue = parseInt(value, 10) || value;
-            }
-
             return {
-                ...prevData,
-                [name]: parsedValue,
+                ...prevData, [name]: value,
             };
         });
     };

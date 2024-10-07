@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal.jsx";
 import { addBook, addUser, addOrder } from "../../utils/api.js";
-import { properties } from "../../utils/adminModalProperties.js";
 import { useUserContext } from "../../context/UserContext.jsx";
 import { RenderProperties } from "./Properties/RenderProperties.jsx";
 
