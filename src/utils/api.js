@@ -145,12 +145,25 @@ export const fetchOrders = async () => {
         if (response.status !== 200) {
             throw new Error("Error fetching orders " + response.status);
         }
-        return response.data;
+
+        const formattedOrders = response.data.orders.map(order => ({
+            id: order.order_id,
+            date: new Date(order.orderDate).toLocaleDateString(),
+            total: order.total,
+            status: "SUCCESSFUL",
+            orderItems: order.orderItems.map(item => ({
+                book: item.book,
+                quantity: item.quantity,
+                price: item.price !== null ? item.price : 0
+            }))
+        }));
+
+        return { success: true, orders: formattedOrders };
     } catch (error) {
         console.error("Error fetching orders:", error);
+        return { success: false, error: error.message };
     }
-}
-
+};
 export const fetchSearchResults = async (searchText) => {
     try {
         if (searchText.length < 3) {

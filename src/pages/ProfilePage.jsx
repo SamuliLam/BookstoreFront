@@ -385,7 +385,7 @@ const ProfilePage = () => {
     return (
         <div className="flex flex-col md:flex-row w-screen bg-gray-100 dark:bg-gray-900">
             {/* Sidebar */}
-            <div className="w-full md:w-64 bg-white shadow-xl p-6 flex flex-col dark:bg-gray-800 relative z-10">
+            <div className="w-full md:w-64 bg-white shadow-xl p-6 flex flex-col dark:bg-gray-800 relative z-0">
                 <div className="flex flex-col items-center mb-6">
                     <User size={64} className="text-gray-700 mb-3 dark:text-gray-300"/>
                     <h1 className="text-xl font-bold mb-1 dark:text-gray-100">{user.first_name} {user.last_name}</h1>

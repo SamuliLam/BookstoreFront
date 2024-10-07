@@ -166,7 +166,7 @@ const OrderPage = () => {
                                     <img src={book.image_url} alt={book.title} className="w-full h-full object-cover"/>
                                 </div>
                                 <div
-                                    className="absolute bottom-16 left-6 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
+                                    className="absolute bottom-20 left-6 xs:bottom-16 xs:left-7 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
                                     {book.quantity}
                                 </div>
                                 <div>
