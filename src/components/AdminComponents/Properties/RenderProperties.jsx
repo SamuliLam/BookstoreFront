@@ -1,21 +1,35 @@
 import TextProperty from "./TextProperty.jsx";
-import InventoryProperty from "./InventoryProperty.jsx";
-import OrderItemsProperty from "./OrderItemsProperty.jsx";
-import BookProperty from "./BookProperty.jsx";
-import AuthorProperty from "./AuthorProperty.jsx";
-import PublisherProperty from "./PublisherProperty.jsx";
+import ArrayProperty from "./ArrayProperty.jsx";
+import BooleanProperty from "./BooleanProperty.jsx";
 
-export const RenderProperties = ({tableProperties, onInputChange}) => {
+export const RenderProperties = ({value, name, onInputChange}) => {
 
     const propertiesMap = {
         "text": TextProperty,
         "number": TextProperty,
-        "inventory": InventoryProperty,
-        "authors": AuthorProperty,
-        "publisher": PublisherProperty,
-        "orderItems": OrderItemsProperty,
-        "book": BookProperty,
+        "object": RenderProperties,
+        "boolean": BooleanProperty,
+        "array": ArrayProperty
+        /*
+                "inventory": InventoryProperty,
+                "authors": AuthorProperty,
+                "publisher": PublisherProperty,
+                "orderItems": OrderItemsProperty,
+                "book": BookProperty,
+        */
     };
+
+    const onUpdate = (property, newValue) => {
+        if (!name) {
+            onInputChange(property, newValue);
+            return;
+        }
+
+        const val = {
+            [property]: newValue
+        };
+        onInputChange(name, val)
+    }
 
     return (
         console.log("value:", value),
