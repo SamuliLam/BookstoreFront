@@ -17,7 +17,9 @@ const NewItemModal = ({ open, onClose, dataType }) => {
             if (dataType === "book" && open) {
                 const result = await getDummyBook(user.token);
                 if (result.success) {
-                    setFormData(result.data);
+                    // Create a new object excluding publisherId
+                    const { publisherId, ...dataWithoutPublisherId } = result.data;
+                    setFormData(dataWithoutPublisherId);
                 } else {
                     console.error(result.error);
                 }
@@ -26,6 +28,7 @@ const NewItemModal = ({ open, onClose, dataType }) => {
 
         fetchDummyBook();
     }, [dataType, open, user.token]);
+
 
     useEffect(() => {
         console.log(formData);

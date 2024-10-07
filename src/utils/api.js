@@ -333,7 +333,7 @@ export const addUser = async (userData, token) => {
 export const deleteBook = async (book_id, token) => {
     console.log('bookid ' + book_id)
     try {
-        const response = await axios.delete(`http://localhost:8080/books/delete/${book_id}`, {
+        const response = await axios.delete(`http://localhost:8080/books/${book_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
