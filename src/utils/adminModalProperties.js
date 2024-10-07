@@ -42,6 +42,9 @@ export const computedProperties = (object) => {
         "publication_year": "Publish Year",
         "authors": "Authors",
         "publisher": "Publisher",
+        "orderDate": "Order Date",
+        "userEmail": "User Email",
+        "bookTitle": "Book Title",
     }
 
     const isObject = (value) => typeof value === 'object'  && !Array.isArray(value) && value !== null;
