@@ -18,7 +18,8 @@ export const RenderProperties = ({tableProperties, onInputChange}) => {
     };
 
     return (
-        tableProperties.map((property) => {
+        console.log("value:", value),
+            (value || []).map((property) => {
                 const PropertyComponent = propertiesMap[property.type];
                 if (!PropertyComponent) {
                     return <p key={property.name}>Invalid property type: {property.type}</p>;

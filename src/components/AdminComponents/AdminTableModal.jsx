@@ -12,15 +12,6 @@ const AdminTableModal = ({open, onClose, item, dataType, id}) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    useEffect(() => {
-        const initialFormData = {};
-        const tableProperties = properties(item, dataType);
-        console.log("table properties:", tableProperties);
-        tableProperties.forEach((property) => {
-            initialFormData[property.name] = property.value;
-        });
-        setFormData(initialFormData);
-    }, [item]);
 
     useEffect(() => {
         console.log("form data:", formData);

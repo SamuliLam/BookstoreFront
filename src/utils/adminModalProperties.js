@@ -3,13 +3,45 @@ export const computedProperties = (object) => {
     const keys = Object.keys(object);
 
     const disabled = [
-        'author_id'
+        'author_id',
+        'publisher_id',
+        'book_id',
+        'order_id',
+        'user_id',
     ];
 
-
     const labels = {
-        "author_id": "ID",
-        "publication_year": "Publish Year"
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "street_name": "Street Name",
+        "street_number": "Street Number",
+        "province": "Province",
+        "postal_code": "Postal Code",
+        "phone_number": "Phone Number",
+        "role": "Role",
+        "order_date": "Order Date",
+        "total": "Total Price",
+        "orderItems": "Ordered Products",
+        "book": "Book",
+        "quantity": "Quantity",
+        "stock_level_used": "Stock Used",
+        "stock_level_new": "Stock New",
+        "reserved_stock": "Reserved Stock",
+        "title": "Title",
+        "isbn": "ISBN",
+        "price": "Price",
+        "genre": "Genre",
+        "type": "Type",
+        "book_condition": "Book Condition",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "name": "Name",
+        "country": "Country",
+        "publication_year": "Publish Year",
+        "authors": "Authors",
+        "publisher": "Publisher",
     }
 
     const isObject = (value) => typeof value === 'object'  && !Array.isArray(value) && value !== null;
