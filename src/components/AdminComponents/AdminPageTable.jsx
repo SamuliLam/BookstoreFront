@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
-import AdminTableModal from "./AdminTableModal.jsx";
 import {deleteBook, deleteOrder, deleteUser, getOrderById} from "../../utils/api.js";
 import {useUserContext} from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
+import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
 
 const AdminPageTable = ({data}) => {
 
@@ -15,7 +15,6 @@ const AdminPageTable = ({data}) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-
     // Data mapping identifiers for each type
     const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
     const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};
@@ -24,7 +23,14 @@ const AdminPageTable = ({data}) => {
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
-    let dataType;
+
+
+    const dataType = (() => {
+        if (!selectedItem) return "";
+        if (selectedItem.isbn) return "book";
+        if (selectedItem.orderDate) return "order";
+        if (selectedItem.email) return "user";
+    })();
 
     // Check the type of data and set the map and headers accordingly
     if (Array.isArray(data) && data.length > 0) {
@@ -33,17 +39,14 @@ const AdminPageTable = ({data}) => {
             // if book data
             dataMapIdentifiers = bookDataMapIdentifiers;
             tableHeaders = Object.values(bookDataMapIdentifiers);
-            dataType = "book";
         } else if (data[0].email) {
             // if user data
             dataMapIdentifiers = userDataMapIdentifiers;
             tableHeaders = Object.values(userDataMapIdentifiers);
-            dataType = "user";
         } else if (data[0].orderDate) {
             // if order data
             dataMapIdentifiers = orderDataMapIdentifiers;
             tableHeaders = Object.values(orderDataMapIdentifiers);
-            dataType = "order";
             console.log("order headers: ", tableHeaders);
         }
     }
@@ -151,17 +154,21 @@ const AdminPageTable = ({data}) => {
                 </tbody>
 
             </table>
+            {( isModalOpen && dataType === "book" ) &&
+                <CreateOrUpdateBookModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingBook={selectedItem}/>}
+{/*
             {
-                isModalOpen && (
-                    <AdminTableModal
+                isModalOpen && dataType === "user" && (
+                    <CreateOrEditModal
                         open={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                        item={selectedItem}
-                        dataType={dataType}
-                        id={itemId}
-                    />
+                        existingBook={item}/>
                 )
             }
+*/}
             {
                 isDeleteModalOpen && (
                     <AdminDeleteConfirmModal
