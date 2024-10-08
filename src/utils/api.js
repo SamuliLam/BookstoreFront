@@ -364,7 +364,7 @@ export const deleteBook = async (book_id, token) => {
 
 export const deleteUser = async (user_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/users/delete/${user_id}`, {
+        const response = await axios.delete(`http://localhost:8080/users/${user_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -382,7 +382,7 @@ export const deleteUser = async (user_id, token) => {
 
 export const deleteOrder = async (order_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/orders/delete/${order_id}`, {
+        const response = await axios.delete(`http://localhost:8080/orders/${order_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
