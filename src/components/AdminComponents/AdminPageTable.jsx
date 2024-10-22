@@ -15,6 +15,15 @@ const AdminPageTable = ({data}) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const dataType = useMemo(() => {
+        console.log("entering usememo");
+        if (!selectedItem) return "";
+        if (selectedItem.isbn) return "book";
+        if (selectedItem.orderDate) return "order";
+        if (selectedItem.email) return "user";
+    }, [selectedItem]);
+
+
     // Data mapping identifiers for each type
     const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
     const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};
@@ -25,12 +34,7 @@ const AdminPageTable = ({data}) => {
     let tableHeaders = [];
 
 
-    const dataType = (() => {
-        if (!selectedItem) return "";
-        if (selectedItem.isbn) return "book";
-        if (selectedItem.orderDate) return "order";
-        if (selectedItem.email) return "user";
-    })();
+
 
     // Check the type of data and set the map and headers accordingly
     if (Array.isArray(data) && data.length > 0) {
@@ -60,13 +64,15 @@ const AdminPageTable = ({data}) => {
 
     const handleEdit = async (item) => {
         if (dataType === "order") {
-            const response= await getOrderById(item.order_id, user.token);
+            const response = await getOrderById(item.order_id, user.token);
             const formattedOrder = response.data;
             if (formattedOrder) {
                 setSelectedItem(formattedOrder);
             } else {
                 setSelectedItem(item);
             }
+        } else {
+            setSelectedItem(item);
         }
         console.log("selected item is ", item);
 
@@ -147,19 +153,23 @@ const AdminPageTable = ({data}) => {
                             </button>
                         </td>
                         <td className={"p-5"}>
-                            <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"} onClick={() => handleDeleteClick(item)}>Delete</button>
+                            <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"}
+                                    onClick={() => handleDeleteClick(item)}>Delete
+                            </button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
 
             </table>
-            {( isModalOpen && dataType === "book" ) &&
+            {(isModalOpen && dataType === "book") &&
                 <CreateOrUpdateBookModal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    existingBook={selectedItem}/>}
-{/*
+                    existingBook={selectedItem}
+                />
+            }
+            {/*
             {
                 isModalOpen && dataType === "user" && (
                     <CreateOrEditModal

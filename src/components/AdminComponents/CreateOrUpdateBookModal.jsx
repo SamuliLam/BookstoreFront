@@ -1,6 +1,6 @@
 import { useState} from "react";
 import Modal from "./Modal.jsx";
-import {addBook} from "../../utils/api.js";
+import {addBook, updateBook} from "../../utils/api.js";
 import {useUserContext} from "../../context/UserContext.jsx";
 import TextProperty from "./Properties/TextProperty.jsx";
 import BooleanProperty from "./Properties/BooleanProperty.jsx";
@@ -96,41 +96,48 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook}) => {
             <form onSubmit={handleFormSubmit}>
                 <TextProperty value={title} type={"text"} label={"Title"} name={"title"}
                               onInputChange={(_, value) => setTitle(value)}/>
-                <TextProperty value={isbn} type={"text"} name={"isbn"} onInputChange={(_, value) => setIsbn(value)}/>
-                <TextProperty value={genre} type={"text"} name={"genre"} onInputChange={(_, value) => setGenre(value)}/>
-                <TextProperty value={type} type={"text"} name={"type"} onInputChange={(_, value) => setType(value)}/>
-                <TextProperty value={publicationYear} type={"number"} name={"publicationYear"}
+                <TextProperty value={isbn} type={"text"} label={"ISBN"} name={"isbn"} onInputChange={(_, value) => setIsbn(value)}/>
+                <TextProperty value={genre} type={"text"} label={"Genre"} name={"genre"} onInputChange={(_, value) => setGenre(value)}/>
+                <TextProperty value={type} type={"text"} label={"Type"} name={"type"} onInputChange={(_, value) => setType(value)}/>
+                <TextProperty value={publicationYear} type={"number"} label={"Publication Year"} name={"publicationYear"}
                               onInputChange={(_, value) => setPublicationYear(value)}/>
-                <TextProperty value={price} type={"number"} name={"price"} onInputChange={(_, value) => setPrice(value)}/>
-                <TextProperty value={bookCondition} type={"text"} name={"bookCondition"}
+                <TextProperty value={price} type={"number"} label={"Price"} name={"price"} onInputChange={(_, value) => setPrice(value)}/>
+                <TextProperty value={bookCondition} type={"text"} label={"Book Condition"} name={"bookCondition"}
                               onInputChange={(_, value) => setBookCondition(value)}/>
-                <BooleanProperty value={reserved} name={"reserved"} onInputChange={(_, value) => setReserved(value)}/>
-                <TextProperty value={imgUrl} type={"text"} name={"image_url"} onInputChange={(_, value) => setImgUrl(value)}/>
+                <BooleanProperty value={reserved} name={"reserved"} label={"Reserved"} onInputChange={(_, value) => setReserved(value)}/>
+                <TextProperty value={imgUrl} type={"text"} label={"Image URL"} name={"image_url"} onInputChange={(_, value) => setImgUrl(value)}/>
 
-
-                <h3>Inventory</h3>
-                <TextProperty value={inventoryStockLevelUsed} type={"number"} name={"inventory_stock_level_used"}
+                <h3 className={"font-bold text-2xl my-2"}>Inventory</h3>
+                <TextProperty value={inventoryStockLevelUsed} type={"number"} label={"Stock Level Used"} name={"inventory_stock_level_used"}
                               onInputChange={(_, value) => setInventoryStockLevelUsed(value)}/>
-                <TextProperty value={inventoryStockLevelNew} type={"number"} name={"inventory_stock_level_new"}
+                <TextProperty value={inventoryStockLevelNew} type={"number"} label={"Stock Level New"} name={"inventory_stock_level_new"}
                               onInputChange={(_, value) => setInventoryStockLevelNew(value)}/>
 
-                <h3>Publisher</h3>
-                <TextProperty value={publisherName} type={"text"} name={"publisher_name"}
+                <h3 className={"font-bold text-2xl my-2"}>Publisher</h3>
+                <TextProperty value={publisherName} type={"text"} label={"Publisher Name"} name={"publisher_name"}
                               onInputChange={(_, value) => setPublisherName(value)}/>
-                <TextProperty value={publisherCountry} type={"text"} name={"publisher_country"}
+                <TextProperty value={publisherCountry} type={"text"} label={"Publisher Country"} name={"publisher_country"}
                               onInputChange={(_, value) => setPublisherCountry(value)}/>
-                {authors.map((author, index) => {
-                    return <>
-                        <TextProperty value={author.firstName} type={"text"} name={`author_firstName_${index}`}
+
+                <h3 className={"font-bold text-2xl my-2"}>Authors</h3>
+                {authors.map((author, index) => (
+                    <div key={index}>
+                        <TextProperty value={author.firstName} type={"text"} label={`Author First Name ${index + 1}`} name={`author_firstName_${index}`}
                                       onInputChange={(_, value) => updateAuthors(index, "firstName", value)}/>
-                        <TextProperty value={author.lastName} type={"text"} name={`author_lastName_${index}`}
+                        <TextProperty value={author.lastName} type={"text"} label={`Author Last Name ${index + 1}`} name={`author_lastName_${index}`}
                                       onInputChange={(_, value) => updateAuthors(index, "lastName", value)}/>
-                    </>
-                })}
-                <button onClick={() => setAuthors(prev => [...prev, {}])} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">Add new author</button>
-                <button type={"submit"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">submit</button>
+                    </div>
+                ))}
+
+                <button onClick={() => setAuthors(prev => [...prev, {}])} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">
+                    Add new author
+                </button>
+                <button type={"submit"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">
+                    Submit
+                </button>
             </form>
         </Modal>
+
     );
 };
 

@@ -6,6 +6,7 @@ import {SearchResultContext} from "../context/SearchContext.jsx";
 import AdminTableModal from "../components/AdminComponents/AdminTableModal.jsx";
 import NewBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
 import { isTokenExpired } from '../utils/api';
+import CreateOrUpdateBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
 
 const AdminPage = () => {
     console.log("AdminPage");
@@ -23,9 +24,6 @@ const AdminPage = () => {
     const [modalDataType, setModalDataType] = useState(""); // State to manage the type of d
     const [currentDataType, setCurrentDataType] = useState(""); // New state to track which type is currently being viewed
 
-
-
-    const {searchResults} = useContext(SearchResultContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -91,7 +89,7 @@ const AdminPage = () => {
                 </div>
             </div>
             {isModalOpen && (
-                <NewBookModal
+                <CreateOrUpdateBookModal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 />
