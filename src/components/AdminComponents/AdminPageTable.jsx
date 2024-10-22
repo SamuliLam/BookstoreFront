@@ -167,6 +167,7 @@ const AdminPageTable = ({data}) => {
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     existingBook={selectedItem}
+                    book_id={itemId}
                 />
             }
             {/*

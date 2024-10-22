@@ -1,11 +1,11 @@
-import { useState} from "react";
+import {useState} from "react";
 import Modal from "./Modal.jsx";
 import {addBook, updateBook} from "../../utils/api.js";
 import {useUserContext} from "../../context/UserContext.jsx";
 import TextProperty from "./Properties/TextProperty.jsx";
 import BooleanProperty from "./Properties/BooleanProperty.jsx";
 
-const CreateOrUpdateBookModal = ({open, onClose, existingBook}) => {
+const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
     const {user} = useUserContext();
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -57,28 +57,39 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook}) => {
 
             if (existingBook) {
                 // Update
-                response = await updateBook(bookData, user.token);
+                response = await updateBook(book_id, bookData, user.token);
             } else {
                 response = await addBook(bookData, user.token);
             }
 
-            console.log("Fetch response:", response);
-
-            if (response.success === false) {
-                setErrorMessage("Failed to create item");
+            if (existingBook) {
+                if (response.success === false) {
+                    setErrorMessage("Failed to update item");
+                    setSuccessMessage("");
+                } else {
+                    setSuccessMessage("Item updated successfully");
+                    console.log("Item updated successfully");
+                    setErrorMessage("");
+                    setTimeout(() => {
+                        onClose();
+                    }, 2000);
+                }
+            } else if (response.success === false) {
+                setErrorMessage("Failed to add item");
                 setSuccessMessage("");
             } else {
-                setSuccessMessage("Item created successfully");
-                console.log("Item created successfully");
+                setSuccessMessage("Item added successfully");
+                console.log("Item added successfully");
                 setErrorMessage("");
                 setTimeout(() => {
                     onClose();
                 }, 2000);
             }
+
         } catch (error) {
             setErrorMessage("An unexpected error occurred");
             setSuccessMessage("");
-            console.error("Error creating item", error);
+            console.error("Error updating item", error);
         }
     };
 
@@ -96,45 +107,63 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook}) => {
             <form onSubmit={handleFormSubmit}>
                 <TextProperty value={title} type={"text"} label={"Title"} name={"title"}
                               onInputChange={(_, value) => setTitle(value)}/>
-                <TextProperty value={isbn} type={"text"} label={"ISBN"} name={"isbn"} onInputChange={(_, value) => setIsbn(value)}/>
-                <TextProperty value={genre} type={"text"} label={"Genre"} name={"genre"} onInputChange={(_, value) => setGenre(value)}/>
-                <TextProperty value={type} type={"text"} label={"Type"} name={"type"} onInputChange={(_, value) => setType(value)}/>
-                <TextProperty value={publicationYear} type={"number"} label={"Publication Year"} name={"publicationYear"}
+                <TextProperty value={isbn} type={"text"} label={"ISBN"} name={"isbn"}
+                              onInputChange={(_, value) => setIsbn(value)}/>
+                <TextProperty value={genre} type={"text"} label={"Genre"} name={"genre"}
+                              onInputChange={(_, value) => setGenre(value)}/>
+                <TextProperty value={type} type={"text"} label={"Type"} name={"type"}
+                              onInputChange={(_, value) => setType(value)}/>
+                <TextProperty value={publicationYear} type={"number"} label={"Publication Year"}
+                              name={"publicationYear"}
                               onInputChange={(_, value) => setPublicationYear(value)}/>
-                <TextProperty value={price} type={"number"} label={"Price"} name={"price"} onInputChange={(_, value) => setPrice(value)}/>
+                <TextProperty value={price} type={"number"} label={"Price"} name={"price"}
+                              onInputChange={(_, value) => setPrice(value)}/>
                 <TextProperty value={bookCondition} type={"text"} label={"Book Condition"} name={"bookCondition"}
                               onInputChange={(_, value) => setBookCondition(value)}/>
-                <BooleanProperty value={reserved} name={"reserved"} label={"Reserved"} onInputChange={(_, value) => setReserved(value)}/>
-                <TextProperty value={imgUrl} type={"text"} label={"Image URL"} name={"image_url"} onInputChange={(_, value) => setImgUrl(value)}/>
+                <BooleanProperty value={reserved} name={"reserved"} label={"Reserved"}
+                                 onInputChange={(_, value) => setReserved(value)}/>
+                <TextProperty value={imgUrl} type={"text"} label={"Image URL"} name={"image_url"}
+                              onInputChange={(_, value) => setImgUrl(value)}/>
 
                 <h3 className={"font-bold text-2xl my-2"}>Inventory</h3>
-                <TextProperty value={inventoryStockLevelUsed} type={"number"} label={"Stock Level Used"} name={"inventory_stock_level_used"}
+                <TextProperty value={inventoryStockLevelUsed} type={"number"} label={"Stock Level Used"}
+                              name={"inventory_stock_level_used"}
                               onInputChange={(_, value) => setInventoryStockLevelUsed(value)}/>
-                <TextProperty value={inventoryStockLevelNew} type={"number"} label={"Stock Level New"} name={"inventory_stock_level_new"}
+                <TextProperty value={inventoryStockLevelNew} type={"number"} label={"Stock Level New"}
+                              name={"inventory_stock_level_new"}
                               onInputChange={(_, value) => setInventoryStockLevelNew(value)}/>
 
                 <h3 className={"font-bold text-2xl my-2"}>Publisher</h3>
                 <TextProperty value={publisherName} type={"text"} label={"Publisher Name"} name={"publisher_name"}
                               onInputChange={(_, value) => setPublisherName(value)}/>
-                <TextProperty value={publisherCountry} type={"text"} label={"Publisher Country"} name={"publisher_country"}
+                <TextProperty value={publisherCountry} type={"text"} label={"Publisher Country"}
+                              name={"publisher_country"}
                               onInputChange={(_, value) => setPublisherCountry(value)}/>
 
                 <h3 className={"font-bold text-2xl my-2"}>Authors</h3>
                 {authors.map((author, index) => (
                     <div key={index}>
-                        <TextProperty value={author.firstName} type={"text"} label={`Author First Name ${index + 1}`} name={`author_firstName_${index}`}
+                        <TextProperty value={author.firstName} type={"text"} label={`Author First Name ${index + 1}`}
+                                      name={`author_firstName_${index}`}
                                       onInputChange={(_, value) => updateAuthors(index, "firstName", value)}/>
-                        <TextProperty value={author.lastName} type={"text"} label={`Author Last Name ${index + 1}`} name={`author_lastName_${index}`}
+                        <TextProperty value={author.lastName} type={"text"} label={`Author Last Name ${index + 1}`}
+                                      name={`author_lastName_${index}`}
                                       onInputChange={(_, value) => updateAuthors(index, "lastName", value)}/>
                     </div>
                 ))}
+                <div className={"form-buttons-container my-4 flex gap-2 "}>
+                    <button type={"button"} onClick={() => setAuthors(prev => [...prev, {}])}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Add new author
+                    </button>
+                    <button type={"submit"}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Submit
+                    </button>
+                </div>
 
-                <button onClick={() => setAuthors(prev => [...prev, {}])} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">
-                    Add new author
-                </button>
-                <button type={"submit"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-2 mx-2">
-                    Submit
-                </button>
+                {successMessage && <p className={"text-green-500"}>{successMessage}</p>}
+                {errorMessage && <p className={"text-red-500"}>{errorMessage}</p>}
             </form>
         </Modal>
 
