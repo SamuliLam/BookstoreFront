@@ -10,23 +10,23 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [title, setTitle] = useState(existingBook.title || '')
-    const [isbn, setIsbn] = useState(existingBook.isbn || '')
-    const [genre, setGenre] = useState(existingBook.genre || '')
-    const [type, setType] = useState(existingBook.type || '');
-    const [publicationYear, setPublicationYear] = useState(existingBook.publicationYear || 0);
-    const [price, setPrice] = useState(existingBook.price || 0);
-    const [bookCondition, setBookCondition] = useState(existingBook.bookCondition || '');
-    const [reserved, setReserved] = useState(existingBook.reserved || false);
-    const [imgUrl, setImgUrl] = useState(existingBook.image_url || '');
+    const [title, setTitle] = useState(existingBook?.title || '')
+    const [isbn, setIsbn] = useState(existingBook?.isbn || '')
+    const [genre, setGenre] = useState(existingBook?.genre || '')
+    const [type, setType] = useState(existingBook?.type || '');
+    const [publicationYear, setPublicationYear] = useState(existingBook?.publicationYear || 0);
+    const [price, setPrice] = useState(existingBook?.price || 0);
+    const [bookCondition, setBookCondition] = useState(existingBook?.bookCondition || '');
+    const [reserved, setReserved] = useState(existingBook?.reserved || false);
+    const [imgUrl, setImgUrl] = useState(existingBook?.image_url || '');
 
-    const [publisherName, setPublisherName] = useState(existingBook.publisher?.name || "");
-    const [publisherCountry, setPublisherCountry] = useState(existingBook.publisher?.country || "");
+    const [publisherName, setPublisherName] = useState(existingBook?.publisher?.name || "");
+    const [publisherCountry, setPublisherCountry] = useState(existingBook?.publisher?.country || "");
 
-    const [authors, setAuthors] = useState(existingBook.authors || [{}]);
+    const [authors, setAuthors] = useState(existingBook?.authors || [{}]);
 
-    const [inventoryStockLevelUsed, setInventoryStockLevelUsed] = useState(existingBook.inventory?.stockLevelUsed || 0)
-    const [inventoryStockLevelNew, setInventoryStockLevelNew] = useState(existingBook.inventory?.stockLevelNew || 0)
+    const [inventoryStockLevelUsed, setInventoryStockLevelUsed] = useState(existingBook?.inventory?.stockLevelUsed || 0)
+    const [inventoryStockLevelNew, setInventoryStockLevelNew] = useState(existingBook?.inventory?.stockLevelNew || 0)
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -58,11 +58,7 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
             if (existingBook) {
                 // Update
                 response = await updateBook(book_id, bookData, user.token);
-            } else {
-                response = await addBook(bookData, user.token);
-            }
 
-            if (existingBook) {
                 if (response.success === false) {
                     setErrorMessage("Failed to update item");
                     setSuccessMessage("");
@@ -74,18 +70,20 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                         onClose();
                     }, 2000);
                 }
-            } else if (response.success === false) {
-                setErrorMessage("Failed to add item");
-                setSuccessMessage("");
             } else {
-                setSuccessMessage("Item added successfully");
-                console.log("Item added successfully");
-                setErrorMessage("");
-                setTimeout(() => {
-                    onClose();
-                }, 2000);
+                response = await addBook(bookData, user.token);
+                if (response.success === false) {
+                    setErrorMessage("Failed to add item");
+                    setSuccessMessage("");
+                } else {
+                    setSuccessMessage("Item added successfully");
+                    console.log("Item added successfully");
+                    setErrorMessage("");
+                    setTimeout(() => {
+                        onClose();
+                    }, 2000);
+                }
             }
-
         } catch (error) {
             setErrorMessage("An unexpected error occurred");
             setSuccessMessage("");
@@ -125,7 +123,7 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                 <TextProperty value={imgUrl} type={"text"} label={"Image URL"} name={"image_url"}
                               onInputChange={(_, value) => setImgUrl(value)}/>
 
-                <h3 className={"font-bold text-2xl my-2"}>Inventory</h3>
+                <h3 className={"font-bold text-2xl my-2 dark:text-white"}>Inventory</h3>
                 <TextProperty value={inventoryStockLevelUsed} type={"number"} label={"Stock Level Used"}
                               name={"inventory_stock_level_used"}
                               onInputChange={(_, value) => setInventoryStockLevelUsed(value)}/>
@@ -133,19 +131,21 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                               name={"inventory_stock_level_new"}
                               onInputChange={(_, value) => setInventoryStockLevelNew(value)}/>
 
-                <h3 className={"font-bold text-2xl my-2"}>Publisher</h3>
+                <h3 className={"font-bold text-2xl my-2 dark:text-white"}>Publisher</h3>
                 <TextProperty value={publisherName} type={"text"} label={"Publisher Name"} name={"publisher_name"}
                               onInputChange={(_, value) => setPublisherName(value)}/>
                 <TextProperty value={publisherCountry} type={"text"} label={"Publisher Country"}
                               name={"publisher_country"}
                               onInputChange={(_, value) => setPublisherCountry(value)}/>
 
-                <h3 className={"font-bold text-2xl my-2"}>Authors</h3>
+                <h3 className={"font-bold text-2xl my-2 dark:text-white"}>Authors</h3>
                 {authors.map((author, index) => (
                     <div key={index}>
                         <TextProperty value={author.firstName} type={"text"} label={`Author First Name ${index + 1}`}
                                       name={`author_firstName_${index}`}
-                                      onInputChange={(_, value) => updateAuthors(index, "firstName", value)}/>
+                                      onInputChange={(_, value) => updateAuthors(index, "firstName", value)}
+                        />
+
                         <TextProperty value={author.lastName} type={"text"} label={`Author Last Name ${index + 1}`}
                                       name={`author_lastName_${index}`}
                                       onInputChange={(_, value) => updateAuthors(index, "lastName", value)}/>
