@@ -390,7 +390,7 @@ export const addUser = async (user, token) => {
             }
         });
 
-        if (response.status === 201) {
+        if (response.status === 200) {
             return {success: true, data: response.data};
         } else {
             return {success: false, error: 'Failed to add user'};
