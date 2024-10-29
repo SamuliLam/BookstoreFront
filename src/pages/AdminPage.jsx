@@ -7,6 +7,7 @@ import AdminTableModal from "../components/AdminComponents/AdminTableModal.jsx";
 import NewBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
 import { isTokenExpired } from '../utils/api';
 import CreateOrUpdateBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
+import CreateOrUpdateUserModal from "../components/AdminComponents/CreateOrUpdateUserModal.jsx";
 
 const AdminPage = () => {
     console.log("AdminPage");
@@ -88,12 +89,6 @@ const AdminPage = () => {
                     <AdminPageTable data={dataState.tableData}/>
                 </div>
             </div>
-            {isModalOpen && (
-                <CreateOrUpdateBookModal
-                    open={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                />
-            )}
         </div>
     )
 }

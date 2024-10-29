@@ -310,26 +310,6 @@ export const addBook = async (bookData, token) => {
     }
 };
 
-export const addUser = async (userData, token) => {
-    try {
-        const response = await axios.post("http://localhost:8080/users", userData, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        });
-        if (response.status === 201) {
-            return response;
-        } else {
-            return {success: false, error: 'Failed to add user'};
-        }
-
-    } catch (error) {
-        console.error("Error creating user:", error);
-        return {success: false, error: error.message};
-    }
-}
-
 export const deleteBook = async (book_id, token) => {
     console.log('bookid ' + book_id)
     try {
@@ -395,6 +375,25 @@ export const getOrderById = async (order_id, token) => {
             return {success: true, data: response.data};
         } else {
             return {success: false, error: 'Failed to get order'};
+        }
+    } catch (error) {
+        return {success: false, error: error.message}
+    }
+}
+
+export const addUser = async (user, token) => {
+    try {
+        const response = await axios.post("http://localhost:8080/users/add", user, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.status === 201) {
+            return {success: true, data: response.data};
+        } else {
+            return {success: false, error: 'Failed to add user'};
         }
     } catch (error) {
         return {success: false, error: error.message}

@@ -4,6 +4,7 @@ import {deleteBook, deleteOrder, deleteUser, getOrderById} from "../../utils/api
 import {useUserContext} from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
+import CreateOrUpdateUserModal from "./CreateOrUpdateUserModal.jsx";
 
 const AdminPageTable = ({data}) => {
 
@@ -21,7 +22,8 @@ const AdminPageTable = ({data}) => {
         if (selectedItem.isbn) return "book";
         if (selectedItem.orderDate) return "order";
         if (selectedItem.email) return "user";
-    }, [selectedItem]);
+    }, [selectedItem])
+
 
 
     // Data mapping identifiers for each type
@@ -32,8 +34,6 @@ const AdminPageTable = ({data}) => {
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
-
-
 
 
     // Check the type of data and set the map and headers accordingly
@@ -75,6 +75,7 @@ const AdminPageTable = ({data}) => {
             setSelectedItem(item);
         }
         console.log("selected item is ", item);
+        console.log("datatype", dataType)
 
         setIsModalOpen(true);
     }
@@ -162,7 +163,8 @@ const AdminPageTable = ({data}) => {
                 </tbody>
 
             </table>
-            {(isModalOpen && dataType === "book") &&
+            {
+                (isModalOpen && dataType === "book") &&
                 <CreateOrUpdateBookModal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
@@ -170,16 +172,15 @@ const AdminPageTable = ({data}) => {
                     book_id={itemId}
                 />
             }
-            {/*
             {
-                isModalOpen && dataType === "user" && (
-                    <CreateOrEditModal
-                        open={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        existingBook={item}/>
-                )
+                (isModalOpen && dataType === "user") &&
+                <CreateOrUpdateUserModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingUser={selectedItem}
+                    user_id={itemId}
+                />
             }
-*/}
             {
                 isDeleteModalOpen && (
                     <AdminDeleteConfirmModal
