@@ -1,9 +1,11 @@
 import {useContext, useState} from "react";
 import {fetchSearchResults} from "../utils/api.js";
 import {SearchResultContext} from "../context/SearchContext.jsx";
+import {useTranslation} from "react-i18next";
 
 
 const SearchBar = () => {
+    const { t, i18n } = useTranslation();
 
     const {updateSearchResults} = useContext(SearchResultContext);
 
@@ -36,14 +38,14 @@ const SearchBar = () => {
             <input
                 type="text"
                 className="border rounded-lg w-full max-w-lg p-2"
-                placeholder="Hinted search text"
+                placeholder={t('SearchBarInputPlaceholder')}
                 value={searchText}
                 onChange={handleInputChange}
                 onKeyDown={(e) => handleKeyPress(e)}
             />
             <button className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                     onClick={handleButtonClick}
-            >Search</button>
+            >{t("SearchBarButtonText")}</button>
         </div>
     );
 

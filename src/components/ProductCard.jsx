@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../context/CartContext.jsx";
+import {useTranslation} from "react-i18next";
 
 const ProductCard = ({ title, author, price, image, book }) => {
     const { addToCart, isVisible, handleToggle } = useCartContext();
+    const { t, i18n } = useTranslation();
 
     const [transformStyle, setTransformStyle] = useState('');
 
@@ -63,7 +65,7 @@ const ProductCard = ({ title, author, price, image, book }) => {
                 <p className="text-center text-gray-600 dark:text-white">{price}€</p>
                 <button onClick={() => handleAddToCart(book)}
                         className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200">
-                    Add to Cart
+                    {t("ProductCardButtonAddToCart")}
                 </button>
             </div>
         </div>

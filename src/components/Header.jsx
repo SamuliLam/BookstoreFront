@@ -9,8 +9,10 @@ import LogoutButton from './LogoutButton';
 import ThemeToggle from "./ThemeToggle.jsx";
 import ShoppingCart from "./ShoppingCart.jsx";
 import HeaderAdminPanelButton from "./HeaderAdminPanelButton.jsx";
+import {useTranslation} from "react-i18next";
 
 const Header = () => {
+    const { t, i18n } = useTranslation();
     const { user, getUser } = useUserContext();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -35,7 +37,7 @@ const Header = () => {
                             <>
                                 <LogoutButton />
                                 <span className="text-sm text-gray-700 dark:text-white">
-                                    Welcome, {user.first_name || user.email.split('@')[0] || 'User'}!
+                                    {t("HeaderSpanWelcomeText") + user.first_name || user.email.split('@')[0] || 'User'}!
                                 </span>
                                 {user.role === 'ADMIN' && <HeaderAdminPanelButton />}
                             </>
