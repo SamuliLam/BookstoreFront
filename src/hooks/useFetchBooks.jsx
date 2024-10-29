@@ -12,7 +12,7 @@ const useFetchBooks = () => {
                 const response = await axios.get('http://localhost:8080/books');
                 setBooks(response.data);
             } catch (error) {
-                setError('Error fetching books: ' + error.message);
+                setError(error.message);
             } finally {
                 setLoading(false);
             }

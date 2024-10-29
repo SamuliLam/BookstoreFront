@@ -18,7 +18,7 @@ const useFetchBook = (id) => {
                 const response = await axios.get(`http://localhost:8080/books/${id}`);
                 setBook(response.data);
             } catch (error) {
-                setError("Error fetching book data: " + error.message);
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
