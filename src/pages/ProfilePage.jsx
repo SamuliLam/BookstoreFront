@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     User,
     Settings,
@@ -28,6 +29,7 @@ const ProfilePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [expandedOrderId, setExpandedOrderId] = useState(null);
+    const { t } = useTranslation();
 
     const toggleOrderDetails = (orderId) => {
         setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
@@ -44,7 +46,7 @@ const ProfilePage = () => {
         e.preventDefault();
         const currentUser = getUser();
         if (!currentUser || !currentUser.user_id) {
-            setUpdateStatus('Error: User information is missing. Please log in again.');
+            setUpdateStatus(t('profileUpdateError'));
             return;
         }
 
@@ -57,25 +59,25 @@ const ProfilePage = () => {
             street_number: formData.get('street_number') ? Number(formData.get('street_number')) : null,
         };
 
-        setUpdateStatus('Updating...');
+        setUpdateStatus(t('profileUpdating'));
 
         const result = await updateUserProfile(currentUser.user_id, updatedUserData, currentUser.token);
 
         if (result.success) {
             updateUser(result.user);
-            setUpdateStatus('Profile updated successfully!');
+            setUpdateStatus(t('profileUpdateSuccess'));
         } else {
-            setUpdateStatus(`Failed to update profile: ${result.error}`);
+            setUpdateStatus(`${t('profileUpdateError')} ${result.error}`);
         }
 
         setTimeout(() => setUpdateStatus(null), 5000);
     };
 
-    const handlePasswordChange = async (e) => {
+    const handlePasswordChange = async (e, t) => {
         e.preventDefault();
         const currentUser = getUser();
         if (!currentUser || !currentUser.user_id) {
-            setUpdateStatus('Error: User information is missing. Please log in again.');
+            setUpdateStatus(t('profileUpdateError'));
             return;
         }
 
@@ -84,19 +86,19 @@ const ProfilePage = () => {
         const confirmPassword = formData.get('confirmPassword');
 
         if (newPassword !== confirmPassword) {
-            setUpdateStatus('Error: Passwords do not match.');
+            setUpdateStatus(t('profilePasswordMismatch'));
             return;
         }
 
-        setUpdateStatus('Updating password...');
+        setUpdateStatus(t('profileUpdatingPassword'));
 
         const result = await changeUserPassword(currentUser.user_id, newPassword, currentUser.token);
 
         if (result.success) {
             updateUser(result.user);
-            setUpdateStatus('Password updated successfully!');
+            setUpdateStatus(t('profilePasswordSuccess'));
         } else {
-            setUpdateStatus(`Failed to update password: ${result.error}`);
+            setUpdateStatus(`${t('profileUpdateError')} ${result.error}`);
         }
 
         setTimeout(() => setUpdateStatus(null), 5000);
@@ -113,7 +115,7 @@ const ProfilePage = () => {
         setOrderError(null);
         const currentUser = getUser();
         if (!currentUser || !currentUser.token) {
-            setOrderError('User information is missing. Please log in again.');
+            setOrderError('profileUpdateError');
             setOrderLoading(false);
             return;
         }
@@ -187,41 +189,41 @@ const ProfilePage = () => {
                     <div>
                         <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
                             <Edit3 className="mr-2" size={24} />
-                            Edit Profile
+                            {t('profileEditProfile')}
                         </h2>
                         <form className="space-y-6" onSubmit={handleProfileUpdate}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+                                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileFirstName')}</label>
                                     <input type="text" id="first_name" name="first_name" defaultValue={currentUser.first_name}
                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                                 </div>
                                 <div>
-                                    <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+                                    <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileLastName')}</label>
                                     <input type="text" id="last_name" name="last_name" defaultValue={currentUser.last_name}
                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                                 </div>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileEmail')}</label>
                                 <input type="email" id="email" name="email" defaultValue={currentUser.email}
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="street_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Name</label>
+                                    <label htmlFor="street_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileStreetName')}</label>
                                     <input type="text" id="street_name" name="street_name" defaultValue={currentUser.street_name}
                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                                 </div>
                                 <div>
-                                    <label htmlFor="street_number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Street Number</label>
+                                    <label htmlFor="street_number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileStreetNumber')}</label>
                                     <input type="number" id="street_number" name="street_number" defaultValue={currentUser.street_number}
                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
                                 </div>
                             </div>
                             <button type="submit"
                                     className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                Save Changes
+                                {t('profileSaveChanges')}
                             </button>
                         </form>
                     </div>
@@ -231,21 +233,21 @@ const ProfilePage = () => {
                     <div>
                         <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
                             <Settings className="mr-2" size={24} />
-                            Change Password
+                            {t('profileChangePassword')}
                         </h2>
-                        <form className="space-y-6" onSubmit={handlePasswordChange}>
+                        <form className="space-y-6" onSubmit={(e) => handlePasswordChange(e, t)}>
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileNewPassword')}</label>
                                 <input type="password" id="password" name="password" required
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
                             <div>
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm New Password</label>
+                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('profileConfirmPassword')}</label>
                                 <input type="password" id="confirmPassword" name="confirmPassword" required
                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
                             <button type="submit" className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors duration-300 dark:bg-green-600 dark:hover:bg-green-700">
-                                Update Password
+                                {t('profileUpdatePassword')}
                             </button>
                         </form>
                     </div>
@@ -255,13 +257,13 @@ const ProfilePage = () => {
                     <div>
                         <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
                             <Book className="mr-2" size={24} />
-                            Order History
+                            {t('profileOrderHistory')}
                         </h2>
                         <div className="mb-4">
                             <div className="relative">
                                 <input
                                     type="text"
-                                    placeholder="Search orders..."
+                                    placeholder={t('profileSearchOrders')}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -270,7 +272,7 @@ const ProfilePage = () => {
                             </div>
                         </div>
                         {orderLoading ? (
-                            <p className="text-gray-600 dark:text-gray-400">Loading orders...</p>
+                            <p className="text-gray-600 dark:text-gray-400">{t('profileLoadingOrders')}</p>
                         ) : orderError ? (
                             <p className="text-red-500">{orderError}</p>
                         ) : (
@@ -279,12 +281,11 @@ const ProfilePage = () => {
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead className="bg-gray-50 dark:bg-gray-700">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Order
-                                                ID
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">{t('profileOrderId')}
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Date</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Total</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Details</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">{t('profileOrderDate')}</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">{t('profileOrderTotal')}</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">{t('profileOrderDetails')}</th>
                                         </tr>
                                         </thead>
                                         <tbody
@@ -303,12 +304,12 @@ const ProfilePage = () => {
                                                             {expandedOrderId === order.id ? (
                                                                 <>
                                                                     <MinusIcon className="mr-1" size={16}/>
-                                                                    Hide Details
+                                                                    {t('profileHideDetails')}
                                                                 </>
                                                             ) : (
                                                                 <>
                                                                     <PlusIcon className="mr-1" size={16}/>
-                                                                    Show Details
+                                                                    {t('profileShowDetails')}
                                                                 </>
                                                             )}
                                                         </button>
@@ -333,17 +334,17 @@ const ProfilePage = () => {
                                         className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                     >
                                         <Book size={16} className="mr-2"/>
-                                        Previous
+                                        {t('profilePrevious')}
                                     </button>
                                     <span className="text-sm text-gray-700 dark:text-gray-300">
-                                        Page {currentPage} of {Math.ceil(filteredOrders.length / ordersPerPage)}
+                                        {t('profilePage')} {currentPage} {t('profilePageOf')} {Math.ceil(filteredOrders.length / ordersPerPage)}
                                     </span>
                                     <button
                                         onClick={() => paginate(currentPage + 1)}
                                         disabled={indexOfLastOrder >= filteredOrders.length}
                                         className="flex items-center px-4 py-2 border rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
                                     >
-                                        Next
+                                        {t('profileNext')}
                                         <Book size={16} className="ml-2"/>
                                     </button>
                                 </div>
@@ -356,11 +357,11 @@ const ProfilePage = () => {
                     <div>
                         <h2 className="text-2xl font-bold mb-6 flex items-center dark:text-gray-100">
                             <Sparkle className="mr-2" size={24}/>
-                            Favorite Books
+                            {t('profileFavoriteBooks')}
                         </h2>
                         <ul className="space-y-4">
                             <li className="flex items-center justify-between p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-                                <span className="items-center dark:text-gray-300">No favorite books</span>
+                                <span className="items-center dark:text-gray-300">{t('profileNoFavorites')}</span>
                             </li>
                         </ul>
                     </div>
@@ -368,9 +369,8 @@ const ProfilePage = () => {
             default:
                 return (
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">Welcome to Your Profile</h2>
-                        <p className="text-gray-600 dark:text-gray-400">Select an option from the sidebar to get
-                            started.</p>
+                        <h2 className="text-2xl font-bold mb-4 dark:text-gray-100">{t('profileWelcome')}</h2>
+                        <p className="text-gray-600 dark:text-gray-400">{t('profileSelectOption')}</p>
                     </div>
                 );
         }
@@ -392,7 +392,6 @@ const ProfilePage = () => {
                     <p className="text-sm text-gray-600 mb-4 dark:text-gray-400">{user.email}</p>
                 </div>
 
-
                 {/* Action Buttons */}
                 <div className="space-y-2 mb-6">
                     <button
@@ -404,7 +403,7 @@ const ProfilePage = () => {
                         }`}
                     >
                         <Edit3 className="mr-2" size={18}/>
-                        <span>Edit Profile</span>
+                        <span>{t('profileEditProfile')}</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('updateInfo')}
@@ -415,7 +414,7 @@ const ProfilePage = () => {
                         }`}
                     >
                         <Settings className="mr-2" size={18}/>
-                        <span>Change Password</span>
+                        <span>{t('profileChangePassword')}</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('orderHistory')}
@@ -426,7 +425,7 @@ const ProfilePage = () => {
                         }`}
                     >
                         <Book className="mr-2" size={18}/>
-                        <span>Order History</span>
+                        <span>{t('profileOrderHistory')}</span>
                     </button>
                     <button
                         onClick={() => setActiveSection('favoriteBooks')}
@@ -437,7 +436,7 @@ const ProfilePage = () => {
                         }`}
                     >
                         <Sparkle className="mr-2" size={18}/>
-                        <span>Favorite Books</span>
+                        <span>{t('profileFavoriteBooks')}</span>
                     </button>
                 </div>
             </div>
@@ -449,9 +448,9 @@ const ProfilePage = () => {
                 {/* Status message */}
                 {updateStatus && (
                     <div className={`mt-4 p-4 rounded-lg shadow-md ${
-                        updateStatus.includes('successfully') ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
+                        updateStatus.includes(t('profileUpdateSuccess')) || updateStatus.includes(t('profilePasswordSuccess')) ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
                     } flex items-center`}>
-                        {updateStatus.includes('successfully') ? (
+                        {updateStatus.includes(t('profileUpdateSuccess')) || updateStatus.includes(t('profilePasswordSuccess')) ? (
                             <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
                         ) : (
                             <XCircle className="w-5 h-5 mr-2 flex-shrink-0" />
