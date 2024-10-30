@@ -66,7 +66,7 @@ const AdminPage = () => {
     }
 
     if (dataState.isLoading) {
-        return <div className={"m-auto"}>Loading...</div>;
+        return <div className={"m-auto dark:text-white"}>Loading...</div>;
     }
 
 
