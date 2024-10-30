@@ -95,7 +95,32 @@ i18next.use(initReactI18next).init({
                 profilePasswordSuccess: "Password updated successfully!",
                 profileUpdateError: "Error: User information is missing. Please log in again.",
                 profilePasswordMismatch: "Error: Passwords do not match.",
-                profileUpdatingPassword: "Updating password..."
+                profileUpdatingPassword: "Updating password...",
+
+                // Order page
+                orderPageh2: "Recipient Information",
+                firstNameDataColumn:"First Name",
+                lastNameDataColumn: "Last Name",
+                addressDataColumn: "Address",
+                postalCodeDataColumn: "Postal Code",
+                provinceDataColumn: "Province",
+                phoneFormatDataColumn: "Phone number (in the format +358..)",
+                confirmOrderBtn: "Confirm Order",
+                emptyCartInfo: "No items in cart",
+                cartTotalColumn: "Total",
+                successfullOrderAlert: "Order placed succesfully",
+                failedOrderAlert : "Failed to place an order",
+
+                //Shopping cart
+                shoppingCartH2: "Shopping cart",
+                shoppingCartTotal: "Total:",
+                clearCart : "Clear cart",
+                checkoutBtn : "Checkout",
+                qtyInfo: "Qty: ",
+
+
+
+
             }
         },
         fi: {
@@ -188,7 +213,28 @@ i18next.use(initReactI18next).init({
                 profilePasswordSuccess: "Salasana päivitetty onnistuneesti!",
                 profileUpdateError: "Virhe: Käyttäjätiedot puuttuvat. Kirjaudu sisään uudelleen.",
                 profilePasswordMismatch: "Virhe: Salasanat eivät täsmää.",
-                profileUpdatingPassword: "Päivitetään salasanaa..."
+                profileUpdatingPassword: "Päivitetään salasanaa...",
+
+                // Order page
+                orderPageh2: "Vastaanottajan tiedot",
+                firstNameDataColumn:"Etunimi",
+                lastNameDataColumn: "Sukunimi",
+                addressDataColumn: "Katuosoite",
+                postalCodeDataColumn: "Postinumero",
+                provinceDataColumn: "Lääni",
+                phoneFormatDataColumn: "Puhelinnumero (muodossa +358..)",
+                confirmOrderBtn: "Vahvista tilaus",
+                emptyCartInfo: "Ostoskori on tyhjä",
+                cartTotalColumn: "Yhteensä",
+                successfullOrderAlert: "Tilaus onnistui",
+                failedOrderAlert : "Tilaus epäonnistui",
+
+                //Shopping cart
+                shoppingCartH2: "Ostoskori",
+                shoppingCartTotal: "Yhteensä:",
+                clearCart : "Tyhjennä ostoskori",
+                checkoutBtn : "Kassalle",
+                qtyInfo: "Kpl: ",
             }
         },
         sv: {
@@ -281,7 +327,28 @@ i18next.use(initReactI18next).init({
                 profilePasswordSuccess: "Lösenordet har uppdaterats!",
                 profileUpdateError: "Fel: Användarinformation saknas. Logga in igen.",
                 profilePasswordMismatch: "Fel: Lösenorden matchar inte.",
-                profileUpdatingPassword: "Uppdaterar lösenord..."
+                profileUpdatingPassword: "Uppdaterar lösenord...",
+
+                // Order page
+                orderPageh2: "Mottagarinformation",
+                firstNameDataColumn: "Förnamn",
+                lastNameDataColumn: "Efternamn",
+                addressDataColumn: "Adress",
+                postalCodeDataColumn: "Postnummer",
+                provinceDataColumn: "Län",
+                phoneFormatDataColumn: "Telefonnummer (i formatet +358..)",
+                confirmOrderBtn: "Bekräfta beställning",
+                emptyCartInfo: "Inga varor i kundvagnen",
+                cartTotalColumn: "Totalt",
+                successfullOrderAlert: "Beställning genomförd",
+                failedOrderAlert: "Misslyckades att genomföra beställning",
+
+// Shopping cart
+                shoppingCartH2: "Kundvagn",
+                shoppingCartTotal: "Totalt:",
+                clearCart: "Töm kundvagnen",
+                checkoutBtn: "Till kassan",
+                qtyInfo: "Antal: ",
             }
         },
     }

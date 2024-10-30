@@ -6,8 +6,10 @@ import {addOrder, updateInventory} from "../utils/api.js";
 import CartButton from "../components/CartButton.jsx";
 import OrderAlert from "../components/OrderAlert.jsx";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const OrderPage = () => {
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const [displayAlert, setDisplayAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
@@ -46,7 +48,7 @@ const OrderPage = () => {
                 addOrder(orderData, user.token).then((response) => {
                     if (response.success) {
                         setOrderSuccess(true);
-                        setAlertMessage("Order placed successfully");
+                        setAlertMessage(t("successfullOrderAlert"));
                         setDisplayAlert(true);
                         setTimeout(() => {
                             navigate("/");
@@ -54,7 +56,7 @@ const OrderPage = () => {
                         }, 2000);
                     } else {
                         setOrderSuccess(false);
-                        setAlertMessage("Failed to place an order");
+                        setAlertMessage("failedOrderAlert");
                         setDisplayAlert(true);
                     }
                 });
@@ -85,13 +87,13 @@ const OrderPage = () => {
     return (
         <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row ">
             <form onSubmit={handleSubmit} className="w-5/6 sm:w-2/4 lg:w-1/3 space-y-6 lg:mx-10 my-0 m-auto">
-                <h2 className="text-xl font-bold dark:text-white">Recipient Information</h2>
+                <h2 className="text-xl font-bold dark:text-white">{t("orderPageh2")}</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <input
                         type="text"
                         name="first_name"
-                        placeholder="First Name"
+                        placeholder= {t("firstNameDataColumn")}
                         value={formData.first_name}
                         onChange={handleChange}
                         className="w-full border border-gray-300 p-3 rounded-md"
@@ -100,7 +102,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="last_name"
-                        placeholder="Last Name"
+                        placeholder={t("lastNameDataColumn")}
                         value={formData.last_name}
                         onChange={handleChange}
                         className="w-full border border-gray-300 p-3 rounded-md"
@@ -110,7 +112,7 @@ const OrderPage = () => {
                 <input
                     type="text"
                     name="street_name"
-                    placeholder="Address"
+                    placeholder= {t("addressDataColumn")}
                     value={formData.street_name}
                     onChange={handleChange}
                     required
@@ -121,7 +123,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="postal_code"
-                        placeholder="Postal Code"
+                        placeholder= {t("postalCodeDataColumn")}
                         value={formData.postal_code}
                         onChange={handleChange}
                         required
@@ -131,7 +133,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="province"
-                        placeholder="Province"
+                        placeholder= {t("provinceDataColumn")}
                         value={formData.province}
                         onChange={handleChange}
                         required
@@ -142,7 +144,7 @@ const OrderPage = () => {
                 <input
                     type="text"
                     name="phone_number"
-                    placeholder="Phone number (in the format +358..)"
+                    placeholder= {t("phoneFormatDataColumn")}
                     value={formData.phone_number}
                     onChange={handleChange}
                     required
@@ -153,7 +155,7 @@ const OrderPage = () => {
                     className={`bg-blue-500 text-white py-3 rounded-md w-full sm:w-1/4 md:w-1/3 mx-auto block text-center ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                     disabled={cart.length === 0}
                 >
-                    Confirm Order
+                    {t("confirmOrderBtn")}
                 </button>
             </form>
 
@@ -180,12 +182,12 @@ const OrderPage = () => {
                                 <CartButton onClick={() => removeFromCart(book)} type="remove"/>
                             </div>
                         </div>
-                    )) : <p className="text-lg font-semibold">No items in cart</p>}
+                    )) : <p className="text-lg font-semibold"> {t("emptyCartInfo")}</p>}
                 </div>
                 <div>
                     {cart.length > 0 && (
                         <div className="w-full flex justify-between p-4 dark:text-white">
-                            <p className="text-sm font-semibold">Total:</p>
+                            <p className="text-sm font-semibold">{t("cartTotalColumn")}</p>
                             <p className="text-sm font-semibold">{cart.reduce((acc, book) => acc + book.price * book.quantity, 0)}€</p>
                         </div>
                     )}

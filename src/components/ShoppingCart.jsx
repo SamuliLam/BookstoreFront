@@ -4,11 +4,13 @@ import ShoppingCartProductCard from "./ShoppingCartProductCard.jsx";
 import { useCartContext } from "../context/CartContext.jsx";
 import { useUserContext } from "../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const ShoppingCart = () => {
     const { cart, isVisible, handleToggle, clearCart, handleClickOutside, cartRef, overlayRef } = useCartContext();
     const { user } = useUserContext();
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         const overlayNode = overlayRef.current;
@@ -53,10 +55,10 @@ const ShoppingCart = () => {
                     <FaTimes />
                 </span>
                 <div>
-                    <h2 className="text-lg font-bold p-3">Shopping Cart</h2>
+                    <h2 className="text-lg font-bold p-3">{t("shoppingCartH2")}</h2>
                     <div ref={overlayRef} className="flex-1 overflow-y-auto max-h-[75vh]">
                         {cart.length === 0 ? (
-                            <p className="text-base font-light p-4">No items in the cart</p>
+                            <p className="text-base font-light p-4">{t("emptyCartInfo")}</p>
                         ) : (
                             cart.map((book) => (
                                 <ShoppingCartProductCard
@@ -71,17 +73,17 @@ const ShoppingCart = () => {
                             <div>
                                 <div className="flex justify-between p-4">
                                     <div className="flex">
-                                        <p className="text-sm font-bold">Total: </p>
+                                        <p className="text-sm font-bold">{t("shoppingCartTotal")} </p>
                                         <p className="text-sm font-bold">
                                             {cart.reduce((acc, item) => acc + item.price * item.quantity, 0)}€
                                         </p>
                                     </div>
                                     <div className="flex">
-                                        <button className="text-sm font-light italic underline" onClick={clearCart}>Clear cart</button>
+                                        <button className="text-sm font-light italic underline" onClick={clearCart}>{t("clearCart")}</button>
                                     </div>
                                 </div>
                                 <div className="flex justify-center">
-                                    <button className="bg-blue-500 text-base px-4 py-2 rounded-md hover:bg-blue-600 text-white" onClick={proceedToCheckout}>Checkout</button>
+                                    <button className="bg-blue-500 text-base px-4 py-2 rounded-md hover:bg-blue-600 text-white" onClick={proceedToCheckout}>{t("checkoutBtn")}</button>
                                 </div>
                             </div>
                         )}
