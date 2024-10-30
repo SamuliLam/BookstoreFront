@@ -323,26 +323,6 @@ export const addBook = async (bookData, token) => {
     }
 };
 
-export const addUser = async (userData, token) => {
-    try {
-        const response = await axios.post("http://localhost:8080/users", userData, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        });
-        if (response.status === 201) {
-            return response;
-        } else {
-            return {success: false, error: 'Failed to add user'};
-        }
-
-    } catch (error) {
-        console.error("Error creating user:", error);
-        return {success: false, error: error.message};
-    }
-}
-
 export const deleteBook = async (book_id, token) => {
     console.log('bookid ' + book_id)
     try {
@@ -364,7 +344,7 @@ export const deleteBook = async (book_id, token) => {
 
 export const deleteUser = async (user_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/users/${user_id}`, {
+        const response = await axios.delete(`http://localhost:8080/users/delete/${user_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -382,7 +362,7 @@ export const deleteUser = async (user_id, token) => {
 
 export const deleteOrder = async (order_id, token) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/orders/${order_id}`, {
+        const response = await axios.delete(`http://localhost:8080/orders/delete/${order_id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -414,17 +394,19 @@ export const getOrderById = async (order_id, token) => {
     }
 }
 
-export const getDummyBook = async (token) => {
+export const addUser = async (user, token) => {
     try {
-        const response = await axios.get("http://localhost:8080/books/dummy", {
+        const response = await axios.post("http://localhost:8080/users/add", user, {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             }
-        })
+        });
+
         if (response.status === 200) {
             return {success: true, data: response.data};
         } else {
-            return {success: false, error: 'Failed to get dummy book'};
+            return {success: false, error: 'Failed to add user'};
         }
     } catch (error) {
         return {success: false, error: error.message}

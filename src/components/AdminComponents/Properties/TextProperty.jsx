@@ -7,7 +7,7 @@ export const TextProperty = ({name, disabled, label, value, type, onInputChange}
 
     return (
         <div className="flex flex-col">
-            <label className="font-bold">{label}</label>
+            <label className="font-bold dark:text-white">{label || name}</label>
             <input
                 type={type}
                 name={name}

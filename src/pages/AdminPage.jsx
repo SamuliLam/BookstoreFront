@@ -2,10 +2,8 @@ import AdminPanelButton from "../components/AdminComponents/AdminPanelButton.jsx
 import AdminPageTable from "../components/AdminComponents/AdminPageTable.jsx";
 import {fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
 import {useContext, useEffect, useState} from "react";
-import {SearchResultContext} from "../context/SearchContext.jsx";
-import AdminTableModal from "../components/AdminComponents/AdminTableModal.jsx";
-import NewItemModal from "../components/AdminComponents/NewItemModal.jsx";
-import { isTokenExpired } from '../utils/api';
+import CreateOrUpdateBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
+import CreateOrUpdateUserModal from "../components/AdminComponents/CreateOrUpdateUserModal.jsx";
 
 const AdminPage = () => {
     console.log("AdminPage");
@@ -20,12 +18,8 @@ const AdminPage = () => {
 
 
     const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-    const [modalDataType, setModalDataType] = useState(""); // State to manage the type of d
     const [currentDataType, setCurrentDataType] = useState(""); // New state to track which type is currently being viewed
 
-
-
-    const {searchResults} = useContext(SearchResultContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,6 +52,7 @@ const AdminPage = () => {
 
     const handleTableDataChange = (data, dataType) => {
         console.log("changing data to: ", data);
+        console.log("changing datatype to: ", dataType)
         setDataState((prevState) => ({
             ...prevState,
             tableData: data,
@@ -66,21 +61,21 @@ const AdminPage = () => {
     }
 
     const handleAddNewClick = () => {
-        setModalDataType(currentDataType);
+        console.log("datatype", currentDataType)
         setIsModalOpen(true);
     }
 
     if (dataState.isLoading) {
-        return <div className={"m-auto"}>Loading...</div>;
+        return <div className={"m-auto dark:text-white"}>Loading...</div>;
     }
 
 
     return (
         <div className={"main-content-container flex grow "}>
             <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between dark:text-white dark:bg-gray-900">
-                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books)}/>
-                <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users)}/>
-                <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders)}/>
+                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books, "book")}/>
+                <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users, "user")}/>
+                <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders, "order")}/>
             </aside>
             <div className="table-content-container flex-col dark:text-white dark:bg-gray-700 w-full">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4" onClick={handleAddNewClick}>
@@ -90,13 +85,20 @@ const AdminPage = () => {
                     <AdminPageTable data={dataState.tableData}/>
                 </div>
             </div>
-            {isModalOpen && (
-                <NewItemModal
+            {
+                (isModalOpen && currentDataType === "book") &&
+                <CreateOrUpdateBookModal
                     open={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    dataType={modalDataType}
                 />
-            )}
+            }
+            {
+                (isModalOpen && currentDataType === "user") &&
+                <CreateOrUpdateUserModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            }
         </div>
     )
 }

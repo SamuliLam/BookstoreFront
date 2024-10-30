@@ -1,9 +1,11 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
-import AdminTableModal from "./AdminTableModal.jsx";
 import {deleteBook, deleteOrder, deleteUser, getOrderById} from "../../utils/api.js";
 import {useUserContext} from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
+import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
+import CreateOrUpdateUserModal from "./CreateOrUpdateUserModal.jsx";
+import CreateOrUpdateOrderModal from "./CreateOrUpdateOrderModal.jsx";
 
 const AdminPageTable = ({data}) => {
 
@@ -15,6 +17,14 @@ const AdminPageTable = ({data}) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const dataType = useMemo(() => {
+        console.log("entering usememo");
+        if (!selectedItem) return "";
+        if (selectedItem.isbn) return "book";
+        if (selectedItem.orderDate) return "order";
+        if (selectedItem.email) return "user";
+    }, [selectedItem])
+
 
     // Data mapping identifiers for each type
     const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
@@ -24,7 +34,7 @@ const AdminPageTable = ({data}) => {
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
-    let dataType;
+
 
     // Check the type of data and set the map and headers accordingly
     if (Array.isArray(data) && data.length > 0) {
@@ -33,17 +43,14 @@ const AdminPageTable = ({data}) => {
             // if book data
             dataMapIdentifiers = bookDataMapIdentifiers;
             tableHeaders = Object.values(bookDataMapIdentifiers);
-            dataType = "book";
         } else if (data[0].email) {
             // if user data
             dataMapIdentifiers = userDataMapIdentifiers;
             tableHeaders = Object.values(userDataMapIdentifiers);
-            dataType = "user";
         } else if (data[0].orderDate) {
             // if order data
             dataMapIdentifiers = orderDataMapIdentifiers;
             tableHeaders = Object.values(orderDataMapIdentifiers);
-            dataType = "order";
             console.log("order headers: ", tableHeaders);
         }
     }
@@ -57,14 +64,9 @@ const AdminPageTable = ({data}) => {
 
     const handleEdit = async (item) => {
         setSelectedItem(item);
-        if (dataType === "order") {
-            const response= await getOrderById(item.order_id, user.token);
-            const formattedOrder = response.data;
-            if (formattedOrder) {
-                setSelectedItem(formattedOrder);
-            }
-        }
+
         console.log("selected item is ", item);
+        console.log("datatype", dataType)
 
         setIsModalOpen(true);
     }
@@ -143,7 +145,9 @@ const AdminPageTable = ({data}) => {
                             </button>
                         </td>
                         <td className={"p-5"}>
-                            <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"} onClick={() => handleDeleteClick(item)}>Delete</button>
+                            <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"}
+                                    onClick={() => handleDeleteClick(item)}>Delete
+                            </button>
                         </td>
                     </tr>
                 ))}
@@ -151,15 +155,31 @@ const AdminPageTable = ({data}) => {
 
             </table>
             {
-                isModalOpen && (
-                    <AdminTableModal
-                        open={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        item={selectedItem}
-                        dataType={dataType}
-                        id={itemId}
-                    />
-                )
+                (isModalOpen && dataType === "book") &&
+                <CreateOrUpdateBookModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingBook={selectedItem}
+                    book_id={itemId}
+                />
+            }
+            {
+                (isModalOpen && dataType === "user") &&
+                <CreateOrUpdateUserModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingUser={selectedItem}
+                    user_id={itemId}
+                />
+            }
+            {
+                (isModalOpen && dataType === "order") &&
+                <CreateOrUpdateOrderModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingOrder={selectedItem}
+                    order_id={itemId}
+                />
             }
             {
                 isDeleteModalOpen && (
