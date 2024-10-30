@@ -5,6 +5,7 @@ import {useUserContext} from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
 import CreateOrUpdateUserModal from "./CreateOrUpdateUserModal.jsx";
+import CreateOrUpdateOrderModal from "./CreateOrUpdateOrderModal.jsx";
 
 const AdminPageTable = ({data}) => {
 
@@ -62,17 +63,8 @@ const AdminPageTable = ({data}) => {
     }, [selectedItem]);
 
     const handleEdit = async (item) => {
-        if (dataType === "order") {
-            const response = await getOrderById(item.order_id, user.token);
-            const formattedOrder = response.data;
-            if (formattedOrder) {
-                setSelectedItem(formattedOrder);
-            } else {
-                setSelectedItem(item);
-            }
-        } else {
-            setSelectedItem(item);
-        }
+        setSelectedItem(item);
+
         console.log("selected item is ", item);
         console.log("datatype", dataType)
 
@@ -178,6 +170,15 @@ const AdminPageTable = ({data}) => {
                     onClose={() => setIsModalOpen(false)}
                     existingUser={selectedItem}
                     user_id={itemId}
+                />
+            }
+            {
+                (isModalOpen && dataType === "order") &&
+                <CreateOrUpdateOrderModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    existingOrder={selectedItem}
+                    order_id={itemId}
                 />
             }
             {
