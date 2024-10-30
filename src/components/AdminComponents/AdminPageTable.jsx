@@ -25,7 +25,6 @@ const AdminPageTable = ({data}) => {
     }, [selectedItem])
 
 
-
     // Data mapping identifiers for each type
     const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
     const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};

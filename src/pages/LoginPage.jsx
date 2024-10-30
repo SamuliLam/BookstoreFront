@@ -54,7 +54,7 @@ const LoginPage = () => {
             <div
                 className="w-[100vw] xl:w-1/2 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white">
                 <form onSubmit={handleSubmit} className="w-1/2">
-                    <h2 className="text-2xl font-light mb-6 text-center ">t()</h2>
+                    <h2 className="text-2xl font-light mb-6 text-center ">Sign in</h2>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="email">
                             Email
