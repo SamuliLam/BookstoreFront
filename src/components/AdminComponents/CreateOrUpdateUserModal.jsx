@@ -49,7 +49,7 @@ const CreateOrUpdateUserModal = ({open, onClose, existingUser, user_id}) => {
                     setErrorMessage(response.message);
                     setSuccessMessage('');
                 } else {
-                    setSuccessMessage("User updated successfully");
+                    setSuccessMessage(t("CreateOrUpdateUserModalUserUpdatedSuccessfully"));
                     console.log("User updated successfully");
                     setErrorMessage("");
                     setTimeout(() => {
@@ -64,7 +64,7 @@ const CreateOrUpdateUserModal = ({open, onClose, existingUser, user_id}) => {
                     setErrorMessage(response.message);
                     setSuccessMessage('');
                 } else {
-                    setSuccessMessage("User created successfully");
+                    setSuccessMessage(t("CreateOrUpdateUserModalUserCreatedSuccessfully"));
                     console.log("User created successfully");
                     setErrorMessage("");
                     setTimeout(() => {
@@ -74,7 +74,7 @@ const CreateOrUpdateUserModal = ({open, onClose, existingUser, user_id}) => {
 
             }
         } catch (error) {
-            setErrorMessage("Error creating or updating user");
+            setErrorMessage(t("CreateOrUpdateUserModalErrorCreatingOrUpdateUser"));
             setSuccessMessage('');
             console.error("Error creating or updating user", error);
         }

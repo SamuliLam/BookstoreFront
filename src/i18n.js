@@ -173,6 +173,9 @@ i18next.use(initReactI18next).init({
                 CreateOrUpdateUserModalProvince: "Province",
                 CreateOrUpdateUserModalPassword: "Password",
                 CreateOrUpdateUserModalRole: "Role",
+                CreateOrUpdateUserModalUserUpdatedSuccessfully: "User updated successfully",
+                CreateOrUpdateUserModalUserCreatedSuccessfully: "User created successfully",
+                CreateOrUpdateUserModalErrorCreatingOrUpdateUser: "Error creating or updating user",
             }
         },
         fi: {
@@ -342,6 +345,9 @@ i18next.use(initReactI18next).init({
                 CreateOrUpdateUserModalProvince: "Maakunta",
                 CreateOrUpdateUserModalPassword: "Salasana",
                 CreateOrUpdateUserModalRole: "Rooli",
+                CreateOrUpdateUserModalUserUpdatedSuccessfully: "Käyttäjä päivitetty onnistuneesti",
+                CreateOrUpdateUserModalUserCreatedSuccessfully: "Käyttäjä luotu onnistuneesti",
+                CreateOrUpdateUserModalErrorCreatingOrUpdateUser: "Virhe luotaessa tai päivitettäessä käyttäjää",
             }
         },
         sv: {
@@ -511,6 +517,9 @@ i18next.use(initReactI18next).init({
                 CreateOrUpdateUserModalProvince: "Län",
                 CreateOrUpdateUserModalPassword: "Lösenord",
                 CreateOrUpdateUserModalRole: "Roll",
+                CreateOrUpdateUserModalUserUpdatedSuccessfully: "Användaren uppdaterades framgångsrikt",
+                CreateOrUpdateUserModalUserCreatedSuccessfully: "Användaren skapades framgångsrikt",
+                CreateOrUpdateUserModalErrorCreatingOrUpdateUser: "Fel vid skapande eller uppdatering av användare",
             }
         },
     }
