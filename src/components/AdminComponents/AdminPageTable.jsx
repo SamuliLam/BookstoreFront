@@ -6,6 +6,7 @@ import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
 import CreateOrUpdateUserModal from "./CreateOrUpdateUserModal.jsx";
 import CreateOrUpdateOrderModal from "./CreateOrUpdateOrderModal.jsx";
+import {t} from "i18next";
 
 const AdminPageTable = ({data}) => {
 
@@ -27,9 +28,9 @@ const AdminPageTable = ({data}) => {
 
 
     // Data mapping identifiers for each type
-    const bookDataMapIdentifiers = {title: "Title", isbn: "ISBN"};
-    const userDataMapIdentifiers = {first_name: "First name", last_name: "Last name", email: "Email"};
-    const orderDataMapIdentifiers = {email: "User", orderDate: "Date"};
+    const bookDataMapIdentifiers = {title: t("AdminPageTableBookTitle"), isbn: t("AdminPageTableBookISBN")};
+    const userDataMapIdentifiers = {first_name: t("AdminPageTableUserFirstName"), last_name: t("AdminPageTableUserLastName"), email: t("AdminPageTableUserEmail")};
+    const orderDataMapIdentifiers = {email: t("AdminPageTableOrderUser"), orderDate: t("AdminPageTableOrderDate")};
 
 
     let dataMapIdentifiers = {};
@@ -121,7 +122,7 @@ const AdminPageTable = ({data}) => {
                     {tableHeaders.map((header, index) => (
                         <th className={"p-5"} key={index}>{header}</th>
                     ))}
-                    <th className={"p-5"}>Edit</th>
+                    <th className={"p-5"}>{t("AdminPageTableEdit")}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -141,12 +142,12 @@ const AdminPageTable = ({data}) => {
                         <td className={"p-5"}>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => handleEdit(item)}>
-                                Edit
+                                {t("AdminPageTableEdit")}
                             </button>
                         </td>
                         <td className={"p-5"}>
                             <button className={"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"}
-                                    onClick={() => handleDeleteClick(item)}>Delete
+                                    onClick={() => handleDeleteClick(item)}>{t("AdminPageTableDelete")}
                             </button>
                         </td>
                     </tr>
