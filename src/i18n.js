@@ -120,6 +120,7 @@ i18next.use(initReactI18next).init({
 
 
                 // Admin Page
+                AdminPageLoading: "Loading...",
                 AdminPageAddNew: "Add New",
                 AdminPageBooksButton: "Books",
                 AdminPageUsersButton: "Users",
@@ -292,6 +293,7 @@ i18next.use(initReactI18next).init({
                 qtyInfo: "Kpl: ",
 
                 // Admin Page
+                AdminPageLoading: "Ladataan...",
                 AdminPageAddNew: "Lisää uusi",
                 AdminPageBooksButton: "Kirjat",
                 AdminPageUsersButton: "Käyttäjät",
@@ -464,6 +466,7 @@ i18next.use(initReactI18next).init({
                 qtyInfo: "Antal: ",
 
                 // Admin Page
+                AdminPageLoading: "Laddar...",
                 AdminPageAddNew: "Lägg till ny",
                 AdminPageBooksButton: "Böcker",
                 AdminPageUsersButton: "Användare",
