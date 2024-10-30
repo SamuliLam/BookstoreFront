@@ -52,6 +52,50 @@ i18next.use(initReactI18next).init({
                 BookDivH2InStockNew: "New: ",
                 BookDivH2InStockUsed: "Used: ",
                 FooterPContactText: "Contact us: ",
+
+                // Profile sections
+                profileEditProfile: "Edit Profile",
+                profileChangePassword: "Change Password",
+                profileOrderHistory: "Order History",
+                profileFavoriteBooks: "Favorite Books",
+                profileWelcome: "Welcome to Your Profile",
+                profileSelectOption: "Select an option from the sidebar to get started",
+
+                // Form labels
+                profileFirstName: "First Name",
+                profileLastName: "Last Name",
+                profileEmail: "Email",
+                profileStreetName: "Street Name",
+                profileStreetNumber: "Street Number",
+                profileNewPassword: "New Password",
+                profileConfirmPassword: "Confirm New Password",
+
+                // Buttons
+                profileSaveChanges: "Save Changes",
+                profileUpdatePassword: "Update Password",
+                profileShowDetails: "Show Details",
+                profileHideDetails: "Hide Details",
+                profilePrevious: "Previous",
+                profileNext: "Next",
+
+                // Order history
+                profileSearchOrders: "Search orders...",
+                profileLoadingOrders: "Loading orders...",
+                profileOrderId: "Order ID",
+                profileOrderDate: "Date",
+                profileOrderTotal: "Total",
+                profileOrderDetails: "Details",
+                profileNoFavorites: "No favorite books",
+                profilePage: "Page",
+                profilePageOf: "of",
+
+                // Status messages
+                profileUpdating: "Updating...",
+                profileUpdateSuccess: "Profile updated successfully!",
+                profilePasswordSuccess: "Password updated successfully!",
+                profileUpdateError: "Error: User information is missing. Please log in again.",
+                profilePasswordMismatch: "Error: Passwords do not match.",
+                profileUpdatingPassword: "Updating password..."
             }
         },
         fi: {
@@ -101,6 +145,50 @@ i18next.use(initReactI18next).init({
                 BookDivH2InStockNew: "Uusi: ",
                 BookDivH2InStockUsed: "Käytetty: ",
                 FooterPContactText: "Ole yhteydessä meihin: ",
+
+                // Profile sections
+                profileEditProfile: "Muokkaa profiilia",
+                profileChangePassword: "Vaihda salasana",
+                profileOrderHistory: "Tilaushistoria",
+                profileFavoriteBooks: "Suosikkikirjat",
+                profileWelcome: "Tervetuloa profiiliisi",
+                profileSelectOption: "Valitse vaihtoehto sivupalkista aloittaaksesi",
+
+                // Form labels
+                profileFirstName: "Etunimi",
+                profileLastName: "Sukunimi",
+                profileEmail: "Sähköposti",
+                profileStreetName: "Kadun nimi",
+                profileStreetNumber: "Katunumero",
+                profileNewPassword: "Uusi salasana",
+                profileConfirmPassword: "Vahvista uusi salasana",
+
+                // Buttons
+                profileSaveChanges: "Tallenna muutokset",
+                profileUpdatePassword: "Päivitä salasana",
+                profileShowDetails: "Näytä tiedot",
+                profileHideDetails: "Piilota tiedot",
+                profilePrevious: "Edellinen",
+                profileNext: "Seuraava",
+
+                // Order history
+                profileSearchOrders: "Hae tilauksia...",
+                profileLoadingOrders: "Ladataan tilauksia...",
+                profileOrderId: "Tilausnumero",
+                profileOrderDate: "Päivämäärä",
+                profileOrderTotal: "Yhteensä",
+                profileOrderDetails: "Tiedot",
+                profileNoFavorites: "Ei suosikkikirjoja",
+                profilePage: "Sivu",
+                profilePageOf: "/",
+
+                // Status messages
+                profileUpdating: "Päivitetään...",
+                profileUpdateSuccess: "Profiili päivitetty onnistuneesti!",
+                profilePasswordSuccess: "Salasana päivitetty onnistuneesti!",
+                profileUpdateError: "Virhe: Käyttäjätiedot puuttuvat. Kirjaudu sisään uudelleen.",
+                profilePasswordMismatch: "Virhe: Salasanat eivät täsmää.",
+                profileUpdatingPassword: "Päivitetään salasanaa..."
             }
         },
         sv: {
@@ -150,6 +238,50 @@ i18next.use(initReactI18next).init({
                 BookDivH2InStockNew: "Ny: ",
                 BookDivH2InStockUsed: "Använd: ",
                 FooterPContactText: "Kontakta oss: ",
+
+                // Profile sections
+                profileEditProfile: "Redigera profil",
+                profileChangePassword: "Ändra lösenord",
+                profileOrderHistory: "Orderhistorik",
+                profileFavoriteBooks: "Favoritböcker",
+                profileWelcome: "Välkommen till din profil",
+                profileSelectOption: "Välj ett alternativ från sidomenyn för att börja",
+
+                // Form labels
+                profileFirstName: "Förnamn",
+                profileLastName: "Efternamn",
+                profileEmail: "E-postadress",
+                profileStreetName: "Gatunamn",
+                profileStreetNumber: "Gatunummer",
+                profileNewPassword: "Nytt lösenord",
+                profileConfirmPassword: "Bekräfta nytt lösenord",
+
+                // Buttons
+                profileSaveChanges: "Spara ändringar",
+                profileUpdatePassword: "Uppdatera lösenord",
+                profileShowDetails: "Visa detaljer",
+                profileHideDetails: "Dölj detaljer",
+                profilePrevious: "Föregående",
+                profileNext: "Nästa",
+
+                // Order history
+                profileSearchOrders: "Sök ordrar...",
+                profileLoadingOrders: "Laddar ordrar...",
+                profileOrderId: "Order-ID",
+                profileOrderDate: "Datum",
+                profileOrderTotal: "Totalt",
+                profileOrderDetails: "Detaljer",
+                profileNoFavorites: "Inga favoritböcker",
+                profilePage: "Sida",
+                profilePageOf: "av",
+
+                // Status messages
+                profileUpdating: "Uppdaterar...",
+                profileUpdateSuccess: "Profilen har uppdaterats!",
+                profilePasswordSuccess: "Lösenordet har uppdaterats!",
+                profileUpdateError: "Fel: Användarinformation saknas. Logga in igen.",
+                profilePasswordMismatch: "Fel: Lösenorden matchar inte.",
+                profileUpdatingPassword: "Uppdaterar lösenord..."
             }
         },
     }
