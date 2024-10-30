@@ -1,12 +1,13 @@
 import AdminPanelButton from "../components/AdminComponents/AdminPanelButton.jsx";
 import AdminPageTable from "../components/AdminComponents/AdminPageTable.jsx";
-import {fetchBooks, fetchOrders, fetchUsers} from "../utils/api.js";
+import {fetchBooks, fetchOrders, fetchOrdersAdmin, fetchUsers} from "../utils/api.js";
 import {useContext, useEffect, useState} from "react";
 import CreateOrUpdateBookModal from "../components/AdminComponents/CreateOrUpdateBookModal.jsx";
 import CreateOrUpdateUserModal from "../components/AdminComponents/CreateOrUpdateUserModal.jsx";
+import {useTranslation} from "react-i18next";
 
 const AdminPage = () => {
-    console.log("AdminPage");
+    const { t} = useTranslation();
 
     const [dataState, setDataState] = useState({
         books: [],
@@ -26,7 +27,7 @@ const AdminPage = () => {
             try {
                 const books = await fetchBooks();
                 const users = await fetchUsers();
-                const orders = await fetchOrders();
+                const orders = await fetchOrdersAdmin();
 
                 setDataState({
                     books,
@@ -73,13 +74,13 @@ const AdminPage = () => {
     return (
         <div className={"main-content-container flex grow "}>
             <aside className="admin-side-bar bg-gray-100 px-24 py-40 flex flex-col justify-between dark:text-white dark:bg-gray-900">
-                <AdminPanelButton label="Books" handleClick={() => handleTableDataChange(dataState.books, "book")}/>
-                <AdminPanelButton label="Users" handleClick={() => handleTableDataChange(dataState.users, "user")}/>
-                <AdminPanelButton label="Orders" handleClick={() => handleTableDataChange(dataState.orders, "order")}/>
+                <AdminPanelButton label={t("AdminPageBooksButton")} handleClick={() => handleTableDataChange(dataState.books, "book")}/>
+                <AdminPanelButton label={t("AdminPageUsersButton")} handleClick={() => handleTableDataChange(dataState.users, "user")}/>
+                <AdminPanelButton label={t("AdminPageOrdersButton")} handleClick={() => handleTableDataChange(dataState.orders, "order")}/>
             </aside>
             <div className="table-content-container flex-col dark:text-white dark:bg-gray-700 w-full">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4" onClick={handleAddNewClick}>
-                    Add New
+                    {t("AdminPageAddNew")}
                 </button>
                 <div className="table-container overflow-y-scroll p-0 h-5/6 mx-auto">
                     <AdminPageTable data={dataState.tableData}/>

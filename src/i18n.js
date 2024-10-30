@@ -119,7 +119,11 @@ i18next.use(initReactI18next).init({
                 qtyInfo: "Qty: ",
 
 
-
+                // Admin Page
+                AdminPageAddNew: "Add New",
+                AdminPageBooksButton: "Books",
+                AdminPageUsersButton: "Users",
+                AdminPageOrdersButton: "Orders",
 
             }
         },
@@ -235,6 +239,12 @@ i18next.use(initReactI18next).init({
                 clearCart : "Tyhjennä ostoskori",
                 checkoutBtn : "Kassalle",
                 qtyInfo: "Kpl: ",
+
+                // Admin Page
+                AdminPageAddNew: "Lisää uusi",
+                AdminPageBooksButton: "Kirjat",
+                AdminPageUsersButton: "Käyttäjät",
+                AdminPageOrdersButton: "Tilaukset",
             }
         },
         sv: {
@@ -343,12 +353,18 @@ i18next.use(initReactI18next).init({
                 successfullOrderAlert: "Beställning genomförd",
                 failedOrderAlert: "Misslyckades att genomföra beställning",
 
-// Shopping cart
+                // Shopping cart
                 shoppingCartH2: "Kundvagn",
                 shoppingCartTotal: "Totalt:",
                 clearCart: "Töm kundvagnen",
                 checkoutBtn: "Till kassan",
                 qtyInfo: "Antal: ",
+
+                // Admin Page
+                AdminPageAddNew: "Lägg till ny",
+                AdminPageBooksButton: "Böcker",
+                AdminPageUsersButton: "Användare",
+                AdminPageOrdersButton: "Ordrar",
             }
         },
     }

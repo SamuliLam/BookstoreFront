@@ -158,12 +158,34 @@ export const fetchOrders = async () => {
             }))
         }));
 
+        console.log(formattedOrders);
         return { success: true, orders: formattedOrders };
     } catch (error) {
         console.error("Error fetching orders:", error);
         return { success: false, error: error.message };
     }
 };
+
+export const fetchOrdersAdmin = async () => {
+    try {
+        const token = sessionStorage.getItem('token');
+        const response = await axios.get("http://localhost:8080/orders", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status !== 200) {
+            throw new Error("Error fetching orders " + response.status);
+        }
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        return { success: false, error: error.message };
+    }
+};
+
 export const fetchSearchResults = async (searchText) => {
     try {
         if (searchText.length < 3) {
