@@ -17,7 +17,7 @@ const AppRoutes = () => (
             <Routes>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<HomePage/>}/>
-
+                    <Route path="/book/:id" element={<Book/>}/>
                     <Route path="/admin" element={<PrivateRoute requiredRole={"ADMIN"}>
                         <AdminPage/>
                     </PrivateRoute>}/>
