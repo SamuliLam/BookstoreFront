@@ -79,7 +79,7 @@ export const logIn = async ({email, password}) => {
 
 export const fetchBooks = async () => {
 
-    const currentLanguage = navigator.languages ? navigator.languages[0] : navigator.language;
+    const currentLanguage = i18next.language;
     console.log("Current language:", currentLanguage);
 
     try {
