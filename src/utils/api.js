@@ -79,14 +79,8 @@ export const logIn = async ({email, password}) => {
 
 export const fetchBooks = async () => {
 
-    const currentLanguage = navigator.languages ? navigator.languages[0] : navigator.language;
-    console.log("Current language:", currentLanguage);
-
     try {
         const response = await axios.get(`http://localhost:8080/books`, {
-            headers: {
-                'Accept-Language': currentLanguage,
-            }
         });
 
         if (response.status !== 200) {
@@ -116,6 +110,7 @@ export const updateBook = async (id, bookData, token) => {
 
     }
 }
+
 export const isTokenExpired = () => {
     const tokenExpiration = sessionStorage.getItem('token_expiration');
     return new Date().getTime() > tokenExpiration;
