@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18next from 'i18next';
 
 export const handleSignUp = async (data) => {
     try {
@@ -77,8 +78,16 @@ export const logIn = async ({email, password}) => {
 };
 
 export const fetchBooks = async () => {
+
+    const currentLanguage = i18next.language;
+
     try {
-        const response = await axios.get("http://localhost:8080/books");
+        const response = await axios.get(`http://localhost:8080/books`, {
+            headers: {
+                'Accept-Language': currentLanguage,
+            }
+        });
+
         if (response.status !== 200) {
             throw new Error("Error fetching books " + response.status);
         }
@@ -186,7 +195,7 @@ export const fetchOrdersAdmin = async () => {
     }
 };
 
-export const fetchSearchResults = async (searchText) => {
+export const fetchSearchResults = async (searchText, language) => {
     try {
         if (searchText.length < 3) {
             return [];
