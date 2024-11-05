@@ -79,7 +79,8 @@ export const logIn = async ({email, password}) => {
 
 export const fetchBooks = async () => {
 
-    const currentLanguage = i18next.language;
+    const currentLanguage = navigator.languages ? navigator.languages[0] : navigator.language;
+    console.log("Current language:", currentLanguage);
 
     try {
         const response = await axios.get(`http://localhost:8080/books`, {

@@ -12,6 +12,7 @@ const App = () => {
     const { t, i18n } = useTranslation();
     useEffect(() => {
         i18n.changeLanguage(navigator.language);
+        console.log("Language set to:", navigator.language);
     }, []);
     return (
         <SearchResultContextProvider>
