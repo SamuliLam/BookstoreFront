@@ -29,6 +29,9 @@ dist-ssr
 ### dotenv ###
 .env
 
+### Playwright ###
+playwright.config.js
+
 ### Node ###
 # Logs
 logs
@@ -327,3 +330,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/node,webstorm,visualstudiocode,windows,dotenv
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
