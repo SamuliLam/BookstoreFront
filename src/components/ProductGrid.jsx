@@ -36,7 +36,7 @@ const ProductGrid = () => {
     });
 
     return (
-        <div className="productgrid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-20 p-4">
+        <div className="productgrid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-20 p-4" id="product-grid">
             {filteredBooks.length === 0 ? (
                 <p>{t("ProductGridPNoBooksFound")}</p>
             ) : (

@@ -64,7 +64,7 @@ const ProductCard = ({ title, author, price, image, book }) => {
                 <p className="text-center text-gray-400 dark:text-white">{author}</p>
                 <p className="text-center text-gray-600 dark:text-white">{price}€</p>
                 <button onClick={() => handleAddToCart(book)}
-                        className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200">
+                        className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200" id="add-button">
                     {t("ProductCardButtonAddToCart")}
                 </button>
             </div>

@@ -21,7 +21,7 @@ const ShoppingCartProductCard = ({ book }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col justify-center items-center gap-1 ml-2">
+            <div className="flex flex-col justify-center items-center gap-1 ml-2" id="add-remove-buttons">
                 <CartButton onClick={() => addToCart(book)} type="add" />
                 <CartButton onClick={() => removeFromCart(book)} type="remove" />
             </div>
