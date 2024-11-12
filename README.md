@@ -1,8 +1,15 @@
-# React + Vite
+## Front Page
+![frontpage](https://github.com/user-attachments/assets/9ac73438-9a52-42bb-9d9e-b40f1374aac4)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Profile Page
+![Profilepage](https://github.com/user-attachments/assets/756e44c1-e699-41f4-9b4e-f4b763a7cf99)
 
-Currently, two official plugins are available:
+## Admin Page
+![adminpage](https://github.com/user-attachments/assets/1af7ca27-af2d-4bd2-9301-c57bf3167158)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Shopping Cart
+![ostoskori](https://github.com/user-attachments/assets/0fcb832b-e6cb-4615-96ce-0cc1981aa3aa)
+
+## Order Page
+![Orderpage](https://github.com/user-attachments/assets/92c8e31c-a661-4c9d-85ec-13d067c6bb26)
+
