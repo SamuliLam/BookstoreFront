@@ -114,13 +114,13 @@ const SignupPage = () => {
                     />
                 </div>
                 <button
-                    className="dark:hover:bg-blue-300 dark:bg-white dark:text-black bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-blue-300 focus:outline-none focus:shadow-outline "
+                    className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:bg-blue-500"
                     type="submit"
                 >
                     {t("loginPageSignUp")}
                 </button>
                 <div className="text-center mt-6">
-                    <p className="text-gray-600 text-sm">{t("loginPageOr")}</p>
+                    <p className="text-gray-600 text-sm dark:text-white">{t("loginPageOr")}</p>
                     <a href="/login" className="text-blue-500 hover:text-blue-800 font-bold dark:text-blue-400 dark:hover:text-blue-800">{t("loginPageSignIn")}</a>
                 </div>
             </form>
