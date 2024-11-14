@@ -15,6 +15,7 @@ const SignupPage = () => {
         email: "",
         password: ""
     });
+    const [isSubmitting, setIsSubmitting] = useState(false); // State to track if the form is being submitted
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,6 +27,7 @@ const SignupPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         try {
             const { success, user, error } = await handleSignUp(formData);
             if (success && user) {
@@ -42,6 +44,8 @@ const SignupPage = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -116,6 +120,7 @@ const SignupPage = () => {
                 <button
                     className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:bg-blue-500"
                     type="submit"
+                    disabled={isSubmitting}
                 >
                     {t("loginPageSignUp")}
                 </button>
