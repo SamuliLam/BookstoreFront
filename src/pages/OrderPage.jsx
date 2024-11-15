@@ -154,6 +154,7 @@ const OrderPage = () => {
                 <button
                     className={`bg-blue-500 text-white py-3 rounded-md w-full sm:w-1/4 md:w-1/3 mx-auto block text-center ${cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                     disabled={cart.length === 0}
+                    id="confirm-order-button"
                 >
                     {t("confirmOrderBtn")}
                 </button>

@@ -84,7 +84,7 @@ const ShoppingCart = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-center">
-                                    <button className="bg-blue-500 text-base px-4 py-2 rounded-md hover:bg-blue-600 text-white" onClick={proceedToCheckout}>{t("checkoutBtn")}</button>
+                                    <button className="bg-blue-500 text-base px-4 py-2 rounded-md hover:bg-blue-600 text-white" id="proceed-button" onClick={proceedToCheckout}>{t("checkoutBtn")}</button>
                                 </div>
                             </div>
                         )}

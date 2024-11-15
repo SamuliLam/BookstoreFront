@@ -8,10 +8,8 @@ test.describe('sign up functionality', () => {
     let user;
 
     test.beforeEach(async ({ page }) => {
-        // Navigate to the signup page before each test
-        await page.goto('http://localhost:5173/signup');
 
-        // Intercept and mock the signup API response
+        await page.goto('http://localhost:5173/signup');
         await page.route('http://localhost:8080/auth/signup', route => {
             route.fulfill({
                 status: 200,
@@ -30,7 +28,6 @@ test.describe('sign up functionality', () => {
     });
 
     test('should sign up successfully and display success message', async ({ page }) => {
-        // Get the credentials from environment variables
         const firstName = process.env.SIGNUP_FIRST_NAME;
         const lastName = process.env.SIGNUP_LAST_NAME;
         const email = process.env.SIGNUP_EMAIL;
