@@ -41,6 +41,18 @@ test.describe('add and remove from shopping cart functionality', () => {
         await removeButton.click();
 
         expect(await getCartLength(page)).toBe(2);
+    });
 
+    test('should clear shopping cart', async ({page}) => {
+        await addItemsToCart(page, 3);
+        expect(await getCartLength(page)).toBe(3);
+
+        const cartButton = await page.locator('#cart-button').first();
+        await cartButton.click();
+
+        const clearButton = await page.locator('#clear-cart').first();
+        await clearButton.click();
+
+        expect(await getCartLength(page)).toBe(0);
     });
 });

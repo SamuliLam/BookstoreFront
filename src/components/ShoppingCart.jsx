@@ -80,7 +80,7 @@ const ShoppingCart = () => {
                                         </p>
                                     </div>
                                     <div className="flex">
-                                        <button className="text-sm font-light italic underline" onClick={clearCart}>{t("clearCart")}</button>
+                                        <button className="text-sm font-light italic underline" id="clear-cart" onClick={clearCart}>{t("clearCart")}</button>
                                     </div>
                                 </div>
                                 <div className="flex justify-center">
