@@ -49,3 +49,29 @@ test.describe('sign up functionality', () => {
         }
     });
 });
+
+test.describe('sign up failure', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:5173/signup');
+        await page.route('http://localhost:8080/auth/signup', route => {
+            route.fulfill({
+                status: 400,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    message: 'User with this email already exists!',
+                }),
+            });
+        });
+    });
+
+    test('should display error message when user already exists', async ({ page }) => {
+        await page.fill('#first_name', process.env.SIGNUP_FIRST_NAME);
+        await page.fill('#last_name', process.env.SIGNUP_LAST_NAME);
+        await page.fill('#email', process.env.SIGNUP_EMAIL);
+        await page.fill('#password', process.env.SIGNUP_PASSWORD);
+        await page.click('button[type="submit"]');
+
+        const errorMessage = await page.textContent('.alert-danger');
+        expect(errorMessage).toContain('User with this email already exists!');
+    });
+}

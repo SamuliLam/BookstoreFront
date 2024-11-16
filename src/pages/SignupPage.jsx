@@ -9,6 +9,8 @@ const SignupPage = () => {
     const { t, i18n } = useTranslation();
     const { login } = useUserContext();
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -28,22 +30,25 @@ const SignupPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setError('');
+        setSuccessMessage('');
         try {
-            const { success, user, error } = await handleSignUp(formData);
+            const { success, user, error: signupError } = await handleSignUp(formData);
             if (success && user) {
-                // If signup is successful, attempt to log in
+                setSuccessMessage(t("signupSuccessMessage"));
                 const loginResponse = await logIn({ email: formData.email, password: formData.password });
                 if (loginResponse.success && loginResponse.user) {
                     login(loginResponse.user);
+                    setSuccessMessage(t("loginSuccessLoginMessage"));
                     navigate("/");
                 } else {
                     console.log("Signup successful, but login failed:", loginResponse.error);
                 }
             } else {
-                console.log("Signup failed:", error);
+                setError(signupError || t("signupFailedMessage"));
             }
         } catch (error) {
-            console.error('Error:', error);
+            setError(error.message || t("signupUnexpectedError"));
         } finally {
             setIsSubmitting(false);
         }
@@ -117,6 +122,8 @@ const SignupPage = () => {
                         required
                     />
                 </div>
+                {error && <p className="text-red-500 text-xs italic mb-4" id="alert-message">{error}</p>}
+                {successMessage && <p className="text-green-500 text-xs italic mb-4">{successMessage}</p>}
                 <button
                     className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:bg-blue-500"
                     type="submit"
