@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
 export async function login(page) {
     await page.goto('http://localhost:5173/login');
     await page.fill('#email', process.env.LOGIN_EMAIL);
@@ -33,4 +32,24 @@ test.describe('login and logout functionality', () => {
         const user = await page.evaluate(() => JSON.parse(sessionStorage.getItem('user')));
         expect(user).toBeNull();
     });
+});
+
+test.describe('login failure', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:5173/login');
+    });
+
+    test('should display error message', async ({ page }) => {
+        await page.fill('#email', 'test@email.com');
+        await page.fill('#password', 'wrong-password');
+        await page.click('button[type="submit"]');
+        await page.waitForSelector('#alert-message');
+        const errorLabel = await page.textContent('#alert-message');
+
+        await expect(errorLabel).toContain('An unexpected error occurred');
+        const user = await page.evaluate(() => JSON.parse(sessionStorage.getItem('user')));
+        expect(user).toBeNull();
+
+    });
+
 });

@@ -84,7 +84,7 @@ const LoginPage = () => {
                             required
                         />
                     </div>
-                    {error && <p className="text-red-500 text-xs italic mb-4">{error}</p>}
+                    {error && <p className="text-red-500 text-xs italic mb-4" id="alert-message">{error}</p>}
                     {successMessage && <p className="text-green-500 text-xs italic mb-4">{successMessage}</p>}
                     <div className="flex items-center justify-between mb-4">
                         <a
