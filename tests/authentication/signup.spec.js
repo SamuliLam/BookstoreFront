@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
-import { deleteUser } from '../../src/utils/api.js'; // Adjust path as necessary
+import { deleteUser } from '../../src/utils/api.js';
 
 dotenv.config();
 
@@ -71,7 +71,7 @@ test.describe('sign up failure', () => {
         await page.fill('#password', process.env.SIGNUP_PASSWORD);
         await page.click('button[type="submit"]');
 
-        const errorMessage = await page.textContent('.alert-danger');
-        expect(errorMessage).toContain('User with this email already exists!');
+        const errorMessage = await page.textContent('#alert-message');
+        expect(errorMessage).toContain('This email is already in use');
     });
-}
+});

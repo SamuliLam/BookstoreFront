@@ -24,7 +24,6 @@ const LoginPage = () => {
                 login(user);
                 setSuccessMessage(t("loginSuccessLoginMessage"));
 
-
                 setTimeout(() => {
                     const intendedDestination = sessionStorage.getItem("intendedDestination");
                     if (intendedDestination) {
