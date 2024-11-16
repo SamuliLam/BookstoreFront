@@ -45,7 +45,7 @@ const SignupPage = () => {
                     console.log("Signup successful, but login failed:", loginResponse.error);
                 }
             } else {
-                setError(signupError || t("signupFailedMessage"));
+                setError(t("signupFailureMessage"));
             }
         } catch (error) {
             setError(error.message || t("signupUnexpectedError"));
