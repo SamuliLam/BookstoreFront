@@ -9,6 +9,7 @@ const Modal = ({ open, onClose, children }) => {
             onClick={onClose}
         >
             <div
+                id={'admin-modal'}
                 className="bg-white rounded-lg shadow-lg p-6 h-1/2 overflow-y-scroll dark:bg-blue-950"
                 onClick={(event) => event.stopPropagation()}
             >

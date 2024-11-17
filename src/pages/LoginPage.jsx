@@ -84,7 +84,7 @@ const LoginPage = () => {
                         />
                     </div>
                     {error && <p className="text-red-500 text-xs italic mb-4" id="alert-message">{error}</p>}
-                    {successMessage && <p className="text-green-500 text-xs italic mb-4">{successMessage}</p>}
+                    {successMessage && <p id={'success-message'} className="text-green-500 text-xs italic mb-4">{successMessage}</p>}
                     <div className="flex items-center justify-between mb-4">
                         <a
                             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 underline"
@@ -96,6 +96,7 @@ const LoginPage = () => {
                     <button
                         className="dark:hover:bg-blue-300 bg-black text-white font-bold py-2 px-4 rounded w-full hover:bg-gray-700 focus:outline-none focus:shadow-outline dark:bg-blue-500"
                         type="submit"
+                        id={"login-form-submit"}
                     >
                         {t("loginPageSignIn")}
                     </button>

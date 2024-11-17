@@ -79,7 +79,7 @@ const AdminPage = () => {
                 <AdminPanelButton label={t("AdminPageOrdersButton")} handleClick={() => handleTableDataChange(dataState.orders, "order")}/>
             </aside>
             <div className="table-content-container flex-col dark:text-white dark:bg-gray-700 w-full">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4" onClick={handleAddNewClick}>
+                <button id={'admin-add-new'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4" onClick={handleAddNewClick}>
                     {t("AdminPageAddNew")}
                 </button>
                 <div className="table-container overflow-y-scroll p-0 h-5/6 mx-auto">

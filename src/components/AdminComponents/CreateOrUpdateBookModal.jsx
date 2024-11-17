@@ -159,14 +159,14 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         {t("CreateOrUpdateBookModalBookAddNewAuthor")}
                     </button>
-                    <button type={"submit"}
+                    <button type={"submit"} id={"submit-book"}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         {t("CreateOrUpdateModalSubmit")}
                     </button>
                 </div>
 
-                {successMessage && <p className={"text-green-500"}>{successMessage}</p>}
-                {errorMessage && <p className={"text-red-500"}>{errorMessage}</p>}
+                {successMessage && <p id={'success-message'} className={"text-green-500"}>{successMessage}</p>}
+                {errorMessage && <p id={'error-message'} className={"text-red-500"}>{errorMessage}</p>}
             </form>
         </Modal>
 
