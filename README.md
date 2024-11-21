@@ -77,7 +77,11 @@ This project was collaboratively developed by:
      spring.datasource.url=jdbc:mariadb://localhost:3306/bookstore
      spring.datasource.username=root
      spring.datasource.password=password
+     
      ```
+     - Default Admin User: The database script creates a default admin user with the following credentials:
+     - Email: admin@admin
+     - Password: admin
 
 3. **Setup Backend**:
 
