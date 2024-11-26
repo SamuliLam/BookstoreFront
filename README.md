@@ -1,6 +1,4 @@
-# OnlineBookstoreManagementSystem
-
-# **Bookstore Management System**
+# Bookstore Management System
 
 ## **Project Overview**
 
