@@ -1,6 +1,4 @@
-# Bookstore React Application
-
-## Deployment Diagram
+# Deployment Diagram
 
 ```mermaid
     flowchart TD
