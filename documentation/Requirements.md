@@ -89,9 +89,8 @@ This document outlines the functional and non-functional requirements for the **
 - Supports a multitude of languages.
 
 ### Security  
-- Use **HTTPS** to secure communication between client and server.  
-- Store passwords securely using **hashing** and **salting**.  
-- Validate all user inputs to prevent **SQL injection** and **XSS attacks**.  
+- Store passwords securely using **hashing**.  
+- Validate all user inputs to prevent **SQL injection**.  
 
 ### Usability  
 - Provide a **responsive design** for desktops, tablets, and mobile devices.  
@@ -117,6 +116,5 @@ This document outlines the functional and non-functional requirements for the **
 
 ## Limitations  
 
-- The application does not support **offline mode**.  
 - Payment gateway integration is **outside the scope** of the current implementation.
 
