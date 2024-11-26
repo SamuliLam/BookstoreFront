@@ -15,5 +15,5 @@ MariaDB: Relational database for storing user, book, and order data.
 
 ```mermaid
 graph TD
-    User Interface --> Backend API
-    Backend API --> Database
+    User_Interface --> Backend_API
+    Backend_API --> Database
