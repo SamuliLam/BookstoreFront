@@ -9,11 +9,11 @@
 **Spring Boot**: Java-based framework for building the RESTful API for user management, book management, and order management.
 
 ### **Database**
-**MariaDB**: Relational database for storing user, book, and order data.
+MariaDB: Relational database for storing user, book, and order data.
 
 ## **Diagram**
 
 ```mermaid
 graph TD
-    User_Interface --> Backend_API
-    Backend_API --> Database
+    User Interface --> Backend API
+    Backend API --> Database
