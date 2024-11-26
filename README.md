@@ -122,6 +122,7 @@ Admin Interface: Manage the book inventory, track sales and manage users.**
 # Samuli Lamminmäki
 # Stefanos Thomas
 # Onni Luova
+# Jan Nässling
 
 
 ## Front Page
