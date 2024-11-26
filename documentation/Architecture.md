@@ -17,4 +17,3 @@
 graph TD
     User_Interface --> Backend_API
     Backend_API --> Database
-    Backend_API --> Email_Notification_Service
