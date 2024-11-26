@@ -111,7 +111,7 @@ This project was collaboratively developed by:
 ## ***The backend should be running at http://localhost:8080.***
 # Usage
 **Customer Interface: Browse books, add them to your cart, and proceed to purchase them.
-Admin Interface: Manage the book inventory, track sales and manage users.**
+Admin Interface: Manage the book inventory, track orders and manage users.**
 
 # Screenshots
 
