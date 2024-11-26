@@ -1,12 +1,14 @@
-# API Documentation
+# **API Documentation**
 
-The API documentation explains the endpoints available in the backend server and how to interact with them.
-The API documentation for this project is available through Swagger UI.
+The API documentation explains the available endpoints in the backend server and provides guidance on how to interact with them.
 
-## Access the Swagger UI
-Prerequisites: Backend server must be running.
-You can access the Swagger UI by navigating to the following URL:
+## **Accessing Swagger UI**
 
+### **Prerequisites**
+- Ensure the backend server is running.
+
+### **Steps to Access**
+1. Open your web browser.
+2. Navigate to the following URL:  
 http://localhost:8080/swagger-ui/index.html
-
 
