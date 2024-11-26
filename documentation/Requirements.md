@@ -86,7 +86,7 @@ This document outlines the functional and non-functional requirements for the **
 
 ### Performance  
 - Ensure pages load within **2 seconds** under normal traffic.  
-- Support up to **500 concurrent users**.
+- Supports a multitude of languages.
 
 ### Security  
 - Use **HTTPS** to secure communication between client and server.  
