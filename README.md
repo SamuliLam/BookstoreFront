@@ -12,6 +12,7 @@ This project was collaboratively developed by:
 - **Samuli Lamminmäki**
 - **Stefanos Thomas**
 - **Onni Luova**
+- **Jan Nässling**
 
 ## **Features**
 
@@ -112,16 +113,7 @@ This project was collaboratively developed by:
 **Customer Interface: Browse books, add them to your cart, and proceed to purchase them.
 Admin Interface: Manage the book inventory, track sales and manage users.**
 
-
-## Contact
-**For any questions, feedback, or suggestions, please contact the project creators:**
-
-# Ismet Ymeri
-# Samuli Lamminmäki
-# Stefanos Thomas
-# Onni Luova
-# Jan Nässling
-
+# Screenshots
 
 ## Front Page
 ![frontpage](https://github.com/user-attachments/assets/9ac73438-9a52-42bb-9d9e-b40f1374aac4)
