@@ -1,10 +1,10 @@
-# Testing Documentation
+**# Testing Documentation
 
 ## 1. Project Overview
 - **Project Name:** Online Bookstore Management System
-- **Version:** 1.6
+- **Version:** 1.7
 - **Author:** Stefanos Thomas
-- **Date:** 26.11.2024
+- **Date:** 28.11.2024
 - **Objective:** The purpose of this document is to provide a detailed description of the testing process for user authentication, order placement, account management, and book management functionalities of the Online Bookstore Management System.
 
 ## 2. Scope of Testing
@@ -42,8 +42,8 @@
     - Integration Testing Completion
     - Final Test Report
 - **Roles and Responsibilities:**
-    - Testers: Stefanos Thomas, Ismet Ymeri, Samuli Lamminmäki, Onni Luova
-    - Developers: Stefanos Thomas, Ismet Ymeri, Samuli Lamminmäki, Onni Luova
+    - Testers: Stefanos Thomas, Ismet Ymeri, Samuli Lamminmäki, Onni Luova, Jan Nässling
+    - Developers: Stefanos Thomas, Ismet Ymeri, Samuli Lamminmäki, Onni Luova, Jan Nässling
     - Project Manager: Samuli Lamminmäki
 ## 5. Test Cases
 ### User Authentication
@@ -79,4 +79,108 @@ Search for book | 1. Navigate to homepage 2. Enter book title in search bar 3. C
 ### Update Account Profile Information
 Test Description | Steps to Execute                                                                     | Expected Result                               | Actual Result                           | Status (Pass/Fail) |
 ------------------|--------------------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------------|--------------------|
-Update account information | 1. Login as user 2. Click on profile 3. Enter new information 4. Click update button | Account information is updated and success message is displayed | Account information updated successfully | Pass               |
+Update account information | 1. Login as user 2. Click on profile 3. Enter new information 4. Click update button | Account information is updated and success message is displayed | Account information updated successfully | Pass               |**
+## 6. Metrics
+
+## 6. Metrics
+
+### Test Coverage
+- **Front end**
+  - **User Authentication**
+  - **Shopping Cart Functionality**
+  - **Admin Panel**
+  - **View Order History**
+  - **Ordering**
+  - **Search Bar Functionality**
+  - **Update Account Profile Information**
+- **Back end**
+  - **Overall Coverage:**
+    - **Instructions Coverage:** 94%
+    - **Branches Coverage:** 84%
+    - **Complexity Coverage:** 86%
+    - **Lines Coverage:** 94%
+    - **Methods Coverage:** 95%
+    - **Classes Coverage:** 93%
+  - **Package Coverage:**
+    - **com.example.bookdbbackend.controller:**
+      - **Instructions Coverage:** 91%
+      - **Branches Coverage:** 91%
+      - **Complexity Coverage:** 79%
+      - **Lines Coverage:** 91%
+      - **Methods Coverage:** 98%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.service:**
+      - **Instructions Coverage:** 97%
+      - **Branches Coverage:** 84%
+      - **Complexity Coverage:** 87%
+      - **Lines Coverage:** 98%
+      - **Methods Coverage:** 96%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.configs:**
+      - **Instructions Coverage:** 96%
+      - **Branches Coverage:** 62%
+      - **Complexity Coverage:** 80%
+      - **Lines Coverage:** 100%
+      - **Methods Coverage:** 100%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.exception:**
+      - **Instructions Coverage:** 75%
+      - **Branches Coverage:** n/a
+      - **Complexity Coverage:** 67%
+      - **Lines Coverage:** 67%
+      - **Methods Coverage:** 67%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend:**
+      - **Instructions Coverage:** 37%
+      - **Branches Coverage:** n/a
+      - **Complexity Coverage:** 50%
+      - **Lines Coverage:** 67%
+      - **Methods Coverage:** 100%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.dtos:**
+      - **Instructions Coverage:** 100%
+      - **Branches Coverage:** n/a
+      - **Complexity Coverage:** 100%
+      - **Lines Coverage:** 100%
+      - **Methods Coverage:** 100%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.model:**
+      - **Instructions Coverage:** 100%
+      - **Branches Coverage:** n/a
+      - **Complexity Coverage:** 100%
+      - **Lines Coverage:** 100%
+      - **Methods Coverage:** 100%
+      - **Classes Coverage:** 100%
+    - **com.example.bookdbbackend.responses:**
+      - **Instructions Coverage:** 100%
+      - **Branches Coverage:** n/a
+      - **Complexity Coverage:** 100%
+      - **Lines Coverage:** 100%
+      - **Methods Coverage:** 100%
+      - **Classes Coverage:** 100%
+### Test Execution
+  - **Front end**
+    - **Total Test Cases:** 19
+    - **Passed:** 19
+    - **Failed:** 0
+    - **Skipped:** 0
+    - **Back end**
+    - **Total Test Cases:** 172
+    - **Passed:** 172
+    - **Failed:** 0
+    - **Skipped:** 0
+- **Total Test Cases:** 191
+
+### Defect Metrics
+- **Total Defects Found:** 0
+- **Critical Defects:** 0
+- **Major Defects:** 0
+- **Minor Defects:** 0
+
+### Test Efficiency
+- **Test Execution Time:** 5-10 minutes
+
+### Test Environment
+- **Number of Test Environments:**
+  - **Front end:** 1
+  - **Back end:** 3
