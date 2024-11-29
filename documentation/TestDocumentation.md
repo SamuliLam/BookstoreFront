@@ -82,8 +82,6 @@ Test Description | Steps to Execute                                             
 Update account information | 1. Login as user 2. Click on profile 3. Enter new information 4. Click update button | Account information is updated and success message is displayed | Account information updated successfully | Pass               |**
 ## 6. Metrics
 
-## 6. Metrics
-
 ### Test Coverage
 - **Front end**
   - **User Authentication**
