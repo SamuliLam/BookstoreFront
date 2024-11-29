@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 const SignupPage = () => {
-    const { t, i18n } = useTranslation();
+    const { t} = useTranslation();
     const { login } = useUserContext();
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -33,7 +33,7 @@ const SignupPage = () => {
         setError('');
         setSuccessMessage('');
         try {
-            const { success, user, error: signupError } = await handleSignUp(formData);
+            const { success, user} = await handleSignUp(formData);
             if (success && user) {
                 setSuccessMessage(t("signupSuccessMessage"));
                 const loginResponse = await logIn({ email: formData.email, password: formData.password });

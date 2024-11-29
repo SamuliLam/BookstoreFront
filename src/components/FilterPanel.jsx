@@ -1,14 +1,16 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { FilterContext } from '../context/FilterContext.jsx';
-import { useState } from 'react';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+
+const getSortedGenres = () => {
+    return ['Satire', 'Romance', 'Horror', 'Historical', 'FictionHistorical', 'Fiction', 'Epic', 'Fantasy', 'Dystopian', 'Drama', 'Adventure'].sort((a, b) => a.localeCompare(b));
+};
 
 const FilterPanel = () => {
     const { selectedGenre, setSelectedGenre, selectedPrice, setSelectedPrice, minPrice } = useContext(FilterContext);
     const [isOpen, setIsOpen] = useState(false);
-    const genres = ['Satire', 'Romance', 'Horror', 'Historical', 'FictionHistorical', 'Fiction', 'Epic', 'Fantasy', 'Dystopian', 'Drama', 'Adventure'].sort();
-    const { t, i18n } = useTranslation();
-
+    const genres = getSortedGenres();
+    const { t } = useTranslation();
 
     if (!isOpen) {
         return (

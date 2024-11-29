@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const UserContext = createContext();
 
@@ -37,11 +38,23 @@ export const UserProvider = ({ children }) => {
         return storedUser ? JSON.parse(storedUser) : user;
     };
 
+    const contextValue = useMemo(() => ({
+        user,
+        login,
+        logout,
+        updateUser,
+        getUser
+    }), [user]);
+
     return (
-        <UserContext.Provider value={{ user, login, logout, updateUser, getUser }}>
+        <UserContext.Provider value={contextValue}>
             {children}
         </UserContext.Provider>
     );
+};
+
+UserProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };
 
 export const useUserContext = () => {

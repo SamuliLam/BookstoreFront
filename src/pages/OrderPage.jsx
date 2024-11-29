@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {useUserContext} from "../context/UserContext.jsx";
-import {useCartContext} from "../context/CartContext.jsx";
-import {updateUserProfile} from "../utils/userApiUtils.js";
-import {addOrder, updateInventory} from "../utils/api.js";
+import React, { useEffect, useState } from 'react';
+import { useUserContext } from "../context/UserContext.jsx";
+import { useCartContext } from "../context/CartContext.jsx";
+import { updateUserProfile } from "../utils/userApiUtils.js";
+import { addOrder, updateInventory } from "../utils/api.js";
 import CartButton from "../components/CartButton.jsx";
 import OrderAlert from "../components/OrderAlert.jsx";
-import {useNavigate} from "react-router-dom";
-import {useTranslation} from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const OrderPage = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [displayAlert, setDisplayAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
-    const {user} = useUserContext();
-    const {cart, addToCart, removeFromCart, clearCart} = useCartContext();
+    const { user } = useUserContext();
+    const { cart, addToCart, removeFromCart, clearCart } = useCartContext();
     const [formData, setFormData] = useState({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -24,14 +24,15 @@ const OrderPage = () => {
         phone_number: user.phone_number,
     });
     const [orderSuccess, setOrderSuccess] = useState(false);
+
     const handleChange = (e) => {
-        const {name, value,} = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData, [name]: value,
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedFormData = {
             ...formData, postal_code: parseInt(formData.postal_code, 10),
@@ -43,46 +44,47 @@ const OrderPage = () => {
             })),
         };
 
-        updateUserProfile(user.user_id, updatedFormData, user.token).then((response) => {
-            if (response.success) {
-                addOrder(orderData, user.token).then((response) => {
-                    if (response.success) {
-                        setOrderSuccess(true);
-                        setAlertMessage(t("successfullOrderAlert"));
-                        setDisplayAlert(true);
-                        setTimeout(() => {
-                            navigate("/");
-                            clearCart();
-                        }, 2000);
-                    } else {
-                        setOrderSuccess(false);
-                        setAlertMessage("failedOrderAlert");
-                        setDisplayAlert(true);
-                    }
-                });
-            }
-        });
+        const profileUpdateResponse = await updateUserProfile(user.user_id, updatedFormData, user.token);
+        if (profileUpdateResponse.success) {
+            const orderResponse = await addOrder(orderData, user.token);
+            handleOrderResponse(orderResponse);
+        }
+    };
+
+    const handleOrderResponse = (response) => {
+        if (response.success) {
+            setOrderSuccess(true);
+            setAlertMessage(t("successfullOrderAlert"));
+            setDisplayAlert(true);
+            setTimeout(() => {
+                navigate("/");
+                clearCart();
+            }, 2000);
+        } else {
+            setOrderSuccess(false);
+            setAlertMessage(t("failedOrderAlert"));
+            setDisplayAlert(true);
+        }
     };
 
     useEffect(() => {
         if (orderSuccess) {
-            console.log("Order was successful, updating inventory...");
-            const updateInventoryPromises = (cart.map(async (book) => {
-                console.log(`Updating inventory for book ID: ${book.book_id} with quantity: ${book.quantity}`);
-                console.log("book quantity: ", book.quantity);
-                console.log("book id: ", book.book_id);
-                let response = await updateInventory(book.book_id, book.quantity, user.token, book.book_condition);
-                console.log("response: ", response);
-                return response;
-            }));
-            updateInventoryPromises.forEach((promise) => {
-                promise.then((response) => {
-                    console.log("Inventory update response: ", response);
-                });
-            });
+            updateInventoryForCart();
         }
     }, [orderSuccess, cart, user.token]);
 
+    const updateInventoryForCart = () => {
+        const updateInventoryPromises = cart.map(async (book) => {
+            let response = await updateInventory(book.book_id, book.quantity, user.token, book.book_condition);
+            return response;
+        });
+
+        updateInventoryPromises.forEach((promise) => {
+            promise.then((response) => {
+                console.log("Inventory update response: ", response);
+            });
+        });
+    };
 
     return (
         <div className="w-screen flex flex-col-reverse p-5 lg:justify-center lg:items-start lg:flex-row ">
@@ -93,7 +95,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="first_name"
-                        placeholder= {t("firstNameDataColumn")}
+                        placeholder={t("firstNameDataColumn")}
                         value={formData.first_name}
                         onChange={handleChange}
                         className="w-full border border-gray-300 p-3 rounded-md"
@@ -112,7 +114,7 @@ const OrderPage = () => {
                 <input
                     type="text"
                     name="street_name"
-                    placeholder= {t("addressDataColumn")}
+                    placeholder={t("addressDataColumn")}
                     value={formData.street_name}
                     onChange={handleChange}
                     required
@@ -123,7 +125,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="postal_code"
-                        placeholder= {t("postalCodeDataColumn")}
+                        placeholder={t("postalCodeDataColumn")}
                         value={formData.postal_code}
                         onChange={handleChange}
                         required
@@ -133,7 +135,7 @@ const OrderPage = () => {
                     <input
                         type="text"
                         name="province"
-                        placeholder= {t("provinceDataColumn")}
+                        placeholder={t("provinceDataColumn")}
                         value={formData.province}
                         onChange={handleChange}
                         required
@@ -144,7 +146,7 @@ const OrderPage = () => {
                 <input
                     type="text"
                     name="phone_number"
-                    placeholder= {t("phoneFormatDataColumn")}
+                    placeholder={t("phoneFormatDataColumn")}
                     value={formData.phone_number}
                     onChange={handleChange}
                     required
@@ -166,7 +168,7 @@ const OrderPage = () => {
                         <div key={book.book_id} className="flex justify-between mb-4">
                             <div className="relative flex space-x-4">
                                 <div className="w-14 h-20">
-                                    <img src={book.image_url} alt={book.title} className="w-full h-full object-cover"/>
+                                    <img src={book.image_url} alt={book.title} className="w-full h-full object-cover" />
                                 </div>
                                 <div
                                     className="absolute bottom-20 left-6 xs:bottom-16 xs:left-7 bg-gray-400 text-white text-sm rounded-full w-6 h-6 flex items-center justify-center">
@@ -179,8 +181,8 @@ const OrderPage = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-1">
-                                <CartButton onClick={() => addToCart(book)} type="add"/>
-                                <CartButton onClick={() => removeFromCart(book)} type="remove"/>
+                                <CartButton onClick={() => addToCart(book)} type="add" />
+                                <CartButton onClick={() => removeFromCart(book)} type="remove" />
                             </div>
                         </div>
                     )) : <p className="text-lg font-semibold"> {t("emptyCartInfo")}</p>}
@@ -193,11 +195,10 @@ const OrderPage = () => {
                         </div>
                     )}
                 </div>
-                {displayAlert && <OrderAlert status={orderSuccess} message={alertMessage}/>}
+                {displayAlert && <OrderAlert status={orderSuccess} message={alertMessage} />}
             </div>
         </div>
     );
 };
-
 
 export default OrderPage;

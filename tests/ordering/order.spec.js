@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { login } from '../authentication/login-logout.spec';
 import { addItemsToCart } from '../shopping-cart/add-remove-shoppingcart.spec';
 import { deleteOrder } from '../../src/utils/api.js'; // Adjust path as necessary
 import dotenv from 'dotenv';
@@ -17,9 +16,16 @@ const proceedToCheckout = async (page) => {
 
 test.describe('order functionality', () => {
     let orderId;
+    const email = process.env.LOGIN_EMAIL;
+    const password = process.env.LOGIN_PASSWORD;
 
     test.beforeEach(async ({ page }) => {
-        await login(page);
+        await page.goto('http://localhost:5173/login');
+        await page.fill('#email', email);
+        await page.fill('#password', password);
+        await page.click('button[type="submit"]');
+        await page.waitForURL('http://localhost:5173/', { timeout: 60000 });
+
         await page.route('http://localhost:8080/orders/addOrder', route => {
             route.fulfill({
                 status: 200,
