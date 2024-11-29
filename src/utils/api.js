@@ -98,6 +98,28 @@ export const fetchBooks = async () => {
     }
 }
 
+export const fetchBookById = async (id) => {
+    const currentLanguage = i18next.language;
+    console.log("Current language:", currentLanguage);
+
+    try {
+        const response = await axios.get(`http://localhost:8080/books/${id}`, {
+            headers: {
+                'Accept-Language': currentLanguage,
+            },
+        });
+
+        if (response.status !== 200) {
+            throw new Error(`Error fetching book ${id}: ${response.status}`);
+        }
+
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching book ${id}:`, error);
+        throw error;
+    }
+};
+
 export const updateBook = async (id, bookData, token) => {
     try {
 
