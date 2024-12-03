@@ -1,8 +1,10 @@
 ```mermaid
 graph TD
-    User[User] -->|Browses, Orders| Frontend[Frontend (React)]
-    Frontend -->|API Requests| Backend[Backend (Spring Boot)]
-    Backend -->|CRUD Operations| Database[(Database (MariaDB))]
+    User[User Interface] -->|HTTP Requests| Frontend[Frontend (React)]
+    Frontend -->|API Calls| Backend[Backend (Spring Boot)]
+    Backend -->|Queries| Database[(MariaDB)]
+    Frontend -->|External Services| ExternalAPI[Third-Party APIs]
+
 
     subgraph "Frontend (React)"
         App[App Component] --> AppRoutes[Routing]
