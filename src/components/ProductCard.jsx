@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../context/CartContext.jsx";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const ProductCard = ({ title, author, price, image, book }) => {
     const { addToCart, isVisible, handleToggle } = useCartContext();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const [transformStyle, setTransformStyle] = useState('');
 
@@ -31,7 +31,7 @@ const ProductCard = ({ title, author, price, image, book }) => {
     };
 
     const handleMouseLeave = () => {
-        setTransformStyle('');  
+        setTransformStyle('');
     };
 
     const handleAddToCart = (book) => {
@@ -41,9 +41,15 @@ const ProductCard = ({ title, author, price, image, book }) => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            handleAddToCart(book);
+        }
+    };
+
     return (
         <div className="productcard overflow-hidden flex flex-col items-center justify-between p-4 min-h-96 min-w-64">
-            <div
+            <button
                 className="productcard-inner flex flex-col items-center h-80 w-full overflow-hidden shadow-custom-dark transition-transform duration-300 ease-in-out hover:shadow-xl transform-style: preserve-3d"
                 style={{ transform: transformStyle }}
                 onMouseMove={handleMouseMove}
@@ -58,13 +64,17 @@ const ProductCard = ({ title, author, price, image, book }) => {
                         <p className="text-gray-400">No image</p>
                     </div>
                 )}
-            </div>
+            </button>
             <div className="productcard-detail flex flex-col items-center gap-3">
                 <h4 className="mt-2 text-lg font-bold text-center">{title}</h4>
                 <p className="text-center text-gray-400 dark:text-white">{author}</p>
                 <p className="text-center text-gray-600 dark:text-white">{price}€</p>
-                <button onClick={() => handleAddToCart(book)}
-                        className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200" id="add-button">
+                <button
+                    onClick={() => handleAddToCart(book)}
+                    onKeyDown={handleKeyDown}
+                    className="border border-black bg-white text-black px-10 py-2 rounded-full hover:bg-sky-200"
+                    id="add-button"
+                >
                     {t("ProductCardButtonAddToCart")}
                 </button>
             </div>

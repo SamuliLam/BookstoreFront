@@ -37,7 +37,6 @@ export const logIn = async ({email, password}) => {
 
         if (response.ok) {
             const { token, expiresIn } = await response.json();
-            const expiresInSeconds = 5;
             const expirationTime = (new Date().getTime() + expiresIn).toString();
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('token_expiration', expirationTime);

@@ -1,4 +1,4 @@
-**# Testing Documentation
+# Test Documentation
 
 ## 1. Project Overview
 - **Project Name:** Online Bookstore Management System
@@ -80,8 +80,6 @@ Search for book | 1. Navigate to homepage 2. Enter book title in search bar 3. C
 Test Description | Steps to Execute                                                                     | Expected Result                               | Actual Result                           | Status (Pass/Fail) |
 ------------------|--------------------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------------|--------------------|
 Update account information | 1. Login as user 2. Click on profile 3. Enter new information 4. Click update button | Account information is updated and success message is displayed | Account information updated successfully | Pass               |**
-## 6. Metrics
-
 ## 6. Metrics
 
 ### Test Coverage

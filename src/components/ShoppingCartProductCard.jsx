@@ -1,12 +1,13 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { useCartContext } from "../context/CartContext.jsx";
 import CartButton from "./CartButton.jsx";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const ShoppingCartProductCard = ({ book }) => {
     const { title, price, image_url, quantity } = book;
     const { addToCart, removeFromCart } = useCartContext();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     return (
         <div className="flex p-2 border-t border-b border-gray-200 bg-gray-75">
             <img src={image_url} alt={title} className="h-32 w-25 object-cover" />
@@ -27,6 +28,15 @@ const ShoppingCartProductCard = ({ book }) => {
             </div>
         </div>
     );
+};
+
+ShoppingCartProductCard.propTypes = {
+    book: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image_url: PropTypes.string,
+        quantity: PropTypes.number.isRequired,
+    }).isRequired,
 };
 
 export default ShoppingCartProductCard;

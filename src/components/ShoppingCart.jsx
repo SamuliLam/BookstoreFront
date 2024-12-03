@@ -4,13 +4,13 @@ import ShoppingCartProductCard from "./ShoppingCartProductCard.jsx";
 import { useCartContext } from "../context/CartContext.jsx";
 import { useUserContext } from "../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const ShoppingCart = () => {
     const { cart, isVisible, handleToggle, clearCart, handleClickOutside, cartRef, overlayRef } = useCartContext();
     const { user } = useUserContext();
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const overlayNode = overlayRef.current;
@@ -40,21 +40,29 @@ const ShoppingCart = () => {
                 onClick={handleToggle}
                 className="flex items-center justify-center w-8 h-8 text-blue-500 hover:text-blue-700 dark:text-white dark:hover:text-blue-700 focus:outline-none"
                 id="cart-button"
+                aria-label="Toggle shopping cart"
             >
                 <FaShoppingCart className="w-6 h-6"/>
             </button>
-            <div
-                className={`fixed inset-0 bg-gray-800 transition-opacity duration-300 ${isVisible ? 'opacity-50' : 'opacity-0 pointer-events-none'} z-40`}
+            <button
                 onClick={handleToggle}
-            ></div>
+                className={`fixed inset-0 bg-gray-800 transition-opacity duration-300 ${isVisible ? 'opacity-50' : 'opacity-0 pointer-events-none'} z-40`}
+                aria-label="Toggle overlay"
+            >
+            </button>
             <div
                 ref={cartRef}
                 className={`dark:bg-gray-800 dark:text-white fixed top-0 text-black right-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 z-50 ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
                 style={{ cursor: 'default' }}
             >
-                <span onClick={handleToggle} className="text-2xl hover:text-blue-500 cursor-pointer" id="close-button">
+                <button
+                    onClick={handleToggle}
+                    className="text-2xl hover:text-blue-500 cursor-pointer"
+                    id="close-button"
+                    aria-label="Close shopping cart"
+                >
                     <FaTimes />
-                </span>
+                </button>
                 <div>
                     <h2 className="text-lg font-bold p-3">{t("shoppingCartH2")}</h2>
                     <div ref={overlayRef} className="flex-1 overflow-y-auto max-h-[75vh]" id="cart-items">

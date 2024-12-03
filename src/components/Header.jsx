@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { useUserContext } from '../context/UserContext';
 import SearchBar from "./SearchBar.jsx";
 import LoginButton from './LoginButton';
@@ -12,7 +12,7 @@ import HeaderAdminPanelButton from "./HeaderAdminPanelButton.jsx";
 import {useTranslation} from "react-i18next";
 
 const Header = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { user, getUser } = useUserContext();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 

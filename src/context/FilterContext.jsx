@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import i18next from 'i18next';
 import { fetchBooks } from '../utils/api.js';
 
@@ -37,9 +38,25 @@ export const FilterProvider = ({ children }) => {
         loadBooks();
     }, []);
 
+    const contextValue = useMemo(() => ({
+        selectedGenre,
+        setSelectedGenre,
+        selectedPrice,
+        setSelectedPrice,
+        minPrice,
+        maxPrice,
+        books,
+        loading,
+        error
+    }), [selectedGenre, selectedPrice, minPrice, maxPrice, books, loading, error]);
+
     return (
-        <FilterContext.Provider value={{ selectedGenre, setSelectedGenre, selectedPrice, setSelectedPrice, minPrice, maxPrice, books, loading, error }}>
+        <FilterContext.Provider value={contextValue}>
             {children}
         </FilterContext.Provider>
     );
+};
+
+FilterProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };

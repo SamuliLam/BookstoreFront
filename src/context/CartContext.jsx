@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState, useMemo } from "react";
+import PropTypes from 'prop-types';
 
 const CartContext = createContext();
 
@@ -76,11 +77,27 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    const contextValue = useMemo(() => ({
+        cart,
+        addToCart,
+        removeFromCart,
+        isVisible,
+        handleToggle,
+        handleClickOutside,
+        cartRef,
+        overlayRef,
+        clearCart
+    }), [cart, isVisible]);
+
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, isVisible, handleToggle, handleClickOutside, cartRef, overlayRef, clearCart }}>
+        <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>
     );
+};
+
+CartProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };
 
 export const useCartContext = () => {
