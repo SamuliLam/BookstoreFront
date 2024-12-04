@@ -162,7 +162,7 @@ Update account information | 1. Login as user 2. Click on profile 3. Enter new i
     - **Passed:** 19
     - **Failed:** 0
     - **Skipped:** 0
-    - **Back end**
+  - **Back end**
     - **Total Test Cases:** 172
     - **Passed:** 172
     - **Failed:** 0
