@@ -108,7 +108,7 @@ const Book = () => {
 
                     {/* Price and Add to Cart */}
                     <div className="flex items-center mb-4">
-                        <span className="text-3xl font-semibold text-green-900 mr-4">€{book.price}</span>
+                        <span className="text-3xl font-semibold text-green-900 mr-4 dark:text-white">€{book.price}</span>
                         <button
                             onClick={() => handleAddToCart(book)}
                             className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg"
