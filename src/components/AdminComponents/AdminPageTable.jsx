@@ -8,7 +8,6 @@ import CreateOrUpdateOrderModal from "./CreateOrUpdateOrderModal.jsx";
 import { t } from "i18next";
 
 const AdminPageTable = ({ data }) => {
-    const [tableData, setTableData] = useState(data);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -31,14 +30,14 @@ const AdminPageTable = ({ data }) => {
     let dataMapIdentifiers = {};
     let tableHeaders = [];
 
-    if (Array.isArray(tableData) && tableData.length > 0) {
-        if (tableData[0].isbn) {
+    if (Array.isArray(data) && data.length > 0) {
+        if (data[0].isbn) {
             dataMapIdentifiers = bookDataMapIdentifiers;
             tableHeaders = Object.values(bookDataMapIdentifiers);
-        } else if (tableData[0].email) {
+        } else if (data[0].email) {
             dataMapIdentifiers = userDataMapIdentifiers;
             tableHeaders = Object.values(userDataMapIdentifiers);
-        } else if (tableData[0].orderDate) {
+        } else if (data[0].orderDate) {
             dataMapIdentifiers = orderDataMapIdentifiers;
             tableHeaders = Object.values(orderDataMapIdentifiers);
         }
@@ -90,25 +89,12 @@ const AdminPageTable = ({ data }) => {
             setTimeout(() => {
                 setIsDeleteModalOpen(false);
             }, 2000);
-            setTableData(tableData.filter(item => item.book_id !== id && item.user_id !== id && item.order_id !== id));
         } else {
             console.error(`Failed to delete ${dataType} with ID ${id}.`);
             setErrorMessage(`Failed to delete ${dataType} with ID ${id}.`);
         }
     };
 
-    const updateTableData = (updatedItem) => {
-        setTableData(prevData => {
-            const index = prevData.findIndex(item => item.book_id === updatedItem.book_id || item.user_id === updatedItem.user_id || item.order_id === updatedItem.order_id);
-            if (index !== -1) {
-                const newData = [...prevData];
-                newData[index] = updatedItem;
-                return newData;
-            } else {
-                return [...prevData, updatedItem];
-            }
-        });
-    };
 
     return (
         <>
@@ -122,7 +108,7 @@ const AdminPageTable = ({ data }) => {
                 </tr>
                 </thead>
                 <tbody>
-                {tableData.map((item, index) => (
+                {data.map((item, index) => (
                     <tr key={index}>
                         {Object.keys(dataMapIdentifiers).map((key, i) => {
                             if (key === 'email' && item.user) {
@@ -155,7 +141,6 @@ const AdminPageTable = ({ data }) => {
                     onClose={() => setIsModalOpen(false)}
                     existingBook={selectedItem}
                     book_id={itemId}
-                    updateTableData={updateTableData}
                 />
             }
             {
@@ -165,7 +150,6 @@ const AdminPageTable = ({ data }) => {
                     onClose={() => setIsModalOpen(false)}
                     existingUser={selectedItem}
                     user_id={itemId}
-                    updateTableData={updateTableData}
                 />
             }
             {
@@ -175,7 +159,6 @@ const AdminPageTable = ({ data }) => {
                     onClose={() => setIsModalOpen(false)}
                     existingOrder={selectedItem}
                     order_id={itemId}
-                    updateTableData={updateTableData}
                 />
             }
             {
