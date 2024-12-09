@@ -1,58 +1,46 @@
-import {useEffect, useMemo, useState} from "react";
-
-import {deleteBook, deleteOrder, deleteUser, getOrderById} from "../../utils/api.js";
-import {useUserContext} from "../../context/UserContext.jsx";
+import { useEffect, useMemo, useState } from "react";
+import { deleteBook, deleteOrder, deleteUser, getOrderById } from "../../utils/api.js";
+import { useUserContext } from "../../context/UserContext.jsx";
 import AdminDeleteConfirmModal from "./AdminDeleteConfirmModal.jsx";
 import CreateOrUpdateBookModal from "./CreateOrUpdateBookModal.jsx";
 import CreateOrUpdateUserModal from "./CreateOrUpdateUserModal.jsx";
 import CreateOrUpdateOrderModal from "./CreateOrUpdateOrderModal.jsx";
-import {t} from "i18next";
+import { t } from "i18next";
 
-const AdminPageTable = ({data}) => {
-
+const AdminPageTable = ({ data }) => {
+    const [tableData, setTableData] = useState(data);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemId, setItemId] = useState(null);
-    const {user} = useUserContext();
+    const { user } = useUserContext();
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const dataType = useMemo(() => {
-        console.log("entering usememo");
         if (!selectedItem) return "";
         if (selectedItem.isbn) return "book";
         if (selectedItem.orderDate) return "order";
         if (selectedItem.email) return "user";
-    }, [selectedItem])
+    }, [selectedItem]);
 
-
-    // Data mapping identifiers for each type
-    const bookDataMapIdentifiers = {title: t("AdminPageTableBookTitle"), isbn: t("AdminPageTableBookISBN")};
-    const userDataMapIdentifiers = {first_name: t("AdminPageTableUserFirstName"), last_name: t("AdminPageTableUserLastName"), email: t("AdminPageTableUserEmail")};
-    const orderDataMapIdentifiers = {email: t("AdminPageTableOrderUser"), orderDate: t("AdminPageTableOrderDate")};
-
+    const bookDataMapIdentifiers = { title: t("AdminPageTableBookTitle"), isbn: t("AdminPageTableBookISBN") };
+    const userDataMapIdentifiers = { first_name: t("AdminPageTableUserFirstName"), last_name: t("AdminPageTableUserLastName"), email: t("AdminPageTableUserEmail") };
+    const orderDataMapIdentifiers = { email: t("AdminPageTableOrderUser"), orderDate: t("AdminPageTableOrderDate") };
 
     let dataMapIdentifiers = {};
     let tableHeaders = [];
 
-
-    // Check the type of data and set the map and headers accordingly
-    if (Array.isArray(data) && data.length > 0) {
-
-        if (data[0].isbn) {
-            // if book data
+    if (Array.isArray(tableData) && tableData.length > 0) {
+        if (tableData[0].isbn) {
             dataMapIdentifiers = bookDataMapIdentifiers;
             tableHeaders = Object.values(bookDataMapIdentifiers);
-        } else if (data[0].email) {
-            // if user data
+        } else if (tableData[0].email) {
             dataMapIdentifiers = userDataMapIdentifiers;
             tableHeaders = Object.values(userDataMapIdentifiers);
-        } else if (data[0].orderDate) {
-            // if order data
+        } else if (tableData[0].orderDate) {
             dataMapIdentifiers = orderDataMapIdentifiers;
             tableHeaders = Object.values(orderDataMapIdentifiers);
-            console.log("order headers: ", tableHeaders);
         }
     }
 
@@ -65,17 +53,13 @@ const AdminPageTable = ({data}) => {
 
     const handleEdit = async (item) => {
         setSelectedItem(item);
-
-        console.log("selected item is ", item);
-        console.log("datatype", dataType)
-
         setIsModalOpen(true);
-    }
+    };
 
     const handleDeleteClick = (item) => {
         setSelectedItem(item);
         setIsDeleteModalOpen(true);
-    }
+    };
 
     const handleDelete = async (item) => {
         const id = item.book_id || item.user_id || item.order_id;
@@ -106,13 +90,25 @@ const AdminPageTable = ({data}) => {
             setTimeout(() => {
                 setIsDeleteModalOpen(false);
             }, 2000);
+            setTableData(tableData.filter(item => item.book_id !== id && item.user_id !== id && item.order_id !== id));
         } else {
             console.error(`Failed to delete ${dataType} with ID ${id}.`);
-            console.log("error ", response.error)
             setErrorMessage(`Failed to delete ${dataType} with ID ${id}.`);
         }
     };
 
+    const updateTableData = (updatedItem) => {
+        setTableData(prevData => {
+            const index = prevData.findIndex(item => item.book_id === updatedItem.book_id || item.user_id === updatedItem.user_id || item.order_id === updatedItem.order_id);
+            if (index !== -1) {
+                const newData = [...prevData];
+                newData[index] = updatedItem;
+                return newData;
+            } else {
+                return [...prevData, updatedItem];
+            }
+        });
+    };
 
     return (
         <>
@@ -126,14 +122,12 @@ const AdminPageTable = ({data}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((item, index) => (
-
+                {tableData.map((item, index) => (
                     <tr key={index}>
                         {Object.keys(dataMapIdentifiers).map((key, i) => {
                             if (key === 'email' && item.user) {
                                 return <td className={"py-5 px-20"} key={i}>{item.user.email}</td>;
                             }
-
                             if (key === 'orderDate') {
                                 return <td className={"py-5 px-20"} key={i}>{item.orderDate}</td>;
                             }
@@ -153,7 +147,6 @@ const AdminPageTable = ({data}) => {
                     </tr>
                 ))}
                 </tbody>
-
             </table>
             {
                 (isModalOpen && dataType === "book") &&
@@ -162,6 +155,7 @@ const AdminPageTable = ({data}) => {
                     onClose={() => setIsModalOpen(false)}
                     existingBook={selectedItem}
                     book_id={itemId}
+                    updateTableData={updateTableData}
                 />
             }
             {
@@ -171,6 +165,7 @@ const AdminPageTable = ({data}) => {
                     onClose={() => setIsModalOpen(false)}
                     existingUser={selectedItem}
                     user_id={itemId}
+                    updateTableData={updateTableData}
                 />
             }
             {
@@ -180,6 +175,7 @@ const AdminPageTable = ({data}) => {
                     onClose={() => setIsModalOpen(false)}
                     existingOrder={selectedItem}
                     order_id={itemId}
+                    updateTableData={updateTableData}
                 />
             }
             {
@@ -195,9 +191,7 @@ const AdminPageTable = ({data}) => {
                 )
             }
         </>
-
-    )
-        ;
-}
+    );
+};
 
 export default AdminPageTable;

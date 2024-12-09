@@ -7,7 +7,7 @@ import BooleanProperty from "./Properties/BooleanProperty.jsx";
 import {t} from "i18next";
 
 
-const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
+const CreateOrUpdateBookModal = ({ open, onClose, existingBook, book_id, updateTableData }) => {
     const {user} = useUserContext();
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -68,6 +68,7 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                     setSuccessMessage(t("CreateOrUpdateBookModalBookUpdatedSuccessfully"));
                     console.log("Item updated successfully");
                     setErrorMessage("");
+                    updateTableData(response.data);
                     setTimeout(() => {
                         onClose();
                     }, 2000);
@@ -81,6 +82,7 @@ const CreateOrUpdateBookModal = ({open, onClose, existingBook, book_id}) => {
                     setSuccessMessage(t("CreateOrUpdateBookModalBookAddedSuccessfully"));
                     console.log("Item added successfully");
                     setErrorMessage("");
+                    updateTableData(response.data);
                     setTimeout(() => {
                         onClose();
                     }, 2000);
