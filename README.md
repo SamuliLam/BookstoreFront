@@ -28,6 +28,13 @@ This project was collaboratively developed by:
 - **Order Management**: Detailed logs of all orders are maintained.
 - **User Management**: Admins can manage user accounts and their orders.
 
+### **Localization**
+- **English**
+- **Finnish**
+- **Swedish**
+- **Japanese**
+- **Farsi**
+
 
 ## **Technologies Used**
 
